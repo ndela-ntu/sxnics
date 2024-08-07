@@ -10,7 +10,7 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-const API_URL = "http://localhost:5000";
+const API_URL = "https://sxnics-server.onrender.com";
 
 function RadioPlayer() {
   const [nowPlaying, setNowPlaying] = useState<string | null>(null);
