@@ -16,10 +16,10 @@ function RadioPlayer() {
   const [nowPlaying, setNowPlaying] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [volume, setVolume] = useState<number>(1);
+  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
 
   useEffect(() => {
-    const socket = io(API_URL); // Adjust the URL as per your server configuration
+    const socket = io(API_URL);
 
     socket.on("nowPlaying", (currentTrack: { fileName: string }) => {
       const displayName = currentTrack.fileName.replace(/\.mp3$/, "");
@@ -31,8 +31,16 @@ function RadioPlayer() {
       audio.src = `${API_URL}/stream`;
     }
 
+    const checkScreenSize = () => {
+      setIsSmallScreen(window.innerWidth < 1024); // 1024px is the default breakpoint for 'lg' in Tailwind
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+
     return () => {
       socket.disconnect();
+      window.removeEventListener('resize', checkScreenSize);
     };
   }, []);
 
@@ -48,40 +56,22 @@ function RadioPlayer() {
     }
   };
 
-  const handleVolumeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const audio = audioRef.current;
-    const newVolume = parseFloat(event.target.value);
-    if (audio) {
-      audio.volume = newVolume;
-    }
-    setVolume(newVolume);
-  };
-
   return (
-    <div className="text-white flex flex-col justify-center items-center">
-      <h1 className={`${montserrat.className} text-5xl p-5`}>SXNICS</h1>
+    <div className="text-white flex flex-col">
       <audio ref={audioRef} />
-      <div className="bg-white text-black p-5 rounded-lg space-y-5">
-        <div className="flex space-x-5">
-          <button onClick={handlePlayPause}>
+      <div className="bg-white text-black p-5 rounded-lg space-y-5 mx-5">
+        <div className="flex lg:flex-row justify-between">
+          <button className="pr-5" onClick={handlePlayPause}>
             {isPlaying ? <IoIosPause /> : <IoIosPlay />}
           </button>
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            value={volume}
-            onChange={handleVolumeChange}
-            className="accent-black"
-          />
-        </div>
-        <div className="relative overflow-hidden h-6">
-          <p
-            className={`absolute whitespace-nowrap now-playing ${montserrat.className}`}
-          >
-            {nowPlaying ? nowPlaying : "Loading..."}
-          </p>
+          <div className="relative overflow-hidden h-6 w-full">
+            <p
+              className={`absolute whitespace-nowrap w-full ${montserrat.className} ${isSmallScreen ? 'animate-slide' : ''}`}
+            >
+              {nowPlaying ? nowPlaying : "Loading..."}
+            </p>
+          </div>
+          
         </div>
       </div>
       <style jsx>{`
@@ -93,7 +83,7 @@ function RadioPlayer() {
             transform: translateX(-100%);
           }
         }
-        .now-playing {
+        .animate-slide {
           animation: slide 10s linear infinite;
         }
       `}</style>
