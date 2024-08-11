@@ -5,7 +5,7 @@ export default function FeaturedArtists({ artists }: { artists: Artist[] }) {
   return (
     <div className="flex flex-col">
       {artists.map((artist) => (
-        <div className="border p-5">
+        <div key={artist.name} className="border p-5">
           <div
             style={{ position: "relative", width: "200px", height: "200px" }}
           >
