@@ -15,13 +15,7 @@ const montserrat = Montserrat({
 
 const Home: React.FC = () => {
   return (
-    <main className={`bg-black h-auto text-white ${montserrat.className}`}>
-      <div className="flex items-center justify-between p-5">
-        <h1 className={`text-5xl`}>SXNICS</h1>
-        <Link href="/shop" className="border border-white p-2.5">
-          Shop
-        </Link>
-      </div>
+    <>
       <RadioPlayer />
       <div className="flex flex-col items-center justify-center p-5 border">
         <h2 className={`text-3xl mb-5`}>Releases</h2>
@@ -31,22 +25,22 @@ const Home: React.FC = () => {
         <h2 className={`text-3xl mb-5`}>Featured Artists</h2>
         <FeaturedArtists artists={artists} />
       </div>
-    </main>
+    </>
   );
 };
 
 const artists: Artist[] = [
   {
-    name: 'Kelvin Momo',
-    avatarURL: '/images/Kelvin_Momo.jpg',
-    location: 'Soweto'
+    name: "Kelvin Momo",
+    avatarURL: "/images/Kelvin_Momo.jpg",
+    location: "Soweto",
   },
   {
-    name: 'Kabza De Small',
+    name: "Kabza De Small",
     avatarURL: "/images/Kabza.jpg",
-    location: "Soweto"
-  }
-]
+    location: "Soweto",
+  },
+];
 
 const dummyReleases: Release[] = [
   {

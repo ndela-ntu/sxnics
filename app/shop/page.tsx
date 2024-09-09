@@ -12,14 +12,11 @@ const montserrat = Montserrat({
 
 const Shop: React.FC = () => {
   return (
-    <main className={`bg-black h-screen text-white ${montserrat.className}`}>
-      <h1 className={` text-5xl p-5`}>SXNICS</h1>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {dummyProducts.map((product) => (
-          <ProductItem key={product.id} product={product} />
-        ))}
-      </div>
-    </main>
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      {dummyProducts.map((product) => (
+        <ProductItem key={product.id} product={product} />
+      ))}
+    </div>
   );
 };
 
