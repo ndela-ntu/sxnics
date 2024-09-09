@@ -5,7 +5,8 @@ import { notFound } from "next/navigation";
 
 export default async function Page({ params }: { params: { slug: string } }) {
   await connectMongo();
-  const blogPost = await BlogPost.findOne({ slug: params.slug }).exec();
+  const post = await BlogPost.findOne({ slug: params.slug }).exec();
+  const blogPost = post.toObject();
 
   if (!blogPost) {
     notFound();
@@ -20,6 +21,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         coverImage={blogPost.coverImage}
         title={blogPost.title}
         author={blogPost.author}
+        createdAt={blogPost.createdAt}
       />
     </div>
   );
