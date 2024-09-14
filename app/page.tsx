@@ -15,17 +15,17 @@ const montserrat = Montserrat({
 
 const Home: React.FC = () => {
   return (
-    <>
+    <div className="flex items-center justify-center w-full h-screen">
       <RadioPlayer />
-      <div className="flex flex-col items-center justify-center p-5 border">
+      {/* <div className="flex flex-col items-center justify-center p-5 border">
         <h2 className={`text-3xl mb-5`}>Releases</h2>
         <Releases releases={dummyReleases} />
       </div>
       <div className="flex flex-col items-center justify-center p-5 border">
         <h2 className={`text-3xl mb-5`}>Featured Artists</h2>
         <FeaturedArtists artists={artists} />
-      </div>
-    </>
+      </div> */}
+    </div>
   );
 };
 

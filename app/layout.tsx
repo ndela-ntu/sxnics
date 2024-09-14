@@ -21,11 +21,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${montserrat.className} bg-black h-auto text-white`}>
+      <body className={`${montserrat.className} bg-black h-auto text-white w-full`}>
         <header className="">
           <Navbar />
         </header>
-        <main className="px-5">{children}</main>
+        <main className="px-5 w-full">{children}</main>
       </body>
     </html>
   );
