@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ffmpeg/core": "^0.12.6",
+    "@ffmpeg/ffmpeg": "^0.12.10",
+    "howler": "^2.2.4",
     "mongoose": "^8.6.1",
     "next": "14.2.5",
     "react": "^18",
@@ -17,6 +20,7 @@
     "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
+    "@types/howler": "^2.2.11",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
