@@ -15,12 +15,14 @@ export default function ClothingItem({
 }) {
   return (
     <div className="m-2.5 border">
-      <div className="aspect-square relative">
+      <div className="w-full">
         <Image
           src={imageURL}
-          alt="Image of product"
-          layout="fill"
-          objectFit="cover"
+          alt="Image of clothing item"
+          width={300}
+          height={180}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="w-full h-auto object-cover rounded-lg"
         />
       </div>
       <div className="flex flex-col p-2.5">

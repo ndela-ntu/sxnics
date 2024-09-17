@@ -5,10 +5,10 @@ interface BlogCardProps {
   id: string;
   slug: string;
   content: string;
-  coverImage: string;
+  coverImage: any;
   title: string;
   author: string;
-  createdAt: Date;
+  createdAt: any;
 }
 
 export default function BlogCard({
@@ -39,7 +39,7 @@ export default function BlogCard({
     >
       <div className="w-full sm:w-1/12 md:w-1/2">
         <Image
-          src={coverImage}
+          src={`https:${coverImage.fields.file.url}`}
           alt="Image of blog post"
           layout="responsive"
           width={200} // Define default width
@@ -50,10 +50,10 @@ export default function BlogCard({
       <div className="w-full sm:w-2/3 md:w-3/4">
         <h2 className="text-xl font-bold mb-2">{title}</h2>
         <p className="text-sm">{previewContent}</p>
-        <h2 className="mt-2.5">{createdAt.toLocaleDateString()}</h2>
-        <h1 className="text-sm  text-black bg-white p-1 my-2.5 rounded-lg">
+        <h1 className="text-sm  text-black bg-white py-1 px-2 my-2.5 rounded-lg flex items-center justify-end">
           - {author}
         </h1>
+        <h2 className="mt-2.5">{new Date(createdAt).toLocaleDateString()}</h2>
       </div>
     </Link>
   );
