@@ -12,7 +12,7 @@ export default function CartButton() {
   return (
     <Link
       href="/shop/cart"
-      className="fixed flex items-center space-x-2.5 bottom-6 right-6 bg-white text-black  font-bold py-1 px-2.5"
+      className="fixed flex items-center space-x-2.5 bottom-6 right-6 bg-white text-black font-bold py-1 px-2.5"
     >
       <span>{cart.length}</span>
       <span>Cart</span>

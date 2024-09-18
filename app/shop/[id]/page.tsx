@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         description={shopItem.description}
         imageURL={shopItem.imageURL}
         price={shopItem.price}
-        quantity={shopItem.quantityki}
+        quantity={shopItem.quantity}
       />
       <CartButton />
     </div>

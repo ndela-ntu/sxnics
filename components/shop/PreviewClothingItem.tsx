@@ -41,7 +41,6 @@ export default function PreviewClothingItem({
       </div>
       <div className="w-full flex flex-col items-center">
         <span className="font-bold">R{price}</span>
-
         <button
           onClick={() => {
             if (!cart.find((item) => item.id.toString() === id.toString())) {
