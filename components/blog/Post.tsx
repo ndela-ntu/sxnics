@@ -19,7 +19,7 @@ export default function Post({
   createdAt,
 }: PostProps) {
   return (
-    <div className="flex flex-col p-5">
+    <div className="flex flex-col py-5 sm:px-1.5 md:px-2.5">
       <div className="flex flex-wrap items-center justify-between">
         <h1 className="font-bold text-3xl underline">{title}</h1>
         <p className="bg-white text-black p-1 rounded-lg">

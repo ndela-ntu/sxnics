@@ -3,6 +3,7 @@ import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import { CartProvider } from "@/context/CartContext";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -20,13 +21,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${montserrat.className} bg-black h-auto text-white w-full`}>
-        <header className="">
-          <Navbar />
-        </header>
-        <main className="px-5 w-full">{children}</main>
-      </body>
-    </html>
+    <CartProvider>
+      <html lang="en">
+        <body
+          className={`${montserrat.className} bg-black h-auto text-white w-full`}
+        >
+          <header className="">
+            <Navbar />
+          </header>
+          <main className="px-5 w-full">{children}</main>
+        </body>
+      </html>
+    </CartProvider>
   );
 }

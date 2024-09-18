@@ -1,17 +1,26 @@
+"use client";
+
 import Image from "next/image";
-import AddToCartButton from "./AddToCartButton";
+import { useCart } from "@/context/CartContext";
+import mongoose from "mongoose";
 
 export default function PreviewClothingItem({
+  id,
   name,
   description,
   price,
   imageURL,
+  quantity,
 }: {
+  id: mongoose.Schema.Types.ObjectId;
   name: string;
   description: string;
   imageURL: string;
   price: number;
+  quantity: number;
 }) {
+  const { cart, addItem, removeItem } = useCart();
+
   return (
     <div
       className={`flex flex-col md:flex-row items-center justify-center border p-5`}
@@ -32,7 +41,21 @@ export default function PreviewClothingItem({
       </div>
       <div className="w-full flex flex-col items-center">
         <span className="font-bold">R{price}</span>
-        <AddToCartButton />
+
+        <button
+          onClick={() => {
+            if (!cart.find((item) => item.id.toString() === id.toString())) {
+              addItem({ id, name, description, price, imageURL, quantity });
+            } else {
+              removeItem(id.toString());
+            }
+          }}
+          className="bg-white text-black px-2 py-1.5 w-1/2"
+        >
+          {!cart.find((item) => item.id.toString() === id.toString())
+            ? "Add To Cart"
+            : "Remove From Cart"}
+        </button>
       </div>
     </div>
   );
