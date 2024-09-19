@@ -1,3 +1,5 @@
+import CheckoutForm from "@/components/shop/CheckoutForm";
+
 export default function Page() {
-  return <div></div>;
+  return <CheckoutForm />;
 }
