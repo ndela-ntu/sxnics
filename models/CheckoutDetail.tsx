@@ -10,6 +10,12 @@ export interface ICheckoutDetail {
     postalCode: string;
 }
 
+const ItemSchema = new mongoose.Schema({
+    id: String,
+    total: Number,
+    quantity: Number,
+})
+
 const CheckoutDetailSchema = new mongoose.Schema({
     fullname: String,
     email: String,
@@ -18,6 +24,8 @@ const CheckoutDetailSchema = new mongoose.Schema({
     suburb: String,
     city: String,
     postalCode: String,
+    items: [ItemSchema],
+    total: Number,
 })
 
 const CheckoutDetail =

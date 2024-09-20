@@ -5,22 +5,28 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "register-webhook": "node scripts/registerWebhook.js",
+    "start": "npm run register-webhook && next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^15.22.11",
     "@ffmpeg/core": "^0.12.6",
     "@ffmpeg/ffmpeg": "^0.12.10",
+    "@hookform/resolvers": "^3.9.0",
     "contentful": "^10.15.1",
+    "dotenv": "^16.4.5",
     "howler": "^2.2.4",
     "lucide-react": "^0.441.0",
     "mongoose": "^8.6.1",
     "next": "14.2.5",
+    "node-fetch": "^3.3.2",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.53.0",
     "react-icons": "^5.2.1",
     "socket.io-client": "^4.7.5",
+    "zod": "^3.23.8",
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
