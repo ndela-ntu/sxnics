@@ -17,6 +17,7 @@ export async function GET() {
       (subscription: { id: string; name: string; url: string; mode: string }) =>
         subscription.name === "Checkout-Webhook"
     ) !== undefined;
+
   /*const subscriptions = data.subscriptions;
   subscriptions.forEach(async (sub: { id: string }) => {
     const response = await fetch("http://localhost:3000/api/DeleteWebhook", {

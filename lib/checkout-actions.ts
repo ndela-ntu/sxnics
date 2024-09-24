@@ -94,8 +94,9 @@ export async function saveCheckoutDetails(
       items,
       total,
     };
-    const hookExists = await checkoutWHExists();
 
+    const hookExists = await checkoutWHExists();
+    console.log(hookExists);
     if (!hookExists) {
       const mode = await registerWebhook();
 

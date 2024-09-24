@@ -5,6 +5,7 @@ import { useItemTotals } from "@/context/ItemTotalsContext";
 import { CheckoutFormState, saveCheckoutDetails } from "@/lib/checkout-actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import { useActionState, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -19,10 +20,17 @@ export default function CheckoutForm() {
     errors: {},
   };
 
-  const [state, dispatch] = useFormState(
-    saveCheckoutDetails,
-    initialState
-  );
+  const [state, dispatch] = useFormState(saveCheckoutDetails, initialState);
+
+  if (cart.length === 0)
+    return (
+      <div className="flex flex-col items-center justify-center w-full">
+        <span>Cart is empty.</span>
+        <Link className="bg-white text-black px-2.5 py-1.5" href="/shop">
+          Continue Shopping
+        </Link>
+      </div>
+    );
 
   return (
     <form

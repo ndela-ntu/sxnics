@@ -1,12 +1,7 @@
-import Link from "next/link";
+import Success from "@/components/shop/Success";
 
 export default function Page() {
-
-    
   return (
-    <div>
-      <span>Success, your order has been placed</span>
-      <Link href="/shop">Continue Shopping</Link>
-    </div>
+    <Success />
   );
 }
