@@ -121,7 +121,6 @@ export async function saveCheckoutDetails(
 }
 
 const checkoutWHExists = async () => {
-  console.log("Checking webhooks");
   const response = await fetch("https://sxnics.vercel.app/api/ListWebhooks", {
     method: "GET",
   });
@@ -152,7 +151,6 @@ const handleCheckout = async (metadata: {
   items: { id: string; total: number; quantity: number }[];
   total: number;
 }) => {
-  console.log("handle checkout");
   const response = await fetch("https://sxnics.vercel.app/api/CreateCheckout", {
     method: "POST",
     body: JSON.stringify({
