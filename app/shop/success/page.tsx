@@ -1,6 +1,8 @@
 import Link from "next/link";
 
 export default function Page() {
+
+    
   return (
     <div>
       <span>Success, your order has been placed</span>

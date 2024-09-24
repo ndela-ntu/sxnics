@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { amount, currency } = await req.json(); // Expecting payment details from the frontend
+  const { amount, currency, metadata } = await req.json(); // Expecting payment details from the frontend
 
   const response = await fetch("https://payments.yoco.com/api/checkouts", {
     method: "POST",
@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
   });
 
   const data = await response.json();
+  alert(data);
 
   // Redirect URL for Yoco checkout page
   const redirectUrl = data.redirectUrl;

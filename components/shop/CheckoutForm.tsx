@@ -17,22 +17,7 @@ export default function CheckoutForm() {
     errors: {},
   };
 
-  const handleCheckout = async () => {
-    const response = await fetch("/api/createCheckout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount: 900,
-        currency: "ZAR",
-      }),
-    });
-
-    const data = await response.json();
-    window.location.href = data.redirectUrl;
-  };
-
+ 
   const [state, dispatch] = useFormState<CheckoutFormState, FormData>(
     saveCheckoutDetails,
     initialState
@@ -40,10 +25,10 @@ export default function CheckoutForm() {
 
   return (
     <form
-      onSubmit={async () => {
+      /*onSubmit={async () => {
         await handleCheckout();
-      }}
-      /*action={(formData) => {
+      }}*/
+      action={(formData) => {
         let items = itemTotals.map((itemTotal) => {
           const cartItem = cart.find(
             (cartItem) => cartItem.id.toString() == itemTotal.id
@@ -65,7 +50,7 @@ export default function CheckoutForm() {
         formData.append("total", total.toString());
 
         dispatch(formData);
-      }}*/
+      }}
     >
       <div className="flex flex-col space-y-5 w-full">
         <h1 className="text-lg">Cart</h1>

@@ -8,9 +8,7 @@ export async function POST(req: NextRequest) {
     if (body.event === "payment.succeeded") {
       const paymentDetails = body.data;
 
-      // Call the function to handle checkout submission
-      await submitCheckoutDetails(paymentDetails);
-
+     
       return NextResponse.json({
         status: "success",
         message: "Payment processed and checkout details submitted",

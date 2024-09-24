@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "register-webhook": "node scripts/registerWebhook.js",
-    "start": "npm run register-webhook && next start",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {

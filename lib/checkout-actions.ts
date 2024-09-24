@@ -2,6 +2,7 @@
 
 import CheckoutDetail from "@/models/CheckoutDetail";
 import connectMongo from "@/utils/ConnectMongo";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const ItemSchema = z.object({
@@ -39,15 +40,14 @@ export type CheckoutFormState = {
     postalCode?: string[];
   };
   message?: string | null;
+  isSuccess?: boolean;
 };
 
 export async function saveCheckoutDetails(
   prevState: CheckoutFormState,
   formData: FormData
 ) {
-
-  return {errors: {}, message: null};
-  /*const validatedFields = CheckoutSchema.safeParse({
+  const validatedFields = CheckoutSchema.safeParse({
     fullname: formData.get("fullname"),
     email: formData.get("email"),
     phone: formData.get("phone"),
@@ -60,9 +60,10 @@ export async function saveCheckoutDetails(
   });
 
   if (!validatedFields.success) {
-    return {
+    return <CheckoutFormState>{
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Missed fields, failed to create checkout.",
+      isSuccess: false,
     };
   }
 
@@ -78,7 +79,34 @@ export async function saveCheckoutDetails(
       items,
       total,
     } = validatedFields.data;
-    await connectMongo();
+
+    const metadata = {
+      fullname,
+      email,
+      phone,
+      streetAddress,
+      suburb,
+      city,
+      postalCode,
+      items,
+      total,
+    };
+
+    const hookExists = await checkoutWHExists();
+    let redirectURL;
+    if (!hookExists) {
+      const mode = await registerWebhook();
+
+      if (mode === "live") {
+        redirectURL = await handleCheckout(metadata);
+      } else {
+        throw new Error("Unable to register hook");
+      }
+    } else {
+      redirectURL = handleCheckout(metadata);
+    }
+
+    /*await connectMongo();
     await CheckoutDetail.create({
       fullname,
       email,
@@ -89,10 +117,57 @@ export async function saveCheckoutDetails(
       postalCode,
       items,
       total,
-    });
+    });*/
+    redirect(redirectURL);
   } catch (e) {
-    return {
+    return <CheckoutFormState>{
       message: "Error from server",
+      isSuccess: false,
+      errors: []
     };
-  }*/
+  }
 }
+
+const checkoutWHExists = async () => {
+  const response = await fetch("/api/ListWebhooks", {
+    method: "GET",
+  });
+
+  const data = await response.json();
+
+  return data.hookExists;
+};
+
+const registerWebhook = async () => {
+  const response = await fetch("api/RegisterWebhook", {
+    method: "POST",
+  });
+
+  const data = await response.json();
+
+  return data.mode;
+};
+
+const handleCheckout = async (metadata: {
+  fullname: string;
+  email: string;
+  phone: string;
+  streetAddress: string;
+  suburb: string;
+  city: string;
+  postalCode: string;
+  items: { id: string; total: number; quantity: number }[];
+  total: number;
+}) => {
+  const response = await fetch("/api/CreateCheckout", {
+    method: "POST",
+    body: JSON.stringify({
+      amount: 900,
+      currency: "ZAR",
+      metadata,
+    }),
+  });
+
+  const data = await response.json();
+  return data;
+};
