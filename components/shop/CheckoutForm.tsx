@@ -4,30 +4,28 @@ import { useCart } from "@/context/CartContext";
 import { useItemTotals } from "@/context/ItemTotalsContext";
 import { CheckoutFormState, saveCheckoutDetails } from "@/lib/checkout-actions";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useFormState } from "react-dom";
+import { Loader2 } from "lucide-react";
+import { useActionState, useState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 export default function CheckoutForm() {
   const { cart } = useCart();
   const { itemTotals } = useItemTotals();
+  const { pending } = useFormStatus();
 
-  const initialState = {
+  const initialState: CheckoutFormState = {
     message: null,
     errors: {},
   };
 
- 
-  const [state, dispatch] = useFormState<CheckoutFormState, FormData>(
+  const [state, dispatch] = useFormState(
     saveCheckoutDetails,
     initialState
   );
 
   return (
     <form
-      /*onSubmit={async () => {
-        await handleCheckout();
-      }}*/
       action={(formData) => {
         let items = itemTotals.map((itemTotal) => {
           const cartItem = cart.find(
@@ -45,7 +43,6 @@ export default function CheckoutForm() {
           return { id: itemTotal.id, total: itemTotal.total, quantity: 1 };
         });
         const total = items.reduce((a, v) => a + v.total, 0);
-
         formData.append("items", JSON.stringify(items));
         formData.append("total", total.toString());
 
@@ -60,7 +57,7 @@ export default function CheckoutForm() {
             <label htmlFor="fullname">Full name</label>
             <input
               type="text"
-              id="fullname"
+              name="fullname"
               className="border p-1.5 bg-transparent"
               placeholder="Full name"
             />
@@ -77,7 +74,7 @@ export default function CheckoutForm() {
             <label htmlFor="email">Email</label>
             <input
               type="email"
-              id="email"
+              name="email"
               className="border p-1.5 bg-transparent"
               placeholder="Email"
             />
@@ -94,7 +91,7 @@ export default function CheckoutForm() {
             <label htmlFor="phone">Phone Number</label>
             <input
               type="text"
-              id="phone"
+              name="phone"
               className="border p-1.5 bg-transparent"
               placeholder="Phone Number"
             />
@@ -114,7 +111,7 @@ export default function CheckoutForm() {
             <label htmlFor="streetAddress">Street Address</label>
             <input
               type="text"
-              id="streetAddress"
+              name="streetAddress"
               className="border p-1.5 bg-transparent"
               placeholder="Street Address"
             />
@@ -131,7 +128,7 @@ export default function CheckoutForm() {
             <label htmlFor="suburb">Suburb</label>
             <input
               type="text"
-              id="suburb"
+              name="suburb"
               className="border p-1.5 bg-transparent"
               placeholder="Suburb"
             />
@@ -148,7 +145,7 @@ export default function CheckoutForm() {
             <label htmlFor="city">City</label>
             <input
               type="text"
-              id="city"
+              name="city"
               className="border p-1.5 bg-transparent"
               placeholder="City"
             />
@@ -165,7 +162,7 @@ export default function CheckoutForm() {
             <label htmlFor="postalCode">Postal Code</label>
             <input
               type="text"
-              id="postalCode"
+              name="postalCode"
               className="border p-1.5 bg-transparent"
               placeholder="Postal Code"
             />
@@ -181,9 +178,14 @@ export default function CheckoutForm() {
         </div>
         <button
           type="submit"
+          disabled={pending}
           className="w-full font-bold fixed bottom-0 left-0 bg-white text-black py-2.5"
         >
-          Complete Checkout
+          {pending ? (
+            <Loader2 className="w-8 h-8 animate-spin text-black" />
+          ) : (
+            "Complete Checkout"
+          )}
         </button>
       </div>
     </form>

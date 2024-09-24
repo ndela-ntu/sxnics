@@ -24,7 +24,7 @@ const CheckoutSchema = z.object({
   streetAddress: z.string().min(5, "Address must be at least 5 characters"),
   suburb: z.string().min(2, "City must be at least 2 characters"),
   city: z.string().min(2, "City must be at least 2 characters"),
-  postalCode: z.string().min(5, "Zip code must be at least 5 characters"),
+  postalCode: z.string().min(2, "Zip code must be at least 2 characters"),
   items: z.array(ItemSchema).nonempty("At least one item is required"),
   total: z.number().positive("Total must be a positive number"),
 });
@@ -60,12 +60,15 @@ export async function saveCheckoutDetails(
   });
 
   if (!validatedFields.success) {
+    console.log("Success: ", false);
     return <CheckoutFormState>{
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Missed fields, failed to create checkout.",
       isSuccess: false,
     };
   }
+
+  let redirectURL = "/shop/failure";
 
   try {
     const {
@@ -91,45 +94,35 @@ export async function saveCheckoutDetails(
       items,
       total,
     };
-
     const hookExists = await checkoutWHExists();
-    let redirectURL;
+
     if (!hookExists) {
       const mode = await registerWebhook();
 
-      if (mode === "live") {
-        redirectURL = await handleCheckout(metadata);
+      if (mode === "test" || mode === "live") {
+        const response = await handleCheckout(metadata);
+        redirectURL = response.redirectUrl;
       } else {
         throw new Error("Unable to register hook");
       }
     } else {
-      redirectURL = handleCheckout(metadata);
+      const response = await handleCheckout(metadata);
+      redirectURL = response.redirectUrl;
     }
-
-    /*await connectMongo();
-    await CheckoutDetail.create({
-      fullname,
-      email,
-      phone,
-      streetAddress,
-      suburb,
-      city,
-      postalCode,
-      items,
-      total,
-    });*/
-    redirect(redirectURL);
   } catch (e) {
     return <CheckoutFormState>{
       message: "Error from server",
       isSuccess: false,
-      errors: []
+      errors: [],
     };
   }
+
+  redirect(redirectURL);
 }
 
 const checkoutWHExists = async () => {
-  const response = await fetch("/api/ListWebhooks", {
+  console.log("Checking webhooks");
+  const response = await fetch("https://sxnics.vercel.app/api/ListWebhooks", {
     method: "GET",
   });
 
@@ -139,7 +132,7 @@ const checkoutWHExists = async () => {
 };
 
 const registerWebhook = async () => {
-  const response = await fetch("api/RegisterWebhook", {
+  const response = await fetch("https://sxnics.vercel.app/api/RegisterWebhook", {
     method: "POST",
   });
 
@@ -159,12 +152,13 @@ const handleCheckout = async (metadata: {
   items: { id: string; total: number; quantity: number }[];
   total: number;
 }) => {
-  const response = await fetch("/api/CreateCheckout", {
+  console.log("handle checkout");
+  const response = await fetch("https://sxnics.vercel.app/api/CreateCheckout", {
     method: "POST",
     body: JSON.stringify({
-      amount: 900,
+      amount: metadata.total * 100,
       currency: "ZAR",
-      metadata,
+      metadata: metadata,
     }),
   });
 

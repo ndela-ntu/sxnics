@@ -11,7 +11,7 @@ export async function GET() {
 
   const data = await response.json();
 
-  alert(data);
+  console.log(data);
   // Redirect URL for Yoco checkout page
   const subscriptions = data.subscriptions;
   const hookExists =

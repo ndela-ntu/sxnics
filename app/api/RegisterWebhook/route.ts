@@ -12,8 +12,9 @@ export async function POST() {
       url: process.env.WEBHOOK_URL,
     }),
   });
+  
   const data = await response.json();
-  alert(data);
+  console.log(data);
 
   return NextResponse.json({ mode: data.mode });
 }

@@ -7,18 +7,20 @@ export async function POST(req: NextRequest) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      'Authorization': `Bearer ${process.env.TEST_SECRET_KEY}`,
+      Authorization: `Bearer ${process.env.TEST_SECRET_KEY}`,
     },
     body: JSON.stringify({
-      amountInCents: amount,
+      amount,
       currency,
-      successUrl: 'https://sxnics.vercel.app/shop/success',
-      failureUrl: 'https://sxnics.vercel.app/shop/failure'
+      metadata,
+      cancelUrl: "https://sxnics.vercel.app/shop/checkout",
+      successUrl: "https://sxnics.vercel.app/shop/success",
+      failureUrl: "https://sxnics.vercel.app/shop/failure",
     }),
   });
 
   const data = await response.json();
-  alert(data);
+  console.log(data);
 
   // Redirect URL for Yoco checkout page
   const redirectUrl = data.redirectUrl;
