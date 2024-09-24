@@ -1,6 +1,7 @@
 import CheckoutDetail from "@/models/CheckoutDetail";
 import connectMongo from "@/utils/ConnectMongo";
 import { NextRequest, NextResponse } from "next/server";
+import nodemailer from 'nodemailer';
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,7 +11,7 @@ export async function POST(req: NextRequest) {
       const metadata = body.payload.metadata;
 
       await connectMongo();
-      await CheckoutDetail.create({
+      const result = await CheckoutDetail.create({
         fullname: metadata.fullname,
         email: metadata.email,
         phone: metadata.phone,
@@ -21,6 +22,8 @@ export async function POST(req: NextRequest) {
         items: metadata.items,
         total: metadata.total,
       });
+
+      await sendConfirmationEmail(metadata.email, result._id.toString(), metadata.total); 
 
       return NextResponse.json({
         status: "success",
@@ -38,5 +41,37 @@ export async function POST(req: NextRequest) {
       { status: "error", message: "Failed to process event" },
       { status: 500 }
     );
+  }
+}
+
+async function sendConfirmationEmail(email: string, orderId: string, amount: number) {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  const mailOptions1 = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Payment Confirmation',
+    text: `Your payment for order ${orderId} of R${amount / 100} has been successfully processed.`,
+  };
+
+  const mailOptions2 = {
+    from: process.env.EMAIL_USER,
+    to: process.env.EMAIL_USER,
+    subject: 'Order Submitted',
+    text: `Order submitted for ${orderId} of R${amount / 100}`,
+  }
+
+  try {
+    await transporter.sendMail(mailOptions1);
+    await transporter.sendMail(mailOptions2);
+    console.log('Confirmation email sent to:', email);
+  } catch (error) {
+    console.error('Error sending confirmation email:', error);
   }
 }
