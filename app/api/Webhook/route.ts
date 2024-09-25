@@ -44,12 +44,11 @@ export async function POST(req: NextRequest) {
   }
 }
 
-async function sendConfirmationEmail(email: string, orderId: string, amount: number) {
+export async function sendConfirmationEmail(email: string, orderId: string, amount: number) {
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    host:"smtp.gmail.com",
+    service: 'smtp.mail.com',
     port: 587,
-    secure: true,
+    secure: false,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
@@ -65,7 +64,7 @@ async function sendConfirmationEmail(email: string, orderId: string, amount: num
 
   const mailOptions2 = {
     from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_USER,
+    to: 'ntulilindelani4@gmail.com',
     subject: 'Order Submitted',
     text: `Order submitted for ${orderId} of R${amount / 100}`,
   }

@@ -1,5 +1,6 @@
 "use server";
 
+import { sendConfirmationEmail } from "@/app/api/Webhook/route";
 import CheckoutDetail from "@/models/CheckoutDetail";
 import connectMongo from "@/utils/ConnectMongo";
 import { redirect } from "next/navigation";
@@ -94,8 +95,8 @@ export async function saveCheckoutDetails(
       items,
       total,
     };
-
-    const hookExists = await checkoutWHExists();
+    await sendConfirmationEmail('ntulilindelani4@gmail.com', '12345', 900);
+    /*const hookExists = await checkoutWHExists();
     console.log(hookExists);
     if (!hookExists) {
       const mode = await registerWebhook();
@@ -109,7 +110,9 @@ export async function saveCheckoutDetails(
     } else {
       const response = await handleCheckout(metadata);
       redirectURL = response.redirectUrl;
-    }
+    }*/
+  redirect(redirectURL);
+
   } catch (e) {
     return <CheckoutFormState>{
       message: "Error from server",
@@ -118,7 +121,6 @@ export async function saveCheckoutDetails(
     };
   }
 
-  redirect(redirectURL);
 }
 
 const checkoutWHExists = async () => {
