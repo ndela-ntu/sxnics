@@ -95,8 +95,10 @@ export async function saveCheckoutDetails(
       items,
       total,
     };
-    await sendConfirmationEmail('ntulilindelani4@gmail.com', '12345', 900);
-    /*const hookExists = await checkoutWHExists();
+
+    console.log(total);
+
+    const hookExists = await checkoutWHExists();
     console.log(hookExists);
     if (!hookExists) {
       const mode = await registerWebhook();
@@ -110,9 +112,7 @@ export async function saveCheckoutDetails(
     } else {
       const response = await handleCheckout(metadata);
       redirectURL = response.redirectUrl;
-    }*/
-  redirect(redirectURL);
-
+    }
   } catch (e) {
     return <CheckoutFormState>{
       message: "Error from server",
@@ -121,6 +121,7 @@ export async function saveCheckoutDetails(
     };
   }
 
+  redirect(redirectURL);
 }
 
 const checkoutWHExists = async () => {
@@ -134,9 +135,12 @@ const checkoutWHExists = async () => {
 };
 
 const registerWebhook = async () => {
-  const response = await fetch("https://sxnics.vercel.app/api/RegisterWebhook", {
-    method: "POST",
-  });
+  const response = await fetch(
+    "https://sxnics.vercel.app/api/RegisterWebhook",
+    {
+      method: "POST",
+    }
+  );
 
   const data = await response.json();
 

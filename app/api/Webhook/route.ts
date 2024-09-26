@@ -1,7 +1,7 @@
 import CheckoutDetail from "@/models/CheckoutDetail";
 import connectMongo from "@/utils/ConnectMongo";
 import { NextRequest, NextResponse } from "next/server";
-import nodemailer from 'nodemailer';
+import nodemailer from "nodemailer";
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,7 +23,11 @@ export async function POST(req: NextRequest) {
         total: metadata.total,
       });
 
-      await sendConfirmationEmail(metadata.email, result._id.toString(), metadata.total); 
+      await sendConfirmationEmail(
+        metadata.email,
+        result._id.toString(),
+        metadata.total
+      );
 
       return NextResponse.json({
         status: "success",
@@ -44,11 +48,16 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function sendConfirmationEmail(email: string, orderId: string, amount: number) {
+export async function sendConfirmationEmail(
+  email: string,
+  orderId: string,
+  amount: number
+) {
   const transporter = nodemailer.createTransport({
-    service: 'smtp.mail.com',
-    port: 587,
-    secure: false,
+    service: "Gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
@@ -58,22 +67,24 @@ export async function sendConfirmationEmail(email: string, orderId: string, amou
   const mailOptions1 = {
     from: process.env.EMAIL_USER,
     to: email,
-    subject: 'Payment Confirmation',
-    text: `Your payment for order ${orderId} of R${amount / 100} has been successfully processed.`,
+    subject: "Payment Confirmation",
+    text: `Your payment for order ${orderId} of R${
+      amount 
+    } has been successfully processed.`,
   };
 
   const mailOptions2 = {
     from: process.env.EMAIL_USER,
-    to: 'ntulilindelani4@gmail.com',
-    subject: 'Order Submitted',
-    text: `Order submitted for ${orderId} of R${amount / 100}`,
-  }
+    to: "ntulilindelani4@gmail.com",
+    subject: "Order Submitted",
+    text: `Order submitted for ${orderId} of R${amount}`,
+  };
 
   try {
     await transporter.sendMail(mailOptions1);
     await transporter.sendMail(mailOptions2);
-    console.log('Confirmation email sent to:', email);
+    console.log("Confirmation email sent to:", email);
   } catch (error) {
-    console.error('Error sending confirmation email:', error);
+    console.error("Error sending confirmation email:", error);
   }
 }
