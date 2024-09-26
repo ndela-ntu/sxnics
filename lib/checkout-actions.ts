@@ -1,6 +1,5 @@
 "use server";
 
-import { sendConfirmationEmail } from "@/app/api/Webhook/route";
 import CheckoutDetail from "@/models/CheckoutDetail";
 import connectMongo from "@/utils/ConnectMongo";
 import { redirect } from "next/navigation";
