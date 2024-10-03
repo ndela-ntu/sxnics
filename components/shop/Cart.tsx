@@ -11,38 +11,21 @@ import { useItemTotals } from "@/context/ItemTotalsContext";
 
 export default function Cart() {
   const { cart, removeItem } = useCart();
-  const { addItemTotal } = useItemTotals();
+  const { itemTotals, addItemTotal, removeItemTotal } = useItemTotals();
   const [total, setTotal] = useState<number>(0);
-  const [itemTotals, setItemTotals] = useState<{ id: string; total: number }[]>(
-    []
-  );
-
-  useEffect(() => {
-    setItemTotals(
-      cart.map((item) => ({ id: item.id.toString(), total: item.price }))
-    );
-  }, [cart]);
+  // const [itemTotals, setItemTotals] = useState<{ id: string; total: number }[]>(
+  //   []
+  // );
 
   useEffect(() => {
     setTotal(itemTotals.reduce((a, v) => a + v.total, 0));
-    itemTotals.forEach((item) => addItemTotal(item))
   }, [itemTotals]);
 
   const updateTotal = (id: string, quantity: number) => {
-    setItemTotals(
-      itemTotals.map((item) => {
-        if (item.id === id) {
-          const itemPrice = cart.find(
-            (cartItem) => cartItem.id.toString() === id
-          )?.price;
-          return { id, total: quantity * itemPrice! };
-        }
+    const cartItem = cart.find((cartItem) => cartItem.id.toString() === id);
 
-        return { id: item.id, total: item.total };
-      })
-    );
-
-    
+    removeItemTotal(id);
+    addItemTotal({ id: id, total: (cartItem?.price || 0) * quantity });
   };
 
   if (cart.length === 0)

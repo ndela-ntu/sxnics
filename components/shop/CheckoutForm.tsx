@@ -35,6 +35,7 @@ export default function CheckoutForm() {
   return (
     <form
       action={(formData) => {
+        console.log(itemTotals);
         let items = itemTotals.map((itemTotal) => {
           const cartItem = cart.find(
             (cartItem) => cartItem.id.toString() == itemTotal.id
@@ -50,11 +51,13 @@ export default function CheckoutForm() {
 
           return { id: itemTotal.id, total: itemTotal.total, quantity: 1 };
         });
+        console.log(items);
         const total = items.reduce((a, v) => a + v.total, 0);
+        console.log(total);
         formData.append("items", JSON.stringify(items));
         formData.append("total", total.toString());
 
-        dispatch(formData);
+        //  dispatch(formData);
       }}
     >
       <div className="flex flex-col space-y-5 w-full">
@@ -184,17 +187,20 @@ export default function CheckoutForm() {
             </div>
           </div>
         </div>
-        <button
-          type="submit"
-          disabled={pending}
-          className="w-full font-bold fixed bottom-0 left-0 bg-white text-black py-2.5"
-        >
-          {pending ? (
-            <Loader2 className="w-8 h-8 animate-spin text-black" />
-          ) : (
-            "Complete Checkout"
-          )}
-        </button>
+        <span className="flex flex-col">
+          <button
+            type="submit"
+            disabled={pending}
+            className="w-full font-bold fixed bottom-0 left-0 bg-white text-black py-2.5"
+          >
+            {pending ? (
+              <Loader2 className="w-8 h-8 animate-spin text-black" />
+            ) : (
+              "Complete Checkout"
+            )}
+          </button>
+          <span></span>
+        </span>
       </div>
     </form>
   );

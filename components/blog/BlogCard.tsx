@@ -30,7 +30,8 @@ export default function BlogCard({
     .replace(/<\/?[^>]+(>|$)/g, "");
 
   const previewContent =
-    cleanContent.slice(0, 50) + (cleanContent.length > 200 ? "..." : "");
+    cleanContent.slice(0, 50) + (cleanContent.length >= 50 ? "..." : "");
+  const previewTitle = title.slice(0, 20) + (title.length >= 20 ? "..." : "");
 
   return (
     <Link
@@ -47,13 +48,13 @@ export default function BlogCard({
           className="w-full h-auto object-cover"
         />
       </div>
-      <div className="w-full sm:w-2/3 md:w-3/4">
-        <h2 className="text-xl font-bold mb-2">{title}</h2>
+      <div className="w-full sm:w-2/3 md:w-3/4 flex flex-col justify-between">
+        <h2 className="text-xl font-bold mb-2">{previewTitle}</h2>
         <p className="text-sm">{previewContent}</p>
-        <h1 className="text-sm  text-black bg-white py-1 px-2 my-2.5 rounded-lg flex items-center justify-end">
+        <h2 className="py-1 text-sm px-2 my-2.5 text-black bg-white rounded-lg flex items-center justify-end">{new Date(createdAt).toLocaleDateString()}</h2>
+        <h1 className="">
           - {author}
         </h1>
-        <h2 className="mt-2.5">{new Date(createdAt).toLocaleDateString()}</h2>
       </div>
     </Link>
   );

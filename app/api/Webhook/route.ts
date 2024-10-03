@@ -1,8 +1,8 @@
 import sendConfirmationEmail from "@/lib/send-confirmation";
 import CheckoutDetail from "@/models/CheckoutDetail";
+import ShopItem from "@/models/ShopItem";
 import connectMongo from "@/utils/ConnectMongo";
 import { NextRequest, NextResponse } from "next/server";
-
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,6 +23,15 @@ export async function POST(req: NextRequest) {
         items: metadata.items,
         total: metadata.total,
       });
+
+      metadata.items.forEach(
+        async (item: { id: string; quantity: number}) => {
+          const shopItem = await ShopItem.findById(item.id)
+          await ShopItem.findByIdAndUpdate(item.id, {
+            quantity: shopItem.quantity - item.quantity,
+          });
+        }
+      );
 
       await sendConfirmationEmail(
         metadata.email,

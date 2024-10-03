@@ -24,6 +24,7 @@ const Shop: React.FC = async () => {
         {shopItems.map((shopItem, i) => (
           <Link key={i} href={`/shop/${shopItem._id.toString()}`}>
             <ClothingItem
+              id={shopItem.id.toString()}
               name={shopItem.name}
               description={shopItem.description}
               price={shopItem.price}

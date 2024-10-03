@@ -95,7 +95,6 @@ export async function saveCheckoutDetails(
       total,
     };
 
-    console.log(total);
 
     const hookExists = await checkoutWHExists();
     console.log(hookExists);

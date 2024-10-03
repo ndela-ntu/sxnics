@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { MdOutlineCancel } from "react-icons/md";
 import { IoIosMenu } from "react-icons/io";
 import { Montserrat } from "next/font/google";
@@ -20,6 +21,7 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [height, setHeight] = useState<number>(0);
   const menuRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   const toggleMenu = (): void => {
     setIsOpen(!isOpen);
@@ -37,14 +39,22 @@ const Navbar: React.FC = () => {
   const navItems: NavItem[] = [
     { name: "Shop", href: "/shop" },
     { name: "Blog", href: "/blog" },
-    { name: "About Us", href: "/about" },
+    { name: "Episodes", href: "/episodes" },
+    { name: "About Us", href: "/about-us" },
   ];
+
+  const isActive = (href: string): boolean => {
+    if (href === '/') {
+      return pathname === href;
+    }
+    return pathname.startsWith(href);
+  };
 
   return (
     <nav className={`px-5 py-2.5 ${montserrat.className}`}>
       <div className="flex justify-between items-center">
         <Link href="/" className="text-white text-3xl lg:text-5xl">
-          SXNICS
+          SONICS
         </Link>
 
         {/* Desktop Menu */}
@@ -53,7 +63,9 @@ const Navbar: React.FC = () => {
             <Link
               key={item.name}
               href={item.href}
-              className="text-white hover:text-gray-300 transition duration-300"
+              className={`text-white hover:text-gray-300 transition duration-300 ${
+                isActive(item.href) ? "font-bold border-b-2 border-white" : ""
+              }`}
             >
               {item.name}
             </Link>
@@ -81,7 +93,9 @@ const Navbar: React.FC = () => {
             <Link
               key={item.name}
               href={item.href}
-              className="text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 transition duration-300"
+              className={`text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 transition duration-300 ${
+                isActive(item.href) ? "bg-gray-700 font-bold" : ""
+              }`}
               onClick={() => setIsOpen(false)}
             >
               {item.name}
