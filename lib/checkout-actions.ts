@@ -123,7 +123,7 @@ export async function saveCheckoutDetails(
 }
 
 const checkoutWHExists = async () => {
-  const response = await fetch("https://sxnics.vercel.app/api/ListWebhooks", {
+  const response = await fetch("https://sxnics.com/api/ListWebhooks", {
     method: "GET",
   });
 
@@ -134,7 +134,7 @@ const checkoutWHExists = async () => {
 
 const registerWebhook = async () => {
   const response = await fetch(
-    "https://sxnics.vercel.app/api/RegisterWebhook",
+    "https://sxnics.com/api/RegisterWebhook",
     {
       method: "POST",
     }
@@ -156,7 +156,7 @@ const handleCheckout = async (metadata: {
   items: { id: string; total: number; quantity: number }[];
   total: number;
 }) => {
-  const response = await fetch("https://sxnics.vercel.app/api/CreateCheckout", {
+  const response = await fetch("https://sxnics.com/api/CreateCheckout", {
     method: "POST",
     body: JSON.stringify({
       amount: metadata.total * 100,

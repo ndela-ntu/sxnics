@@ -1,12 +1,15 @@
-import ShopItem from "@/models/ShopItem";
 import connectMongo from "@/utils/ConnectMongo";
 import { notFound } from "next/navigation";
 import PreviewClothingItem from "@/components/shop/PreviewClothingItem";
 import CartButton from "@/components/shop/CartButton";
+import { supabase } from "@/utils/supabase";
 
 export default async function Page({ params }: { params: { id: string } }) {
-  await connectMongo();
-  const shopItem = await ShopItem.findById(params.id);
+  const { data: shopItem, error } = await supabase
+    .from("shop_items")
+    .select("*")
+    .eq("id", params.id)
+    .single();
 
   if (!shopItem) {
     notFound();
@@ -15,10 +18,10 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <div className="">
       <PreviewClothingItem
-        id={shopItem._id}
+        id={shopItem.id}
         name={shopItem.name}
         description={shopItem.description}
-        imageURL={shopItem.imageURL}
+        imageUrl={shopItem.imageUrl}
         price={shopItem.price}
         quantity={shopItem.quantity}
       />

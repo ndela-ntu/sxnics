@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 export default async function sendConfirmationEmail(
   email: string,
-  orderId: string,
+  orderId: number,
   amount: number
 ) {
   const transporter = nodemailer.createTransport({
@@ -20,7 +20,7 @@ export default async function sendConfirmationEmail(
     from: process.env.EMAIL_USER,
     to: email,
     subject: "Payment Confirmation",
-    text: `Your payment for order ${orderId} of R${amount} has been successfully processed.`,
+    text: `Your payment for order #${orderId} of R${amount} has been successfully processed.`,
   };
 
   const mailOptions2 = {

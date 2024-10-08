@@ -1,7 +1,7 @@
 import sendConfirmationEmail from "@/lib/send-confirmation";
 import CheckoutDetail from "@/models/CheckoutDetail";
-import ShopItem from "@/models/ShopItem";
 import connectMongo from "@/utils/ConnectMongo";
+import { supabase } from "@/utils/supabase";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -10,34 +10,41 @@ export async function POST(req: NextRequest) {
 
     if (body.payload.status === "succeeded") {
       const metadata = body.payload.metadata;
+      const itemsArray: { id: number; total: number; quantity: number }[] =
+        metadata.items;
 
-      await connectMongo();
-      const result = await CheckoutDetail.create({
-        fullname: metadata.fullname,
-        email: metadata.email,
-        phone: metadata.phone,
-        streetAddress: metadata.streetAddress,
-        suburb: metadata.suburb,
-        city: metadata.city,
-        postalCode: metadata.postalCode,
-        items: metadata.items,
-        total: metadata.total,
-      });
+      const { data, error } = await supabase
+        .from("checkout_details")
+        .insert({
+          fullname: metadata.fullname,
+          email: metadata.email,
+          phone: metadata.phone,
+          streetAddress: metadata.streetAddress,
+          suburb: metadata.suburb,
+          city: metadata.city,
+          postalCode: metadata.postalCode,
+          items: JSON.stringify(itemsArray),
+          total: metadata.total,
+        })
+        .select("id");
 
-      metadata.items.forEach(
-        async (item: { id: string; quantity: number}) => {
-          const shopItem = await ShopItem.findById(item.id)
-          await ShopItem.findByIdAndUpdate(item.id, {
-            quantity: shopItem.quantity - item.quantity,
-          });
+      itemsArray.forEach(async (item) => {
+        const { data: shopItem, error } = await supabase
+          .from("shop_items")
+          .select("*")
+          .eq("id", item.id)
+          .single();
+
+        if (error) {
+          throw new Error("Item not found");
         }
-      );
-
-      await sendConfirmationEmail(
-        metadata.email,
-        result._id.toString(),
-        metadata.total
-      );
+        await supabase
+          .from("shop_items")
+          .update({ quantity: shopItem.quantity - item.quantity });
+      });
+      
+      const { id } = data![0];
+      await sendConfirmationEmail(metadata.email, id, metadata.total);
 
       return NextResponse.json({
         status: "success",

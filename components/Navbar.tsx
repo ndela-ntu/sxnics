@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
     <nav className={`px-5 py-2.5 ${montserrat.className}`}>
       <div className="flex justify-between items-center">
         <Link href="/" className="text-white text-3xl lg:text-5xl">
-          SONICS
+          SXNICS
         </Link>
 
         {/* Desktop Menu */}

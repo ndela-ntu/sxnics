@@ -1,3 +1,7 @@
+import TrackList from "@/components/episodes/TrackList";
+
 export default function Page() {
-  return <div></div>;
+  return <div>
+    <TrackList />
+  </div>;
 }

@@ -2,14 +2,14 @@ import React, { useContext, useEffect, useReducer } from "react";
 import { ReactNode, createContext } from "react";
 
 interface ItemTotal {
-  id: string;
+  id: number;
   total: number;
 }
 
 interface ItemTotalsState {
   itemTotals: ItemTotal[];
   addItemTotal: (itemTotal: ItemTotal) => void;
-  removeItemTotal: (id: string) => void;
+  removeItemTotal: (id: number) => void;
   clearItemTotals: () => void;
 }
 
@@ -17,7 +17,7 @@ const ItemTotalsContext = createContext<ItemTotalsState | undefined>(undefined);
 
 type Action =
   | { type: "ADD_ITEM_TOTAL"; payload: ItemTotal }
-  | { type: "REMOVE_ITEM_TOTAL"; payload: { id: string } }
+  | { type: "REMOVE_ITEM_TOTAL"; payload: { id: number } }
   | { type: "CLEAR_ITEM_TOTAL" };
 
 const itemTotalReducer = (state: ItemTotal[], action: Action): ItemTotal[] => {
@@ -69,7 +69,7 @@ export const ItemTotalsProvider: React.FC<ItemTotalsProviderProps> = ({
 
   const addItemTotal = (itemTotal: ItemTotal) =>
     dispatch({ type: "ADD_ITEM_TOTAL", payload: itemTotal });
-  const removeItemTotal = (id: string) =>
+  const removeItemTotal = (id: number) =>
     dispatch({ type: "REMOVE_ITEM_TOTAL", payload: { id } });
   const clearItemTotals = () => dispatch({ type: "CLEAR_ITEM_TOTAL" });
 

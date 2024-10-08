@@ -13,9 +13,9 @@ export async function POST(req: NextRequest) {
       amount,
       currency,
       metadata,
-      cancelUrl: "https://sxnics.vercel.app/shop/checkout",
-      successUrl: "https://sxnics.vercel.app/shop/success",
-      failureUrl: "https://sxnics.vercel.app/shop/failure",
+      cancelUrl: "https://sxnics.com/shop/checkout",
+      successUrl: "https://sxnics.com/shop/success",
+      failureUrl: "https://sxnics.com/shop/failure",
     }),
   });
 

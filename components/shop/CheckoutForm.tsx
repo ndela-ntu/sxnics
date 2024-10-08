@@ -38,14 +38,14 @@ export default function CheckoutForm() {
         console.log(itemTotals);
         let items = itemTotals.map((itemTotal) => {
           const cartItem = cart.find(
-            (cartItem) => cartItem.id.toString() == itemTotal.id
+            (cartItem) => cartItem.id == itemTotal.id
           );
 
-          if (itemTotal.id === cartItem?.id.toString()) {
+          if (itemTotal.id === cartItem!.id) {
             return {
               id: itemTotal.id,
               total: itemTotal.total,
-              quantity: itemTotal.total / cartItem.price,
+              quantity: itemTotal.total / cartItem!.price,
             };
           }
 

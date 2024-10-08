@@ -1,11 +1,8 @@
 import { Montserrat } from "next/font/google";
 import Link from "next/link";
-import connectMongo from "@/utils/ConnectMongo";
-import ShopItem from "@/models/ShopItem";
 import ClothingItem from "@/components/shop/ClothingItem";
-import { FC } from "react";
-import { useCart } from "@/context/CartContext";
 import CartButton from "@/components/shop/CartButton";
+import { supabase } from "@/utils/supabase";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -13,25 +10,27 @@ const montserrat = Montserrat({
 });
 
 const Shop: React.FC = async () => {
-  await connectMongo();
-  const shopItems = await ShopItem.find();
+  const { data: shopItems, error } = await supabase
+    .from("shop_items")
+    .select("*");
 
-  if (shopItems.length === 0) return <div>No shop items to display</div>;
+  if (error) {
+    return <div>{`An error occurred: ${error.message}`}</div>;
+  }
 
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
         {shopItems.map((shopItem, i) => (
-          <Link key={i} href={`/shop/${shopItem._id.toString()}`}>
-            <ClothingItem
-              id={shopItem.id.toString()}
-              name={shopItem.name}
-              description={shopItem.description}
-              price={shopItem.price}
-              imageURL={shopItem.imageURL}
-              quantity={shopItem.quantity}
-            />
-          </Link>
+          <ClothingItem
+            key={i}
+            id={shopItem.id}
+            name={shopItem.name}
+            description={shopItem.description}
+            price={shopItem.price}
+            imageUrl={shopItem.imageUrl}
+            quantity={shopItem.quantity}
+          />
         ))}
       </div>
       <CartButton />

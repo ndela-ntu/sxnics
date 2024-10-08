@@ -9,13 +9,13 @@ export default function PreviewClothingItem({
   name,
   description,
   price,
-  imageURL,
+  imageUrl,
   quantity,
 }: {
-  id: mongoose.Schema.Types.ObjectId;
+  id: number;
   name: string;
   description: string;
-  imageURL: string;
+  imageUrl: string;
   price: number;
   quantity: number;
 }) {
@@ -31,7 +31,7 @@ export default function PreviewClothingItem({
       </div>
       <div className="w-full py-8 flex items-center justify-center">
         <Image
-          src={imageURL}
+          src={imageUrl}
           alt="Image of clothing item"
           width={300}
           height={180}
@@ -43,10 +43,10 @@ export default function PreviewClothingItem({
         <span className="font-bold">R{price}</span>
         <button
           onClick={() => {
-            if (!cart.find((item) => item.id.toString() === id.toString())) {
-              addItem({ id, name, description, price, imageURL, quantity });
+            if (!cart.find((item) => item.id === id)) {
+              addItem({ id, name, description, price, imageUrl, quantity });
             } else {
-              removeItem(id.toString());
+              removeItem(id);
             }
           }}
           className="bg-white text-black px-2 py-1.5 w-1/2"

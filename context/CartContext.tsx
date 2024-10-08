@@ -7,7 +7,7 @@ import React, { createContext, useContext, useReducer, useEffect, ReactNode } fr
 interface CartState {
   cart: IShopItem[];
   addItem: (item: IShopItem) => void;
-  removeItem: (id: string) => void;
+  removeItem: (id: number) => void;
   clearCart: () => void;
 }
 
@@ -17,7 +17,7 @@ const CartContext = createContext<CartState | undefined>(undefined);
 // Reducer Function
 type Action =
   | { type: 'ADD_ITEM'; payload: IShopItem }
-  | { type: 'REMOVE_ITEM'; payload: { id: string } }
+  | { type: 'REMOVE_ITEM'; payload: { id: number } }
   | { type: 'CLEAR_CART' };
 
 const cartReducer = (state: IShopItem[], action: Action): IShopItem[] => {
@@ -35,7 +35,7 @@ const cartReducer = (state: IShopItem[], action: Action): IShopItem[] => {
       }
     }
     case 'REMOVE_ITEM':
-      return state.filter(item => item.id.toString() !== action.payload.id);
+      return state.filter(item => item.id !== action.payload.id);
     case 'CLEAR_CART':
       return [];
     default:
@@ -65,7 +65,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   }, [cart]);
 
   const addItem = (item: IShopItem) => dispatch({ type: 'ADD_ITEM', payload: item });
-  const removeItem = (id: string) => dispatch({ type: 'REMOVE_ITEM', payload: { id } });
+  const removeItem = (id: number) => dispatch({ type: 'REMOVE_ITEM', payload: { id } });
   const clearCart = () => dispatch({ type: 'CLEAR_CART' });
 
   return (
