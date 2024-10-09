@@ -26,6 +26,10 @@ export async function POST(req: NextRequest) {
         })
         .select("id");
 
+      if (error) {
+        throw new Error(error?.message);
+      }
+
       itemsArray.forEach(async (item) => {
         const { data: shopItem, error } = await supabase
           .from("shop_items")
