@@ -36,7 +36,7 @@ export async function GET() {
     //   console.log(result.message);
     // });
 
-    return NextResponse.json({ hookExists: true, subscriptions });
+    return NextResponse.json({ hookExists, subscriptions });
   } catch (error) {
     console.error(error);
   }
