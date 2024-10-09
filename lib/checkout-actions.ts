@@ -122,26 +122,33 @@ export async function saveCheckoutDetails(
 }
 
 const checkoutWHExists = async () => {
-  const response = await fetch("https://sxnics.com/api/ListWebhooks", {
-    method: "GET",
-  });
+  try {
+    console.log("List webhooks");
+    const response = await fetch("https://sxnics.com/api/ListWebhooks", {
+      method: "GET",
+    });
 
-  const data = await response.json();
+    const data = await response.json();
 
-  return data.hookExists;
+    return data.hookExists;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const registerWebhook = async () => {
-  const response = await fetch(
-    "https://sxnics.com/api/RegisterWebhook",
-    {
+  try {
+    console.log("Register webhook");
+    const response = await fetch("https://sxnics.com/api/RegisterWebhook", {
       method: "POST",
-    }
-  );
+    });
 
-  const data = await response.json();
+    const data = await response.json();
 
-  return data.mode;
+    return data.mode;
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const handleCheckout = async (metadata: {
@@ -155,15 +162,20 @@ const handleCheckout = async (metadata: {
   items: { id: number; total: number; quantity: number }[];
   total: number;
 }) => {
-  const response = await fetch("https://sxnics.com/api/CreateCheckout", {
-    method: "POST",
-    body: JSON.stringify({
-      amount: metadata.total * 100,
-      currency: "ZAR",
-      metadata: metadata,
-    }),
-  });
+  try {
+    console.log("Create checkout");
+    const response = await fetch("https://sxnics.com/api/CreateCheckout", {
+      method: "POST",
+      body: JSON.stringify({
+        amount: metadata.total * 100,
+        currency: "ZAR",
+        metadata: metadata,
+      }),
+    });
 
-  const data = await response.json();
-  return data;
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 };
