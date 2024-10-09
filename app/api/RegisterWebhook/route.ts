@@ -9,7 +9,7 @@ export async function POST() {
         Authorization: `Bearer ${process.env.TEST_SECRET_KEY}`,
       },
       body: JSON.stringify({
-        name: "Checkout-Webhook",
+        name: "Await-Webhook",
         url: process.env.WEBHOOK_URL,
       }),
     });

@@ -18,7 +18,7 @@ export async function GET() {
     const hookExists =
       subscriptions.find(
         (subscription: { name: string }) =>
-          subscription.name === "Checkout-Webhook"
+          subscription.name === "Await-Webhook"
       ) !== undefined;
       
 
@@ -36,7 +36,7 @@ export async function GET() {
     //   console.log(result.message);
     // });
 
-    return NextResponse.json({ hookExists, subscriptions });
+    return NextResponse.json({ hookExists: true, subscriptions });
   } catch (error) {
     console.error(error);
   }
