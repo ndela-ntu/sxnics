@@ -94,25 +94,21 @@ export async function saveCheckoutDetails(
       items,
       total,
     };
-    const data = await checkWHExists();
-    console.log(data.subscriptions);
-    // const hookExists = await checkWHExists();
-    // console.log(hookExists);
-    // if (!hookExists) {
-    //   const mode = await registerWebhook();
+    const hookExists = await checkWHExists();
+    console.log(hookExists);
+    if (!hookExists) {
+      const mode = await registerWebhook();
 
-    //   if (mode === "test" || mode === "live") {
-    //     const response = await handleCheckout(metadata);
-    //     redirectURL = response.redirectUrl;
-    //   } else {
-    //     throw new Error("Unable to register hook");
-    //   }
-    // } else {
-    //   const response = await handleCheckout(metadata);
-    //   redirectURL = response.redirectUrl;
-    // }
-
-    redirect(redirectURL);
+      if (mode === "test" || mode === "live") {
+        const response = await handleCheckout(metadata);
+        redirectURL = response.redirectUrl;
+      } else {
+        throw new Error("Unable to register hook");
+      }
+    } else {
+      const response = await handleCheckout(metadata);
+      redirectURL = response.redirectUrl;
+    }
   } catch (e) {
     return <CheckoutFormState>{
       message: "Error from server",
@@ -120,6 +116,8 @@ export async function saveCheckoutDetails(
       errors: [],
     };
   }
+
+  redirect(redirectURL);
 }
 
 const checkWHExists = async () => {
@@ -131,8 +129,7 @@ const checkWHExists = async () => {
 
     const data = await response.json();
 
-    //return data.hookExists;
-    return data;
+    return data.hookExists;
   } catch (error) {
     console.log(error);
   }
