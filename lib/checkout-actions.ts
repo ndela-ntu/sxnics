@@ -95,7 +95,7 @@ export async function saveCheckoutDetails(
       total,
     };
 
-    const hookExists = await checkoutWHExists();
+    const hookExists = await checkWHExists();
     console.log(hookExists);
     if (!hookExists) {
       const mode = await registerWebhook();
@@ -110,6 +110,8 @@ export async function saveCheckoutDetails(
       const response = await handleCheckout(metadata);
       redirectURL = response.redirectUrl;
     }
+    
+  redirect(redirectURL);
   } catch (e) {
     return <CheckoutFormState>{
       message: "Error from server",
@@ -118,10 +120,9 @@ export async function saveCheckoutDetails(
     };
   }
 
-  redirect(redirectURL);
 }
 
-const checkoutWHExists = async () => {
+const checkWHExists = async () => {
   try {
     console.log("List webhooks");
     const response = await fetch("https://sxnics.com/api/ListWebhooks", {
