@@ -4,7 +4,7 @@ import CheckoutDetail from "@/models/CheckoutDetail";
 import connectMongo from "@/utils/ConnectMongo";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 const ItemSchema = z.object({
   id: z.number(),
@@ -95,9 +95,9 @@ export async function saveCheckoutDetails(
       items,
       total,
     };
-    const {hookExists, subscriptions} = await checkWHExists();
-    console.log(hookExists, subscriptions);
-    if (!hookExists) {
+    const result = await checkWHExists();
+    console.log(result.subscriptions);
+    if (!result.hookExists) {
       const mode = await registerWebhook();
       console.log(mode);
 
@@ -122,8 +122,8 @@ export async function saveCheckoutDetails(
   redirect(redirectURL);
 }
 
-const BASE_URL = 'https://sxnics.com';
-const LOCAL_URL = 'http://localhost:3000';
+const BASE_URL = "https://sxnics.com";
+const LOCAL_URL = "http://localhost:3000";
 
 const checkWHExists = async () => {
   try {
@@ -174,7 +174,7 @@ const handleCheckout = async (metadata: {
       body: JSON.stringify({
         amount: metadata.total * 100,
         currency: "ZAR",
-        metadata: {uuid: uuidv4(), ...metadata},
+        metadata: { uuid: uuidv4(), ...metadata },
       }),
     });
 
