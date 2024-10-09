@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const ItemSchema = z.object({
-  id: z.string(),
+  id: z.number(),
   total: z.number().positive(),
   quantity: z.number().int().positive(),
 });
@@ -60,7 +60,7 @@ export async function saveCheckoutDetails(
   });
 
   if (!validatedFields.success) {
-    console.log("Success: ", false);
+    console.log(validatedFields.error.flatten().fieldErrors);
     return <CheckoutFormState>{
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Missed fields, failed to create checkout.",
@@ -94,7 +94,6 @@ export async function saveCheckoutDetails(
       items,
       total,
     };
-
 
     const hookExists = await checkoutWHExists();
     console.log(hookExists);
@@ -153,7 +152,7 @@ const handleCheckout = async (metadata: {
   suburb: string;
   city: string;
   postalCode: string;
-  items: { id: string; total: number; quantity: number }[];
+  items: { id: number; total: number; quantity: number }[];
   total: number;
 }) => {
   const response = await fetch("https://sxnics.com/api/CreateCheckout", {

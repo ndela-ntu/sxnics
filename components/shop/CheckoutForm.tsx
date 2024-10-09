@@ -8,12 +8,29 @@ import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useActionState, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { ReactNode } from "react";
+
+function SubmitButton({ children }: { children: ReactNode }) {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="w-full flex items-center justify-center font-bold fixed bottom-0 left-0 bg-white text-black py-2.5"
+    >
+      {pending ? (
+        <Loader2 className="h-7 w-7 animate-spin" />
+      ) : (
+        <span>{children}</span>
+      )}
+    </button>
+  );
+}
 
 export default function CheckoutForm() {
   const { cart } = useCart();
   const { itemTotals } = useItemTotals();
-  const { pending } = useFormStatus();
 
   const initialState: CheckoutFormState = {
     message: null,
@@ -57,7 +74,7 @@ export default function CheckoutForm() {
         formData.append("items", JSON.stringify(items));
         formData.append("total", total.toString());
 
-        //  dispatch(formData);
+        dispatch(formData);
       }}
     >
       <div className="flex flex-col space-y-5 w-full">
@@ -187,20 +204,7 @@ export default function CheckoutForm() {
             </div>
           </div>
         </div>
-        <span className="flex flex-col">
-          <button
-            type="submit"
-            disabled={pending}
-            className="w-full font-bold fixed bottom-0 left-0 bg-white text-black py-2.5"
-          >
-            {pending ? (
-              <Loader2 className="w-8 h-8 animate-spin text-black" />
-            ) : (
-              "Complete Checkout"
-            )}
-          </button>
-          <span></span>
-        </span>
+        <SubmitButton>Complete Checkout</SubmitButton>
       </div>
     </form>
   );

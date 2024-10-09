@@ -1,6 +1,4 @@
 import sendConfirmationEmail from "@/lib/send-confirmation";
-import CheckoutDetail from "@/models/CheckoutDetail";
-import connectMongo from "@/utils/ConnectMongo";
 import { supabase } from "@/utils/supabase";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -42,7 +40,7 @@ export async function POST(req: NextRequest) {
           .from("shop_items")
           .update({ quantity: shopItem.quantity - item.quantity });
       });
-      
+
       const { id } = data![0];
       await sendConfirmationEmail(metadata.email, id, metadata.total);
 
