@@ -7,6 +7,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
 
     if (body.payload.status === "succeeded") {
+      console.log('Succeeded');
       const metadata = body.payload.metadata;
       const itemsArray: { id: number; total: number; quantity: number }[] =
         metadata.items;
