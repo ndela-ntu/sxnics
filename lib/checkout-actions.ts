@@ -98,6 +98,7 @@ export async function saveCheckoutDetails(
     console.log(hookExists);
     if (!hookExists) {
       const mode = await registerWebhook();
+      console.log(mode);
 
       if (mode === "test" || mode === "live") {
         const response = await handleCheckout(metadata);
