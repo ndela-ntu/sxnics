@@ -110,8 +110,6 @@ export async function saveCheckoutDetails(
       const response = await handleCheckout(metadata);
       redirectURL = response.redirectUrl;
     }
-    
-  redirect(redirectURL);
   } catch (e) {
     return <CheckoutFormState>{
       message: "Error from server",
@@ -120,6 +118,7 @@ export async function saveCheckoutDetails(
     };
   }
 
+  redirect(redirectURL);
 }
 
 const checkWHExists = async () => {

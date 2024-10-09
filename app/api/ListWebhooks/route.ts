@@ -11,6 +11,7 @@ export async function GET() {
     console.log(response);
 
     const data = await response.json();
+    console.log(data);
 
     const subscriptions = data.subscriptions;
     console.log(subscriptions);
@@ -35,7 +36,7 @@ export async function GET() {
     //   console.log(result.message);
     // });
 
-    return NextResponse.json({ hookExists });
+    return NextResponse.json({ hookExists, subscriptions });
   } catch (error) {
     console.error(error);
   }

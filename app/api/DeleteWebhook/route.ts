@@ -15,6 +15,7 @@ export async function DELETE(req: NextRequest) {
     );
 
     const data = await response.json();
+    console.log(data);
 
     return NextResponse.json({ message: data.message });
   } catch (error) {
