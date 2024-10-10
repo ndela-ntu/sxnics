@@ -43,7 +43,7 @@ export default function RootLayout({
               <header className="">
                 <Navbar />
               </header>
-              <main className="px-5 w-full">
+              <main className="px-2.5 w-full">
                 {isLoading && <LoadingSpinner />}
                 {children}
               </main>

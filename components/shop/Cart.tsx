@@ -16,6 +16,7 @@ export default function Cart() {
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
+    clearItemTotals();
     cart.forEach((cartItem) => {
       addItemTotal({ id: cartItem.id, total: cartItem.price });
     });
@@ -76,7 +77,10 @@ export default function Cart() {
                   />
                 </div>
                 <button
-                  onClick={() => removeItem(item.id)}
+                  onClick={() => {
+                    removeItem(item.id);
+                    removeItemTotal(item.id);
+                  }}
                   className="bg-white text-black p-3 flex items-center justify-center"
                 >
                   <MdDelete />

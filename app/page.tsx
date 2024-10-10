@@ -15,7 +15,7 @@ const montserrat = Montserrat({
 
 const Home: React.FC = () => {
   return (
-    <div className="flex items-center justify-center w-full h-screen">
+    <div className="flex items-center justify-center w-full">
       <RadioPlayer />
       {/* <div className="flex flex-col items-center justify-center p-5 border">
         <h2 className={`text-3xl mb-5`}>Releases</h2>

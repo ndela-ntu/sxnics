@@ -27,7 +27,7 @@ export default async function sendConfirmationEmail(
     from: process.env.EMAIL_USER,
     to: "ntulilindelani4@gmail.com",
     subject: "Order Submitted",
-    text: `Order submitted for ${orderId} of R${amount}`,
+    text: `Order submitted for #${orderId} of R${amount}`,
   };
 
   try {
