@@ -38,23 +38,22 @@ export default function BlogCard({
       href={`blog/${slug}`}
       className="flex space-x-5 border p-1 items-center w-full"
     >
-      <div className="w-full sm:w-1/12 md:w-1/2">
+      <div className="w-[60%] md:w-[20%] lg:w-[25%] aspect-square relative overflow-hidden">
         <Image
           src={`https:${coverImage.fields.file.url}`}
           alt="Image of blog post"
-          layout="responsive"
-          width={200} // Define default width
-          height={100} // Define default height to maintain aspect ratio
-          className="w-full h-auto object-cover"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover"
         />
       </div>
       <div className="w-full sm:w-2/3 md:w-3/4 flex flex-col justify-between">
         <h2 className="text-xl font-bold mb-2">{previewTitle}</h2>
         <p className="text-sm">{previewContent}</p>
-        <h2 className="py-1 text-sm px-2 my-2.5 text-black bg-white rounded-lg flex items-center justify-end">{new Date(createdAt).toLocaleDateString()}</h2>
-        <h1 className="">
+        {/* <h2 className="py-1 text-sm px-2 my-2.5 text-black bg-white rounded-lg flex items-center justify-end">{new Date(createdAt).toLocaleDateString()}</h2> */}
+        {/* <h1 className="">
           - {author}
-        </h1>
+        </h1> */}
       </div>
     </Link>
   );
