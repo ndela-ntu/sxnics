@@ -8,6 +8,7 @@ import { CartProvider } from "@/context/CartContext";
 import { usePathname } from "next/navigation";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { ItemTotalsProvider } from "@/context/ItemTotalsContext";
+import RadioPlayer from "@/components/RadioPlayer";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -40,8 +41,9 @@ export default function RootLayout({
             className={`${montserrat.className} bg-black h-auto text-white w-full`}
           >
             <Suspense fallback={<LoadingSpinner />}>
-              <header className="">
+              <header className="px-2.5 w-full">
                 <Navbar />
+                <RadioPlayer />
               </header>
               <main className="px-2.5 w-full">
                 {isLoading && <LoadingSpinner />}

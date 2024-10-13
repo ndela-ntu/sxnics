@@ -125,9 +125,9 @@ const RadioPlayer: React.FC = () => {
   };
 
   return (
-    <div className="text-white flex flex-col w-full">
+    <div className="text-white flex flex-col w-full my-2.5">
       <audio ref={audioRef} />
-      <div className="bg-white text-black p-5 rounded-lg space-y-5">
+      <div className="bg-white text-black p-1 rounded-lg space-y-5">
         <div className="flex lg:flex-row justify-between">
           <button className="pr-5" onClick={handlePlayPause}>
             {isPlaying ? <IoIosPause /> : <IoIosPlay />}

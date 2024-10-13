@@ -81,8 +81,8 @@ export default function AudioPlayer({
       <div className="relative">
         <div
           className={`${
-            isMoreOpen ? "max-h-fit" : "max-h-0"
-          } overflow-hidden transition-all duration-300 ease-in-out bg-white text-black absolute bottom-full left-0 right-0 z-10`}
+            isMoreOpen ? "max-h-[500px]" : "max-h-0"
+          } overflow-hidden transition-all duration-500 ease-in-out absolute bottom-full left-0 right-0 z-10`}
         >
           <div className="">
             <div className=" aspect-square relative overflow-hidden">
@@ -93,14 +93,16 @@ export default function AudioPlayer({
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover"
               />
-              <div className="w-full selection:flex items-end justify-start absolute m-auto bg-black/50 hover:bg-black/70 text-white p-5 text-lg font-bold">
-                {episode.name}
+              <div className="w-full selection:flex items-end justify-start absolute m-auto bg-black/50 hover:bg-black/70 text-white p-5 text-lg">
+                <div className="underline font-bold py-2.5">{episode.name}</div>
+                <div className="whitespace-pre-wrap text-xs">
+                  {episode.description}
+                </div>
               </div>
             </div>
-            <div className="text-black whitespace-pre-wrap p-2.5">{episode.description}</div>
           </div>
         </div>
-        <div className="flex items-end justify-end h-[5%] relative z-20">
+        <div className="absolute flex items-end justify-end h-[5%] z-20 border w-full">
           <button
             onClick={() => setIsMoreOpen(!isMoreOpen)}
             className="bg-white h-auto border border-l-black font-bold text-lg text-black flex items-center justify-center p-2.5 w-[10%]"
@@ -119,7 +121,7 @@ export default function AudioPlayer({
           </button>
         </div>
       </div>
-      <div className="flex  w-full bg-white items-center px-1 py-4">
+      <div className="flex  w-full bg-white items-center pr-2 py-0">
         <audio ref={audioRef} src={episode.audioUrl} className="hidden" />
         <div className="w-1/6 md:w-[10%] lg:w-[5%] aspect-square relative overflow-hidden">
           <Image
