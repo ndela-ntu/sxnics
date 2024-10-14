@@ -59,7 +59,7 @@ export default async function Page() {
             Episodes
           </h1>
           <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-            Episodes from resident dj's and more.
+            Episodes from resident djs and more.
           </p>
         </div>
         <EpisodeCarousel episodes={episodes} />
