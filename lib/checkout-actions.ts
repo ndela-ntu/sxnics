@@ -1,7 +1,5 @@
 "use server";
 
-import CheckoutDetail from "@/models/CheckoutDetail";
-import connectMongo from "@/utils/ConnectMongo";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { v4 as uuidv4 } from "uuid";
