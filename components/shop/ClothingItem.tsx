@@ -3,6 +3,7 @@
 import { useCart } from "@/context/CartContext";
 import Image from "next/image";
 import Link from "next/link";
+import { FaShoppingCart } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
 export default function ClothingItem({
@@ -37,20 +38,32 @@ export default function ClothingItem({
       <div className="flex justify-between items-center p-2.5">
         <div className="flex flex-col ">
           <span className="font-bold">{name}</span>
-          {quantity !== 0 ? <span className="bg-white text-black p-1 max-w-fit">R{price}</span> : <span>Out of stock</span>}
+          {quantity !== 0 ? (
+            <span className="">R{price}</span>
+          ) : (
+            <span>Out of stock</span>
+          )}
         </div>
-        {cart.find((cartItem) => cartItem.id === id) && (
-          <div>
-            <button
-              onClick={() => {
-                removeItem(id)
-              }}
-              className="bg-white text-black p-3 rounded-full flex items-center justify-center"
-            >
+
+        <div>
+          <button
+            onClick={() => {
+              const item = cart.find((cartItem) => cartItem.id === id);
+              if (item) {
+                removeItem(id);
+              } else {
+                addItem({ id, name, description, price, imageUrl, quantity });
+              }
+            }}
+            className="bg-white text-black p-3 rounded-full flex items-center justify-center"
+          >
+            {cart.find((cartItem) => cartItem.id === id) ? (
               <MdDelete />
-            </button>
-          </div>
-        )}
+            ) : (
+              <FaShoppingCart />
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );

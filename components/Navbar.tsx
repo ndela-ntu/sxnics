@@ -64,7 +64,7 @@ const Navbar: React.FC = () => {
               key={item.name}
               href={item.href}
               className={`text-white hover:text-gray-300 transition duration-300 ${
-                isActive(item.href) ? "font-bold border-b-2 border-white" : ""
+                isActive(item.href) ? "font-bold border-b-1 border-white" : ""
               }`}
             >
               {item.name}
@@ -88,13 +88,13 @@ const Navbar: React.FC = () => {
         style={{ maxHeight: `${height}px` }}
         className="md:hidden overflow-hidden transition-all duration-300 ease-in-out"
       >
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div className="py-2 space-y-1">
           {navItems.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className={`text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 transition duration-300 ${
-                isActive(item.href) ? "bg-gray-700 font-bold" : ""
+              className={`block py-1 pl-1 text-base font-medium hover:bg-gray-700 transition duration-300 ${
+                isActive(item.href) ? "bg-white text-black font-bold" : ""
               }`}
               onClick={() => setIsOpen(false)}
             >
