@@ -37,6 +37,7 @@ const Navbar: React.FC = () => {
   }, [isOpen]);
 
   const navItems: NavItem[] = [
+    {name: "Home", href: "/"},
     { name: "Shop", href: "/shop" },
     { name: "Blog", href: "/blog" },
     { name: "Episodes", href: "/episodes" },
