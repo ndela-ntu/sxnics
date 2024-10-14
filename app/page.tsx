@@ -1,4 +1,5 @@
 import BlogPostCarousel from "@/components/BlogPostCarousel";
+import Divider from "@/components/Divider";
 import EpisodeCarousel from "@/components/EpisodeCarousel";
 import ShopCarousel from "@/components/ShopCarousel";
 import client from "@/lib/contentful";
@@ -14,7 +15,7 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-const Home: React.FC = async () => {
+export default async function Page() {
   const { data: shopItems, error: shopError } = await supabase
     .from("shop_items")
     .select("*")
@@ -49,13 +50,23 @@ const Home: React.FC = async () => {
   }
 
   return (
-    <div className="flex items-center justify-center w-full">
-      <h1 className="font-bold text-lg">Episodes</h1>
-      <EpisodeCarousel episodes={episodes} />
-      <h1 className="font-bold text-lg">Blogspot</h1>
-      <BlogPostCarousel blogPosts={blogPosts} />
-      <h1 className="font-bold text-lg">Shop</h1>
-      <ShopCarousel shopItems={shopItems} />
+    <div className="flex flex-col items-center justify-center w-full">
+      <Divider />
+      <div className="h-full w-full md:px-5">
+        <h1 className="font-bold text-lg underline p-1">Episodes</h1>
+        <EpisodeCarousel episodes={episodes} />
+      </div>
+      <Divider />
+      <div className="h-full w-full md:px-5">
+        <h1 className="font-bold text-lg underline p-1">Blogspot</h1>
+        <BlogPostCarousel blogPosts={blogPosts} />
+      </div>
+      <Divider />
+      <div className="h-full w-full md:px-5">
+        <h1 className="font-bold text-lg underline p-1">Shop</h1>
+        <ShopCarousel shopItems={shopItems} />
+      </div>
+      <Divider />
     </div>
   );
-};
+}
