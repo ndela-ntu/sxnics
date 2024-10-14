@@ -20,7 +20,7 @@ export default function ShopCarousel({
       opts={{
         align: "center",
       }}
-      className="w-full"
+      className="w-full m-0"
     >
       <CarouselContent>
         {shopItems.map((shopItem, index) => (
@@ -51,8 +51,6 @@ export default function ShopCarousel({
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
     </Carousel>
   );
 }

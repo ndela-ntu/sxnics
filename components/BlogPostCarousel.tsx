@@ -55,8 +55,6 @@ export default function BlogPostCarousel({
           );
         })}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
     </Carousel>
   );
 }
