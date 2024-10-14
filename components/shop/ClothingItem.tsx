@@ -20,9 +20,9 @@ export default function ClothingItem({
   imageUrl: string;
   quantity: number;
 }) {
-  const { cart, removeItem } = useCart();
+  const { cart, removeItem, addItem } = useCart();
   return (
-    <div className="m-2.5 border">
+    <div className="border my-2">
       <div className="relative aspect-square border">
         <Link href={`/shop/${id}`}>
           <Image
@@ -37,7 +37,7 @@ export default function ClothingItem({
       <div className="flex justify-between items-center p-2.5">
         <div className="flex flex-col ">
           <span className="font-bold">{name}</span>
-          {quantity !== 0 ? <span>R{price}</span> : <span>Out of stock</span>}
+          {quantity !== 0 ? <span className="bg-white text-black p-1 max-w-fit">R{price}</span> : <span>Out of stock</span>}
         </div>
         {cart.find((cartItem) => cartItem.id === id) && (
           <div>
