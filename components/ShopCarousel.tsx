@@ -28,9 +28,9 @@ export default function ShopCarousel({
             key={index}
             className="basis-1/2 md:basis-1/3 lg:basis-1/4"
           >
-            <div className="p-1">
-              <Card className="bg-black border-2 rounded-none p-0">
-                <CardTitle className="text-md text-white py-2 pl-2">
+            <div className="">
+              <Card className="border-none bg-white text-black rounded-none p-0">
+                <CardTitle className="text-sm py-2 pl-2">
                   {shopItem.name}
                 </CardTitle>
                 <CardContent className="flex bg-transparent aspect-square items-center justify-center p-0">

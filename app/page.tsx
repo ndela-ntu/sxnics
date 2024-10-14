@@ -51,18 +51,24 @@ export default async function Page() {
   return (
     <div className="flex flex-col items-center justify-center w-full">
       <Divider />
-      <div className="h-full w-full md:px-5">
-        <h1 className="font-bold text-lg underline p-1">Episodes</h1>
+      <div className="h-full w-full">
+        <h1 className="font-bold bg-white text-black m-0 underline max-w-fit py-1.5 px-1">
+          Episodes
+        </h1>
         <EpisodeCarousel episodes={episodes} />
       </div>
       <Divider />
-      <div className="h-full w-full md:px-5">
-        <h1 className="font-bold text-lg underline p-1">Blogspot</h1>
+      <div className="h-full w-full">
+        <h1 className="font-bold bg-white text-black m-0 underline max-w-fit py-1.5 px-1">
+          Blogspot
+        </h1>
         <BlogPostCarousel blogPosts={blogPosts} />
       </div>
       <Divider />
       <div className="h-full w-full md:px-5">
-        <h1 className="font-bold text-lg underline p-1">Shop</h1>
+        <h1 className="font-bold bg-white text-black m-0 underline max-w-fit py-1.5 px-1">
+          Shop
+        </h1>
         <ShopCarousel shopItems={shopItems} />
       </div>
       <Divider />
