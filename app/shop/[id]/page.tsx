@@ -1,4 +1,3 @@
-import connectMongo from "@/utils/ConnectMongo";
 import { notFound } from "next/navigation";
 import PreviewClothingItem from "@/components/shop/PreviewClothingItem";
 import CartButton from "@/components/shop/CartButton";

@@ -1,9 +1,5 @@
 import BlogCard from "@/components/blog/BlogCard";
 import client from "@/lib/contentful";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { BLOCKS, MARKS } from "@contentful/rich-text-types";
-import Image from "next/image";
-
 
 async function getBlogPosts() {
   const response = await client.getEntries({ content_type: "blogPost" });

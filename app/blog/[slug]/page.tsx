@@ -1,6 +1,5 @@
 import Post from "@/components/blog/Post";
 import client from "@/lib/contentful";
-import { notFound } from "next/navigation";
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { BLOCKS, MARKS } from '@contentful/rich-text-types'
 import Image from 'next/image'

@@ -6,7 +6,6 @@ import client from "@/lib/contentful";
 import { IBlogPost } from "@/models/BlogPost";
 import { supabase } from "@/utils/supabase";
 import { Montserrat } from "next/font/google";
-import Link from "next/link";
 
 export const revalidate = 60;
 
