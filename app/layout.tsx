@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { ItemTotalsProvider } from "@/context/ItemTotalsContext";
 import RadioPlayer from "@/components/RadioPlayer";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -40,16 +41,18 @@ export default function RootLayout({
           <body
             className={`${montserrat.className} bg-black h-auto text-white w-full`}
           >
-            <Suspense fallback={<LoadingSpinner />}>
-              <header className="px-2.5 w-full">
-                <Navbar />
-                <RadioPlayer />
-              </header>
-              <main className="px-2.5 w-full">
-                {isLoading && <LoadingSpinner />}
-                {children}
-              </main>
-            </Suspense>
+            <ErrorBoundary>
+              <Suspense fallback={<LoadingSpinner />}>
+                <header className="px-2.5 w-full">
+                  <Navbar />
+                  <RadioPlayer />
+                </header>
+                <main className="px-2.5 w-full">
+                  {isLoading && <LoadingSpinner />}
+                  {children}
+                </main>
+              </Suspense>
+            </ErrorBoundary>
           </body>
         </html>
       </ItemTotalsProvider>
