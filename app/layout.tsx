@@ -43,11 +43,11 @@ export default function RootLayout({
           >
             <ErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
-                <header className="px-2.5 w-full">
+                <header className="px-2.5 w-full sticky top-0 z-20 bg-black">
                   <Navbar />
                   <RadioPlayer />
                 </header>
-                <main className="px-2.5 w-full">
+                <main className="px-2.5 w-full z-10">
                   {isLoading && <LoadingSpinner />}
                   {children}
                 </main>
