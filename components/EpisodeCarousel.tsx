@@ -10,20 +10,28 @@ import {
   CarouselPrevious,
 } from "./ui/carousel";
 import { Card, CardContent, CardTitle } from "./ui/card";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import Link from "next/link";
 import AudioPlayer from "./AudioPlayer";
+import { useAudioContext } from "@/context/AudioContext";
 
 export default function EpisodeCarousel({
   episodes,
 }: {
   episodes: IEpisode[];
 }) {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { isRadioPlaying, updateIsPlaying } = useAudioContext();
   const [activeEpisode, setActiveEpisode] = useState<
     (IEpisode & { isPlaying: boolean }) | null
   >(null);
+  
+  useEffect(() => {
+    if (isRadioPlaying) {
+      setActiveEpisode((prev) => ({ ...prev!, isPlaying: false }));
+    }
+  }, [isRadioPlaying]);
+
   return (
     <div>
       <Carousel
@@ -60,15 +68,16 @@ export default function EpisodeCarousel({
                             className="bottom-0 right-0 flex items-center justify-center absolute m-auto w-10 h-7 bg-white text-black"
                             onClick={() => {
                               if (activeEpisode.isPlaying) {
-                                setActiveEpisode((prev) => ({
+                                setActiveEpisode((_) => ({
                                   ...episode,
                                   isPlaying: false,
                                 }));
                               } else {
-                                setActiveEpisode((prev) => ({
+                                setActiveEpisode((_) => ({
                                   ...episode,
                                   isPlaying: true,
                                 }));
+                                updateIsPlaying(false);
                               }
                             }}
                           >
@@ -89,6 +98,7 @@ export default function EpisodeCarousel({
                                 ...episode,
                                 isPlaying: true,
                               }));
+                              updateIsPlaying(false);
                             }}
                           >
                             <Play className="h-5 w-5" />

@@ -4,11 +4,20 @@ import { IEpisode } from "@/models/Episode";
 import React, { useEffect, useState } from "react";
 import EpisodeCard from "./EpisodeCard";
 import AudioPlayer from "../AudioPlayer";
+import { useAudioContext } from "@/context/AudioContext";
 
 export default function EpisodeList({ episodes }: { episodes: IEpisode[] }) {
   const [activeEpisode, setActiveEpisode] = useState<
     (IEpisode & { isPlaying: boolean }) | null
   >(null);
+
+  const { isRadioPlaying, updateIsPlaying } = useAudioContext();
+
+  useEffect(() => {
+    if (isRadioPlaying) {
+      setActiveEpisode((prev) => ({ ...prev!, isPlaying: false }));
+    }
+  }, [isRadioPlaying])
 
   return (
     <div className="flex flex-col">
@@ -32,6 +41,7 @@ export default function EpisodeList({ episodes }: { episodes: IEpisode[] }) {
                       ...value,
                       isPlaying: true,
                     }));
+                    updateIsPlaying(false);
                   }
                 }}
               />
@@ -49,6 +59,7 @@ export default function EpisodeList({ episodes }: { episodes: IEpisode[] }) {
                   ...value,
                   isPlaying: true,
                 }));
+                updateIsPlaying(false);
               }}
             />
           );

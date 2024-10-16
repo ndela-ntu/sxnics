@@ -10,6 +10,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { ItemTotalsProvider } from "@/context/ItemTotalsContext";
 import RadioPlayer from "@/components/RadioPlayer";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import { AudioContextProvider } from "@/context/AudioContext";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -21,6 +22,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [isRadioPlaying, setIsRadioPlaying] = useState(false);
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,24 +39,26 @@ export default function RootLayout({
   return (
     <CartProvider>
       <ItemTotalsProvider>
-        <html lang="en">
-          <body
-            className={`${montserrat.className} bg-black h-auto text-white w-full`}
-          >
-            <ErrorBoundary>
-              <Suspense fallback={<LoadingSpinner />}>
-                <header className="px-2.5 w-full sticky top-0 z-20 bg-black">
-                  <Navbar />
-                  <RadioPlayer />
-                </header>
-                <main className="px-2.5 w-full z-10">
-                  {isLoading && <LoadingSpinner />}
-                  {children}
-                </main>
-              </Suspense>
-            </ErrorBoundary>
-          </body>
-        </html>
+        <AudioContextProvider>
+          <html lang="en">
+            <body
+              className={`${montserrat.className} bg-black h-auto text-white w-full`}
+            >
+              <ErrorBoundary>
+                <Suspense fallback={<LoadingSpinner />}>
+                  <header className="px-2.5 w-full sticky top-0 z-20 bg-black">
+                    <Navbar />
+                    <RadioPlayer />
+                  </header>
+                  <main className="px-2.5 w-full z-10">
+                    {isLoading && <LoadingSpinner />}
+                    {children}
+                  </main>
+                </Suspense>
+              </ErrorBoundary>
+            </body>
+          </html>
+        </AudioContextProvider>
       </ItemTotalsProvider>
     </CartProvider>
   );

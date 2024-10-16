@@ -1,9 +1,9 @@
 "use client";
 
 import { Montserrat } from "next/font/google";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { IoIosPause, IoIosPlay } from "react-icons/io";
-import io from "socket.io-client";
+import { useAudioContext } from "@/context/AudioContext";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -11,9 +11,8 @@ const montserrat = Montserrat({
 });
 
 const RadioPlayer: React.FC = () => {
+  const { updateIsPlaying, isRadioPlaying } = useAudioContext();
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const mediaSourceRef = useRef<MediaSource | null>(null);
-  const sourceBufferRef = useRef<SourceBuffer | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
   const [nowPlaying, setNowPlaying] = useState<string | null>(null);
@@ -26,12 +25,21 @@ const RadioPlayer: React.FC = () => {
     checkScreenSize();
   }, []);
 
+  useEffect(() => {
+    if (!isRadioPlaying) {
+      audioRef?.current?.pause();
+      setIsPlaying(false);
+    }
+  }, [isRadioPlaying]);
+
   const handlePlayPause = () => {
     const audio = audioRef.current;
     if (audio) {
       if (isPlaying) {
+        updateIsPlaying(false);
         audio.pause();
       } else {
+        updateIsPlaying(true);
         audio.play();
       }
       setIsPlaying(!isPlaying);

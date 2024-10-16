@@ -17,12 +17,12 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <div className="flex flex-col md:flex-row">
       <h1 className='py-2'>
-        {episode.name} by
+       <span className="italic"> {episode.name}</span> by {" "}
         <Link className="underline" href={`/artists/${episode.artist}`}>
           {episode.artist}
         </Link>
       </h1>
-      <div className="relative aspect-square border">
+      <div className="relative aspect-square">
         <Image
           src={episode.imageUrl}
           alt="Image of episode"

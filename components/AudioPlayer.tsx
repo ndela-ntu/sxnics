@@ -46,7 +46,6 @@ export default function AudioPlayer({
     const audio = audioRef.current;
     if (!audio) return;
 
-    console.log(isPlaying);
     if (isPlaying) {
       audio.play();
     } else {
