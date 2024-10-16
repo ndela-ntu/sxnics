@@ -2,6 +2,7 @@ import BlogPostCarousel from "@/components/BlogPostCarousel";
 import Divider from "@/components/Divider";
 import EpisodeCarousel from "@/components/EpisodeCarousel";
 import RadioPlayer from "@/components/RadioPlayer";
+import ReleasesCarousel from "@/components/ReleasesCarousel";
 import ShopCarousel from "@/components/ShopCarousel";
 import client from "@/lib/contentful";
 import { IBlogPost } from "@/models/BlogPost";
@@ -55,6 +56,25 @@ export default async function Page() {
   return (
     <div>
       <div className="flex flex-col items-center justify-center w-full">
+        <div className="h-full w-full">
+          <div className="flex items-stretch h-full">
+            <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
+              Releases
+            </h1>
+            <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
+              New music releases
+            </p>
+          </div>
+          <ReleasesCarousel />
+          <div className="flex items-center justify-end w-full pt-2">
+            <Link className="flex items-center space-x-2.5" href="/episodes">
+              <span>View All</span>
+              <span>
+                <FaArrowRight className="h-3 w-3" />
+              </span>
+            </Link>
+          </div>
+        </div>
         <Divider />
         <div className="h-full w-full">
           <div className="flex items-stretch h-full">
@@ -79,10 +99,10 @@ export default async function Page() {
         <div className="h-full w-full">
           <div className="flex items-stretch h-full">
             <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
-              Blog Spot
+              Blogs & News
             </h1>
             <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-              Latest news and more.
+              Latest blog posts & news and more.
             </p>
           </div>
           <BlogPostCarousel blogPosts={blogPosts} />
