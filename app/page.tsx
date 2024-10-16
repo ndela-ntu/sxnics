@@ -23,14 +23,18 @@ export default async function Page() {
   const { data: shopItems, error: shopError } = await supabase
     .from("shop_items")
     .select("*")
+    .order("createdAt", { ascending: false })
+    .limit(5)
     .abortSignal(AbortSignal.timeout(5000));
 
   const { data: episodes, error: episodesError } = await supabase
     .from("episodes")
     .select("*")
+    .order("createdAt", { ascending: false })
+    .limit(5)
     .abortSignal(AbortSignal.timeout(5000));
 
-  const response = await client.getEntries({ content_type: "blogPost" });
+  const response = (await client.getEntries({ content_type: "blogPost", order: ['-sys.createdAt'], limit: 5}));
   const blogPosts: IBlogPost[] = response.items.map((item: any) => {
     const { content, slug, title, image, author, date } = item.fields;
 
