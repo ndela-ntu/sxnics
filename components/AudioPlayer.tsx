@@ -11,7 +11,7 @@ export default function AudioPlayer({
   onTogglePlay,
   onXClick,
 }: {
-  episode: IEpisode & { isPlaying: boolean };
+  episode: IEpisode;
   isPlaying: boolean;
   onTogglePlay: (value: boolean) => void;
   onXClick: () => void;
@@ -46,6 +46,7 @@ export default function AudioPlayer({
     const audio = audioRef.current;
     if (!audio) return;
 
+    console.log(isPlaying);
     if (isPlaying) {
       audio.play();
     } else {
@@ -58,11 +59,9 @@ export default function AudioPlayer({
     if (!audio) return;
 
     if (audio.paused) {
-      console.log(isPlaying);
       audio.play();
       onTogglePlay(true);
     } else {
-      console.log(isPlaying);
       audio.pause();
       onTogglePlay(false);
     }
@@ -77,7 +76,7 @@ export default function AudioPlayer({
   };
 
   return (
-    <div className="w-full fixed bottom-0 right-0">
+    <div className="w-full fixed bottom-0 right-0 z-10">
       <div className="relative">
         <div
           className={`${

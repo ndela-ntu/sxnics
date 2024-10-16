@@ -113,6 +113,7 @@ export default async function Page() {
         </div>
       </div>
       <Divider />
+      <div className="pb-20"></div>
     </div>
   );
 }

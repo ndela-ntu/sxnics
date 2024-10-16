@@ -12,6 +12,8 @@ import {
 import { Card, CardContent, CardTitle } from "./ui/card";
 import { useState } from "react";
 import { Pause, Play } from "lucide-react";
+import Link from "next/link";
+import AudioPlayer from "./AudioPlayer";
 
 export default function EpisodeCarousel({
   episodes,
@@ -19,55 +21,102 @@ export default function EpisodeCarousel({
   episodes: IEpisode[];
 }) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [activeEpisode, setActiveEpisode] = useState<
+    (IEpisode & { isPlaying: boolean }) | null
+  >(null);
   return (
-    <Carousel
-      opts={{
-        align: "center",
-      }}
-      className="w-full"
-    >
-      <CarouselContent className="">
-        {episodes.map((episode, index) => (
-          <CarouselItem
-            key={index}
-            className=" basis-1/2 md:basis-1/3 lg:basis-1/4"
-          >
-            <div className="">
-              <Card className="rounded-none border-none p-0 bg-white text-black">
-                <CardTitle className="text-sm py-2 pl-2">
-                  {episode.name}
-                </CardTitle>
-                <CardContent className="flex bg-transparent aspect-square items-center justify-center p-0">
-                  <div className="w-full h-full">
-                    <div className="aspect-square relative overflow-hidden">
-                      <Image
-                        src={episode.imageUrl}
-                        alt="Image of episode"
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover"
-                      />
-                      <button
-                        className="bottom-0 right-0 flex items-center justify-center absolute m-auto w-10 h-7 bg-white text-black"
-                        onClick={() => {}}
-                      >
-                        {isPlaying ? (
-                          <Pause className="h-5 w-5" />
+    <div>
+      <Carousel
+        opts={{
+          align: "center",
+        }}
+        className="w-full z-0"
+      >
+        <CarouselContent className="">
+          {episodes.map((episode, index) => (
+            <CarouselItem
+              key={index}
+              className=" basis-1/2 md:basis-1/3 lg:basis-1/4"
+            >
+              <div className="">
+                <Card className="rounded-none border-none p-0 bg-white text-black">
+                  <CardTitle className="text-sm py-2 pl-2">
+                    {episode.name}
+                  </CardTitle>
+                  <CardContent className="flex bg-transparent aspect-square items-center justify-center p-0">
+                    <div className="w-full h-full">
+                      <div className="aspect-square relative overflow-hidden">
+                        <Link href={`episodes/${episode.id}`}>
+                          <Image
+                            src={episode.imageUrl}
+                            alt="Image of episode"
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            className="object-cover"
+                          />
+                        </Link>
+                        {activeEpisode?.id === episode.id ? (
+                          <button
+                            className="bottom-0 right-0 flex items-center justify-center absolute m-auto w-10 h-7 bg-white text-black"
+                            onClick={() => {
+                              if (activeEpisode.isPlaying) {
+                                setActiveEpisode((prev) => ({
+                                  ...episode,
+                                  isPlaying: false,
+                                }));
+                              } else {
+                                setActiveEpisode((prev) => ({
+                                  ...episode,
+                                  isPlaying: true,
+                                }));
+                              }
+                            }}
+                          >
+                            {activeEpisode.isPlaying ? (
+                              <Pause className="h-5 w-5" />
+                            ) : (
+                              <Play className="h-5 w-5" />
+                            )}
+                            <span className="sr-only">
+                              {activeEpisode.isPlaying ? "Pause" : "Play"} audio
+                            </span>
+                          </button>
                         ) : (
-                          <Play className="h-5 w-5" />
+                          <button
+                            className="bottom-0 right-0 flex items-center justify-center absolute m-auto w-10 h-7 bg-white text-black"
+                            onClick={() => {
+                              setActiveEpisode((_) => ({
+                                ...episode,
+                                isPlaying: true,
+                              }));
+                            }}
+                          >
+                            <Play className="h-5 w-5" />
+                            <span className="sr-only">Play audio</span>
+                          </button>
                         )}
-                        <span className="sr-only">
-                          {isPlaying ? "Pause" : "Play"} audio
-                        </span>
-                      </button>
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-    </Carousel>
+                  </CardContent>
+                </Card>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+      {activeEpisode && (
+        <AudioPlayer
+          episode={activeEpisode}
+          isPlaying={activeEpisode.isPlaying}
+          onTogglePlay={(value) => {
+            setActiveEpisode((_) => ({
+              ...activeEpisode,
+              isPlaying: value,
+            }));
+          }}
+          onXClick={() => setActiveEpisode(null)}
+        />
+      )}
+    </div>
   );
 }

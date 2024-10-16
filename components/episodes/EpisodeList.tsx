@@ -3,7 +3,7 @@
 import { IEpisode } from "@/models/Episode";
 import React, { useEffect, useState } from "react";
 import EpisodeCard from "./EpisodeCard";
-import AudioPlayer from "./AudioPlayer";
+import AudioPlayer from "../AudioPlayer";
 
 export default function EpisodeList({ episodes }: { episodes: IEpisode[] }) {
   const [activeEpisode, setActiveEpisode] = useState<
