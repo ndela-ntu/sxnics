@@ -27,7 +27,7 @@ export default function EpisodeCarousel({
   >(null);
   
   useEffect(() => {
-    if (isRadioPlaying) {
+    if (isRadioPlaying && activeEpisode) {
       setActiveEpisode((prev) => ({ ...prev!, isPlaying: false }));
     }
   }, [isRadioPlaying]);
@@ -123,6 +123,10 @@ export default function EpisodeCarousel({
               ...activeEpisode,
               isPlaying: value,
             }));
+            
+            if (value) {
+              updateIsPlaying(false);
+            }
           }}
           onXClick={() => setActiveEpisode(null)}
         />
