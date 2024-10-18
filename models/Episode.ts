@@ -1,9 +1,16 @@
 export interface IEpisode {
+  id: number;
+  name: string;
+  artistId: number;
+  description: string;
+  imageUrl: string;
+  audioUrl: string;
+  tag: string;
+  artists: {
     id: number;
-    createdAt: any;
     name: string;
+    bio: string;
     imageUrl: string;
-    audioUrl: string;
-    artist: string;
-    description: string;
+    socialLinks: any;
+  };
 }

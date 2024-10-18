@@ -101,10 +101,10 @@ export default async function Page() {
         <div className="h-full w-full">
           <div className="flex items-stretch h-full">
             <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
-              Blogs & News
+              Blogs
             </h1>
             <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-              Latest blog posts & news and more.
+              Latest blog posts and more.
             </p>
           </div>
           <BlogPostCarousel blogPosts={blogPosts} />
