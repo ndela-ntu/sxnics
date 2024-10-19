@@ -44,7 +44,7 @@ export default function EpisodeCarousel({
           {episodes.map((episode, index) => (
             <CarouselItem
               key={index}
-              className=" basis-1/2 md:basis-1/3 lg:basis-1/4"
+              className="basis-1/2 md:basis-1/3 lg:basis-1/4"
             >
               <div className="">
                 <Card className="rounded-none border-none p-0 bg-white text-black">

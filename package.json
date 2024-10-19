@@ -20,6 +20,7 @@
     "clsx": "^2.1.1",
     "contentful": "^10.15.1",
     "dotenv": "^16.4.5",
+    "embla-carousel-autoplay": "^8.3.0",
     "embla-carousel-react": "^8.3.0",
     "howler": "^2.2.4",
     "lucide-react": "^0.441.0",

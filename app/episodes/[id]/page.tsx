@@ -19,7 +19,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <div className="flex flex-col w-full h-full">
       <h1 className="py-2">
-        <span className="italic text-base md:text-lg "> {episode.name}</span> by{" "}
+        <span className="text-base md:text-lg "> {episode.name}</span> by{" "}
         <Link className="underline text-base md:text-lg" href={`/artists/${episode.artists.id}`}>
           {episode.artists.name}
         </Link>
