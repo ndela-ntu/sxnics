@@ -44,12 +44,12 @@ export default function EpisodeCarousel({
           {episodes.map((episode, index) => (
             <CarouselItem
               key={index}
-              className="basis-1/2 md:basis-1/3 lg:basis-1/4"
+              className=" basis-1/2 md:basis-1/3 lg:basis-1/4"
             >
               <div className="">
                 <Card className="rounded-none border-none p-0 bg-white text-black">
                   <CardTitle className="text-sm py-2 pl-2">
-                    <span>{episode.name}</span>{" "}by{" "}
+                    <span>{episode.name}</span> by{" "}
                     <span>{episode.artists.name}</span>
                   </CardTitle>
                   <CardContent className="flex bg-transparent aspect-square items-center justify-center p-0">
@@ -106,6 +106,9 @@ export default function EpisodeCarousel({
                             <span className="sr-only">Play audio</span>
                           </button>
                         )}
+                        <span className="text-sm p-2.5 absolute bottom-0 left-0 bg-black/50 hover:bg-black/70 text-white">
+                          {episode.tag}
+                        </span>
                       </div>
                     </div>
                   </CardContent>

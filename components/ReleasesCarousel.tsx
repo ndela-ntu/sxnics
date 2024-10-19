@@ -32,13 +32,12 @@ export default function ReleasesCarousel({
         }),
       ]}
       className="w-full h-full"
-      
     >
       <CarouselContent className="w-full p-0 -ml-0 ">
         {releases.map((release) => (
           <CarouselItem
             key={release.id}
-            className="w-full pl-0 md:basis-1/3 lg:basis-1/4"
+            className="border-r-2 border-black w-full pl-0 md:basis-1/3 lg:basis-1/4"
           >
             <div className="">
               <Card className="w-full rounded-none border-none p-0">
@@ -57,6 +56,12 @@ export default function ReleasesCarousel({
                           className="object-cover"
                         />
                       </Link>
+                      <span className="text-sm p-2.5 absolute bottom-0 left-0 bg-black/50 hover:bg-black/70 text-white">
+                        {release.tag}
+                      </span>
+                      <span className="text-sm p-2.5 absolute bottom-0 right-0 bg-black/50 hover:bg-black/70 text-white">
+                        {release.type} Release
+                      </span>
                     </div>
                   </div>
                 </CardContent>
