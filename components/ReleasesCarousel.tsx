@@ -60,7 +60,7 @@ export default function ReleasesCarousel({
                         {release.tag}
                       </span>
                       <span className="text-sm p-2.5 absolute bottom-0 right-0 bg-black/50 hover:bg-black/70 text-white">
-                        {release.type} Release
+                        {release.type}
                       </span>
                     </div>
                   </div>
