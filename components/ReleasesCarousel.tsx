@@ -56,10 +56,10 @@ export default function ReleasesCarousel({
                           className="object-cover"
                         />
                       </Link>
-                      <span className="text-sm p-2.5 absolute bottom-0 left-0 bg-black/50 hover:bg-black/70 text-white">
+                      <span className="text-sm px-1 h-7 absolute bottom-0 left-0 bg-black/50 hover:bg-black/70 text-white">
                         {release.tag}
                       </span>
-                      <span className="text-sm p-2.5 absolute bottom-0 right-0 bg-black/50 hover:bg-black/70 text-white">
+                      <span className="text-sm px-1 h-7 absolute bottom-0 right-0 bg-black/50 hover:bg-black/70 text-white">
                         {release.type}
                       </span>
                     </div>
