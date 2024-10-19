@@ -28,7 +28,7 @@ export default async function Page() {
 
   const { data: episodes, error: episodesError } = await supabase
     .from("episodes")
-    .select("*")
+    .select(`*, artists (id, name)`)
     .order("created_at", { ascending: true })
     .limit(5)
 

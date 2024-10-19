@@ -6,7 +6,7 @@ export const revalidate = 60;
 export default async function Page() {
   const { data: episodes, error } = await supabase
     .from("episodes")
-    .select("*")
+    .select(`*, artists (id, name)`)
     .abortSignal(AbortSignal.timeout(5000));
 
   if (error) {

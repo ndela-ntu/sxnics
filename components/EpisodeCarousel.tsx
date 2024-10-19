@@ -25,7 +25,7 @@ export default function EpisodeCarousel({
   const [activeEpisode, setActiveEpisode] = useState<
     (IEpisode & { isPlaying: boolean }) | null
   >(null);
-  
+
   useEffect(() => {
     if (isRadioPlaying && activeEpisode) {
       setActiveEpisode((prev) => ({ ...prev!, isPlaying: false }));
@@ -49,7 +49,8 @@ export default function EpisodeCarousel({
               <div className="">
                 <Card className="rounded-none border-none p-0 bg-white text-black">
                   <CardTitle className="text-sm py-2 pl-2">
-                    {episode.name}
+                    <span>{episode.name}</span>{" "}by{" "}
+                    <span>{episode.artists.name}</span>
                   </CardTitle>
                   <CardContent className="flex bg-transparent aspect-square items-center justify-center p-0">
                     <div className="w-full h-full">
@@ -123,7 +124,7 @@ export default function EpisodeCarousel({
               ...activeEpisode,
               isPlaying: value,
             }));
-            
+
             if (value) {
               updateIsPlaying(false);
             }
