@@ -106,7 +106,7 @@ export default function EpisodeCarousel({
                             <span className="sr-only">Play audio</span>
                           </button>
                         )}
-                        <span className="text-sm p-2.5 absolute bottom-0 left-0 bg-black/50 hover:bg-black/70 text-white">
+                        <span className="flex items-center justify-center text-sm px-1 h-7 absolute bottom-0 left-0 bg-black/50 hover:bg-black/70 text-white">
                           {episode.tag}
                         </span>
                       </div>
