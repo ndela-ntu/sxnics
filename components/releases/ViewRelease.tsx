@@ -6,8 +6,8 @@ import Divider from "../Divider";
 
 export default function ViewRelease({ release }: { release: IRelease }) {
   return (
-    <div className="flex flex-col space-y-4">
-      <div className="flex space-x-2.5">
+    <div className="flex flex-col">
+      <div className="flex space-x-2.5 bg-white text-black max-w-fit p-2.5">
         <span className="font-bold">{release.artist}</span>
         <span>-</span>
         <span>{release.name}</span>
@@ -21,7 +21,7 @@ export default function ViewRelease({ release }: { release: IRelease }) {
           className="object-cover"
         />
       </div>
-      <span>{release.about}</span>
+      <span className="mt-5">{release.about}</span>
       <Divider />
       <div className="max-w-fit">
         <a

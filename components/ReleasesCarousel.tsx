@@ -28,7 +28,7 @@ export default function ReleasesCarousel({
     <Carousel
       plugins={[
         Autoplay({
-          delay: 4000,
+          delay: 2500,
         }),
       ]}
       className="w-full h-full"
