@@ -92,7 +92,7 @@ export default async function Page() {
               Episodes
             </h1>
             <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-              Episodes from resident djs and more.
+              Episodes from resident djs and curators.
             </p>
           </div>
           <EpisodeCarousel episodes={episodes} />
@@ -109,10 +109,10 @@ export default async function Page() {
         <div className="h-full w-full">
           <div className="flex items-stretch h-full">
             <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
-              Blogs
+              Blog & Interviews
             </h1>
             <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-              Latest blog posts and more.
+              Latest blog posts and interviews.
             </p>
           </div>
           <BlogPostCarousel blogPosts={blogPosts} />
@@ -132,7 +132,7 @@ export default async function Page() {
               Shop
             </h1>
             <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-              Shop to support the platform.
+             Shopping helps support the platform.
             </p>
           </div>
           <ShopCarousel shopItems={shopItems} />
