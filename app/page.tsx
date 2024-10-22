@@ -116,6 +116,7 @@ export default async function Page() {
             </p>
           </div>
           <BlogPostCarousel blogPosts={blogPosts} />
+
           <div className="flex items-center justify-end w-full pt-2">
             <Link className="flex items-center space-x-2.5" href="/blog">
               <span>View All</span>
@@ -132,7 +133,7 @@ export default async function Page() {
               Shop
             </h1>
             <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-             Shopping helps support the platform.
+              Shopping helps support the platform.
             </p>
           </div>
           <ShopCarousel shopItems={shopItems} />
