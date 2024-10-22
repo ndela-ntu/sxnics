@@ -2,6 +2,7 @@ import { IRelease } from "@/models/Release";
 import { ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import Divider from "../Divider";
 
 export default function ViewRelease({ release }: { release: IRelease }) {
   return (
@@ -21,6 +22,7 @@ export default function ViewRelease({ release }: { release: IRelease }) {
         />
       </div>
       <span>{release.about}</span>
+      <Divider />
       <div className="max-w-fit">
         <a
           href={release.purchaseLink}
@@ -28,7 +30,7 @@ export default function ViewRelease({ release }: { release: IRelease }) {
           rel="noopener noreferrer"
           className="inline-flex items-center px-4 py-2 bg-white text-black"
         >
-          Purchase now
+          Buy
           <ExternalLink className="ml-2 h-4 w-4" />
           <span className="sr-only">(opens in a new tab)</span>
         </a>
