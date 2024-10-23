@@ -32,7 +32,7 @@ export default function ShopCarousel({
             <div className="">
               <Link href={`/shop/${shopItem.id}`}>
                 <Card className="border-none bg-white text-black rounded-none p-0">
-                  <CardTitle className="text-sm py-2 pl-2">
+                  <CardTitle className="text-sm py-2 px-2 font-normal">
                     {shopItem.name}
                   </CardTitle>
                   <CardContent className="flex bg-transparent aspect-square items-center justify-center p-0">

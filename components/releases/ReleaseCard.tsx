@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function ReleaseCard({ release }: { release: IRelease }) {
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col space-y-2 border">
       <div className="relative aspect-square">
         <Link href={`/release-radar/${release.id}`}>
           <Image
@@ -16,9 +16,8 @@ export default function ReleaseCard({ release }: { release: IRelease }) {
           />
         </Link>
       </div>
-      <div className="flex space-x-2.5">
+      <div className="flex flex-col text-sm p-1">
         <span className="font-bold">{release.artist}</span>
-        <span>-</span>
         <span>{release.name}</span>
       </div>
     </div>

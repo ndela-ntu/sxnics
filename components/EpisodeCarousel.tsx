@@ -48,7 +48,7 @@ export default function EpisodeCarousel({
             >
               <div className="">
                 <Card className="rounded-none border-none p-0 bg-white text-black">
-                  <CardTitle className="text-sm py-2 pl-2">
+                  <CardTitle className="text-sm py-2 px-2 font-normal">
                     <span>{episode.name}</span> by{" "}
                     <span>{episode.artists.name}</span>
                   </CardTitle>

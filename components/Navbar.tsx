@@ -37,15 +37,17 @@ const Navbar: React.FC = () => {
   }, [isOpen]);
 
   const navItems: NavItem[] = [
-    {name: "Home", href: "/"},
+    { name: "Home", href: "/" },
     { name: "Shop", href: "/shop" },
     { name: "Blog", href: "/blog" },
     { name: "Episodes", href: "/episodes" },
+    { name: "Releases", href: "/release-radar" },
+    { name: "Support Us", href: "/supporter" },
     { name: "About Us", href: "/about-us" },
   ];
 
   const isActive = (href: string): boolean => {
-    if (href === '/') {
+    if (href === "/") {
       return pathname === href;
     }
     return pathname.startsWith(href);

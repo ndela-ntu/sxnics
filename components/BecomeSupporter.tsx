@@ -2,12 +2,11 @@ import Link from "next/link";
 
 export default function BecomeSupporter() {
   return (
-    <div className="flex items-center justify-center relative w-full h-[200px] md:h-[350px] lg:h-[500px]">
+    <div className="flex items-center justify-center relative w-full h-[200px] md:h-[300px] lg:h-[400px]">
       <svg
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
-        width="1366"
-        height="685"
+        viewBox="0 0 1366 685"
         preserveAspectRatio="none"
         fill="none"
         className="absolute inset-0 w-full h-full"
@@ -240,7 +239,7 @@ export default function BecomeSupporter() {
       </svg>
 
       <div className="relative z-10 flex items-center justify-center h-full">
-        <Link className=" border-2 border-black bg-white font-bold text-black p-2.5" href="/supporter">
+        <Link className="bg-white font-bold text-black p-2.5" href="/supporter">
           Become a supporter
         </Link>
       </div>
