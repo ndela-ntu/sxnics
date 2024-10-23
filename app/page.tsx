@@ -1,3 +1,4 @@
+import BecomeSupporter from "@/components/BecomeSupporter";
 import BlogPostCarousel from "@/components/BlogPostCarousel";
 import Divider from "@/components/Divider";
 import EpisodeCarousel from "@/components/EpisodeCarousel";
@@ -86,9 +87,7 @@ export default async function Page() {
           </div>
         </div>
         <Divider />
-        <Link className="bg-white font-bold text-black p-2.5" href="/supporter">
-          Become a supporter
-        </Link>
+        <BecomeSupporter />
         <Divider />
         <div className="h-full w-full">
           <div className="flex items-stretch h-full">
