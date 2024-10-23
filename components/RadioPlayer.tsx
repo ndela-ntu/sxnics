@@ -49,11 +49,14 @@ const RadioPlayer: React.FC = () => {
   return (
     <div className="text-white flex flex-col w-full my-2.5">
       <audio ref={audioRef} />
-      <div className="bg-white text-black p-1 space-y-5">
+      <div className="bg-white text-black px-2 py-1 space-y-5">
         <div className="flex lg:flex-row justify-between">
-          <button className="pr-5" onClick={handlePlayPause}>
-            {isPlaying ? <IoIosPause /> : <IoIosPlay />}
-          </button>
+          <div className="pr-2 items-center flex space-x-2 ">
+          <div className="h-2 w-2 bg-red-500 rounded-full" />
+            <button onClick={handlePlayPause}>
+              {isPlaying ? <IoIosPause /> : <IoIosPlay />}
+            </button>
+          </div>
           <div className="relative overflow-hidden h-6 w-full">
             <p
               className={`absolute whitespace-nowrap w-full ${

@@ -86,6 +86,10 @@ export default async function Page() {
           </div>
         </div>
         <Divider />
+        <Link className="bg-white font-bold text-black p-2.5" href="/supporter">
+          Become a supporter
+        </Link>
+        <Divider />
         <div className="h-full w-full">
           <div className="flex items-stretch h-full">
             <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
@@ -116,7 +120,6 @@ export default async function Page() {
             </p>
           </div>
           <BlogPostCarousel blogPosts={blogPosts} />
-
           <div className="flex items-center justify-end w-full pt-2">
             <Link className="flex items-center space-x-2.5" href="/blog">
               <span>View All</span>
