@@ -42,7 +42,7 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
               isPlaying={activeEpisode.isPlaying}
               onXClick={() => setActiveEpisode(null)}
               onTogglePlay={(value) => {
-                setActiveEpisode((_) => ({
+                setActiveEpisode((prev) => ({
                   ...activeEpisode,
                   isPlaying: value,
                 }));

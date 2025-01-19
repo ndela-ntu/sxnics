@@ -22,6 +22,13 @@ export default function AudioPlayer({
   const [isMoreOpen, setIsMoreOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Reset loading state only when audio URL changes
+  useEffect(() => {
+    setIsLoading(true);
+    setCurrentTime(0);
+    setDuration(0);
+  }, [episode.audioUrl]); // Only depend on audioUrl instead of entire episode object
+
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -41,31 +48,38 @@ export default function AudioPlayer({
       }
     };
 
+    const handleError = () => {
+      setIsLoading(false);
+      console.error("Error loading audio");
+    };
+
     audio.addEventListener("loadeddata", setAudioData);
     audio.addEventListener("timeupdate", setAudioTime);
     audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("error", handleError);
 
     return () => {
       audio.removeEventListener("loadeddata", setAudioData);
       audio.removeEventListener("timeupdate", setAudioTime);
       audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("error", handleError);
     };
-  }, [episode, onTogglePlay]);
+  }, [episode.audioUrl, onTogglePlay]); // Update dependency to audioUrl
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (isPlaying) {
+    if (isPlaying && !isLoading) {
       audio.play();
     } else {
       audio.pause();
     }
-  }, [isPlaying, episode]);
+  }, [isPlaying, isLoading]);
 
   const togglePlay = () => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || isLoading) return;
 
     if (audio.paused) {
       audio.play();
