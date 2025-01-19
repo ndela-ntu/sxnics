@@ -21,10 +21,7 @@ export default function EpisodeCarousel({
 }: {
   episodes: IEpisode[];
 }) {
-  const { isRadioPlaying, updateIsPlaying } = useAudioContext();
-  const [activeEpisode, setActiveEpisode] = useState<
-    (IEpisode & { isPlaying: boolean }) | null
-  >(null);
+  const { isRadioPlaying, updateIsPlaying, activeEpisode, setActiveEpisode } = useAudioContext();
 
   useEffect(() => {
     if (isRadioPlaying && activeEpisode) {
@@ -118,23 +115,6 @@ export default function EpisodeCarousel({
           ))}
         </CarouselContent>
       </Carousel>
-      {activeEpisode && (
-        <AudioPlayer
-          episode={activeEpisode}
-          isPlaying={activeEpisode.isPlaying}
-          onTogglePlay={(value) => {
-            setActiveEpisode((_) => ({
-              ...activeEpisode,
-              isPlaying: value,
-            }));
-
-            if (value) {
-              updateIsPlaying(false);
-            }
-          }}
-          onXClick={() => setActiveEpisode(null)}
-        />
-      )}
     </div>
   );
 }

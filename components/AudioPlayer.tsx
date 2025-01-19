@@ -156,7 +156,7 @@ export default function AudioPlayer({
           max={duration}
           value={currentTime}
           onChange={handleSeek}
-          className="w-full h-1 bg-black rounded-full appearance-none cursor-pointer range-sm accent-black"
+          className="w-full h-1 bg-black rounded-full appearance-none cursor-pointer range-sm accent-black flex items-center justify-center"
           disabled={isLoading}
         />
         <div className="ml-2 text-black text-xs">{formatTime(duration)}</div>

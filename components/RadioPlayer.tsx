@@ -11,7 +11,7 @@ const montserrat = Montserrat({
 });
 
 const RadioPlayer: React.FC = () => {
-  const { updateIsPlaying, isRadioPlaying } = useAudioContext();
+  const { updateIsPlaying, isRadioPlaying, activeEpisode, setActiveEpisode } = useAudioContext();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
@@ -40,6 +40,9 @@ const RadioPlayer: React.FC = () => {
         audio.pause();
       } else {
         updateIsPlaying(true);
+        if (activeEpisode) {
+          setActiveEpisode((prev) => ({...prev!, isPlaying: false}));
+        }
         audio.play();
       }
       setIsPlaying(!isPlaying);

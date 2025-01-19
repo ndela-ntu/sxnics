@@ -1,3 +1,4 @@
+import { IEpisode } from "@/models/Episode";
 import {
   Dispatch,
   ReactNode,
@@ -11,6 +12,15 @@ const AudioContext = createContext<
   | {
       isRadioPlaying: boolean;
       updateIsPlaying: (value: boolean) => void;
+      activeEpisode: (IEpisode & { isPlaying: boolean }) | null;
+      setActiveEpisode: Dispatch<
+        SetStateAction<
+          | (IEpisode & {
+              isPlaying: boolean;
+            })
+          | null
+        >
+      >;
     }
   | undefined
 >(undefined);
@@ -23,13 +33,23 @@ export const AudioContextProvider: React.FC<AudioContextProviderProps> = ({
   children,
 }) => {
   const [isRadioPlaying, setIsRadioPlaying] = useState(false);
+  const [activeEpisode, setActiveEpisode] = useState<
+    (IEpisode & { isPlaying: boolean }) | null
+  >(null);
 
   const updateIsPlaying = (newValue: boolean) => {
     setIsRadioPlaying(newValue);
   };
 
   return (
-    <AudioContext.Provider value={{ isRadioPlaying, updateIsPlaying }}>
+    <AudioContext.Provider
+      value={{
+        isRadioPlaying,
+        updateIsPlaying,
+        activeEpisode,
+        setActiveEpisode,
+      }}
+    >
       {children}
     </AudioContext.Provider>
   );
