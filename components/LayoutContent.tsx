@@ -30,7 +30,7 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
         <Navbar />
         <RadioPlayer />
       </header>
-      <main className="px-2.5 w-full z-10">
+      <main className="px-2.5 w-full z-10 min-h-screen">
         {isLoading && <LoadingSpinner />}
         {children}
       </main>
@@ -42,7 +42,6 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
               isPlaying={activeEpisode.isPlaying}
               onXClick={() => setActiveEpisode(null)}
               onTogglePlay={(value) => {
-                console.log(value);
                 setActiveEpisode((_) => ({
                   ...activeEpisode,
                   isPlaying: value,

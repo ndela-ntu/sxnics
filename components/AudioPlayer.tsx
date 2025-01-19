@@ -85,7 +85,7 @@ export default function AudioPlayer({
   };
 
   return (
-    <div className="w-full fixed bottom-0 right-0 z-10">
+    <div className="w-full fixed bottom-0 right-0 z-10 ">
       <div className="relative">
         <div
           className={`${
@@ -101,8 +101,8 @@ export default function AudioPlayer({
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover"
               />
-              <div className="w-full selection:flex items-end justify-start absolute m-auto bg-black/50 hover:bg-black/70 text-white p-5 text-lg">
-                <div className="underline font-bold py-2.5">{episode.name}</div>
+              <div className="w-full selection:flex items-end justify-start absolute m-auto bg-black/50 hover:bg-black/70 text-white p-2.5 text-lg">
+                <div className="underline font-bold py-1">{episode.name}</div>
                 <div className="whitespace-pre-wrap text-xs">
                   {episode.description}
                 </div>
@@ -129,7 +129,7 @@ export default function AudioPlayer({
           </button>
         </div>
       </div>
-      <div className="flex w-full bg-white items-center pr-2 py-0">
+      <div className="flex w-full bg-white items-center pr-2 py-0 border border-red-500 min-h-min">
         <audio ref={audioRef} src={episode.audioUrl} className="hidden" />
         <div className="w-1/4 md:w-[10%] lg:w-[5%] aspect-square relative overflow-hidden">
           <Image
@@ -150,17 +150,63 @@ export default function AudioPlayer({
           )}
         </button>
         <div className="text-xs text-black mr-2">{formatTime(currentTime)}</div>
-        <input
-          type="range"
-          min={0}
-          max={duration}
-          value={currentTime}
-          onChange={handleSeek}
-          className="w-full h-1 bg-black rounded-full appearance-none cursor-pointer range-sm accent-black flex items-center justify-center"
-          disabled={isLoading}
-        />
+        <div className="flex-grow">
+          <input
+            type="range"
+            min={0}
+            max={duration}
+            value={currentTime}
+            onChange={handleSeek}
+            className="w-full h-2 bg-black rounded-full appearance-none cursor-pointer accent-black"
+            style={{
+              background: `linear-gradient(to right, white ${
+                (currentTime / duration) * 100
+              }%, #000 ${(currentTime / duration) * 100}%)`,
+            }}
+            disabled={isLoading}
+          />
+        </div>
         <div className="ml-2 text-black text-xs">{formatTime(duration)}</div>
       </div>
+      <style jsx>{`
+        input[type="range"] {
+          -webkit-appearance: none;
+          width: 100%;
+          background: transparent;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 16px;
+          height: 16px;
+          background: black;
+          cursor: pointer;
+          border-radius: 50%;
+          margin-top: -7px; /* to vertically center the thumb */
+        }
+        input[type="range"]::-moz-range-thumb {
+          width: 16px;
+          height: 16px;
+          background: black;
+          cursor: pointer;
+          border-radius: 50%;
+          border: none;
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 2px;
+          cursor: pointer;
+          background: #000000;
+          border-radius: 1px;
+        }
+        input[type="range"]::-moz-range-track {
+          width: 100%;
+          height: 2px;
+          cursor: pointer;
+          background: #000000;
+          border-radius: 1px;
+        }
+      `}</style>
     </div>
   );
 }
