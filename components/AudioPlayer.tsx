@@ -129,9 +129,9 @@ export default function AudioPlayer({
           </button>
         </div>
       </div>
-      <div className="flex w-full bg-white items-center pr-2 py-0 border border-red-500 min-h-min">
+      <div className="flex w-full bg-white items-center pr-2 py-0 min-h-min">
         <audio ref={audioRef} src={episode.audioUrl} className="hidden" />
-        <div className="w-1/4 md:w-[10%] lg:w-[5%] aspect-square relative overflow-hidden">
+        <div className="w-1/6 md:w-[10%] lg:w-[5%] aspect-square relative overflow-hidden">
           <Image
             src={episode.imageUrl}
             alt="Image of episode"

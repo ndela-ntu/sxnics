@@ -4,13 +4,14 @@ import { IEpisode } from "@/models/Episode";
 import Image from "next/image";
 import {
   Carousel,
+  CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
 } from "./ui/carousel";
 import { Card, CardContent, CardTitle } from "./ui/card";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import Link from "next/link";
 import AudioPlayer from "./AudioPlayer";
@@ -21,7 +22,11 @@ export default function EpisodeCarousel({
 }: {
   episodes: IEpisode[];
 }) {
-  const { isRadioPlaying, updateIsPlaying, activeEpisode, setActiveEpisode } = useAudioContext();
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
+  const { isRadioPlaying, updateIsPlaying, activeEpisode, setActiveEpisode } =
+    useAudioContext();
 
   useEffect(() => {
     if (isRadioPlaying && activeEpisode) {
@@ -29,14 +34,42 @@ export default function EpisodeCarousel({
     }
   }, [isRadioPlaying]);
 
+  const onInit = useCallback(() => {
+    setCount(0);
+    setCurrent(0);
+  }, []);
+
+  const onScroll = useCallback(() => {
+    if (!api) return;
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap());
+  }, [api]);
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    onScroll();
+    api.on("init", onInit);
+    api.on("scroll", onScroll);
+    api.on("reInit", onScroll);
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap());
+    });
+
+    return () => {
+      api.off("init", onInit);
+      api.off("scroll", onScroll);
+      api.off("reInit", onScroll);
+    };
+  }, [api, onInit, onScroll]);
+
   return (
     <div>
-      <Carousel
-        opts={{
-          align: "center",
-        }}
-        className="w-full z-0"
-      >
+      <Carousel setApi={setApi} opts={{ align: "center" }} className="w-full">
         <CarouselContent className="">
           {episodes.map((episode, index) => (
             <CarouselItem
@@ -115,6 +148,17 @@ export default function EpisodeCarousel({
           ))}
         </CarouselContent>
       </Carousel>
+      <div className="mt-1 flex items-center justify-center space-x-2.5">
+        {Array.from({ length: count }).map((_, index) => (
+          <button
+            key={index}
+            className={`h-2 w-2 rounded-full transition-all ${
+              index === current ? "bg-white w-4" : "bg-white/65"
+            }`}
+            onClick={() => api?.scrollTo(index)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
