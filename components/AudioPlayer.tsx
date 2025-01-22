@@ -103,7 +103,7 @@ export default function AudioPlayer({
       <div className="relative">
         <div
           className={`${
-            isMoreOpen ? "max-h-[500px]" : "max-h-0"
+            isMoreOpen ? "max-h-[700px]" : "max-h-0"
           } overflow-hidden transition-all duration-500 ease-in-out absolute bottom-full left-0 right-0 z-10`}
         >
           <div className="">
@@ -115,9 +115,9 @@ export default function AudioPlayer({
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover"
               />
-              <div className="w-full selection:flex items-end justify-start absolute m-auto bg-black/50 hover:bg-black/70 text-white p-2.5 text-lg">
+              <div className="w-full selection:flex items-end justify-start absolute bg-black/50 hover:bg-black/70 text-white p-1 text-lg">
                 <div className="underline font-bold py-1">{episode.name}</div>
-                <div className="whitespace-pre-wrap text-xs">
+                <div className="whitespace-pre-wrap text-xs max-h-max overflow-y-auto">
                   {episode.description}
                 </div>
               </div>
