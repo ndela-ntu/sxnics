@@ -46,11 +46,15 @@ export default function EpisodeCard({
       </div>
       <Link href={`/episodes/${episode.id}`}>
         <div className="flex flex-col w-full justify-start">
-          <span className="overflow-ellipsis text-base">{episode.name}</span>
-          <span className="overflow-ellipsis text-sm">
+          <span className="overflow-ellipsis text-sm">{episode.name}</span>
+          <span className="overflow-ellipsis text-base">
             {episode.artists.name}
           </span>
-          <span className="bg-white text-xs text-black p-1">
+          <span
+            className={`${
+              isActive ? "bg-black text-white" : "bg-white text-black"
+            } text-xs p-1`}
+          >
             {episode.tag}
           </span>
         </div>
