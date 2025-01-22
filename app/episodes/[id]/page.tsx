@@ -6,6 +6,7 @@ import { Pause, Play } from "lucide-react";
 import ViewEpisodePlayer from "@/components/episodes/ViewEpisodePlayer";
 import ShareButton from "@/components/episodes/ShareButton";
 import TrackList from "@/components/episodes/TrackList";
+import { Link as LucideLink } from "lucide-react";
 
 export const revalidate = 60;
 
@@ -27,10 +28,13 @@ export default async function Page({ params }: { params: { id: string } }) {
           <span className="text-base md:text-lg ">{episode.name}</span>
           <span>by</span>
           <Link
-            className="underline text-base md:text-lg"
+            className="flex items-center space-x-1 underline text-base md:text-lg"
             href={`/artists/${episode.artists.id}`}
           >
-            {episode.artists.name}
+            <span> {episode.artists.name}</span>
+            <span>
+              <LucideLink className="h-4 w-4" />
+            </span>
           </Link>
         </h1>
         <ShareButton
