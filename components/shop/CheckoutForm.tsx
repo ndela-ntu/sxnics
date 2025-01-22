@@ -78,7 +78,7 @@ export default function CheckoutForm() {
       }}
     >
       <div className="flex flex-col space-y-5 w-full">
-        <h1 className="text-lg">Cart</h1>
+        <h1 className="text-lg">Checkout</h1>
         <h1 className="text-2xl">Personal Details</h1>
         <div className="sm:flex sm:flex-col lg:grid lg:grid-cols-2 space-y-2.5 lg:space-y-0 lg:gap-5">
           <div className="flex flex-col">

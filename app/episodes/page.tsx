@@ -14,6 +14,7 @@ export default async function Page() {
 
   return (
     <div className="h-auto">
+      <h1 className="text-lg">Episodes</h1>
       <EpisodeList episodes={episodes} />
     </div>
   );
