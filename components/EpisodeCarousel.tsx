@@ -14,7 +14,6 @@ import { Card, CardContent, CardTitle } from "./ui/card";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import Link from "next/link";
-import AudioPlayer from "./AudioPlayer";
 import { useAudioContext } from "@/context/AudioContext";
 
 export default function EpisodeCarousel({
@@ -25,7 +24,7 @@ export default function EpisodeCarousel({
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
-  const { isRadioPlaying, updateIsPlaying, activeEpisode, setActiveEpisode } =
+  const { isRadioPlaying, setIsRadioPlaying, activeEpisode, setActiveEpisode } =
     useAudioContext();
 
   useEffect(() => {
@@ -108,7 +107,7 @@ export default function EpisodeCarousel({
                                   ...episode,
                                   isPlaying: true,
                                 }));
-                                updateIsPlaying(false);
+                                setIsRadioPlaying(false);
                               }
                             }}
                           >
@@ -129,7 +128,7 @@ export default function EpisodeCarousel({
                                 ...episode,
                                 isPlaying: true,
                               }));
-                              updateIsPlaying(false);
+                              setIsRadioPlaying(false);
                             }}
                           >
                             <Play className="h-5 w-5" />

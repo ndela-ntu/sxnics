@@ -6,7 +6,7 @@ import EpisodeCard from "./EpisodeCard";
 import { useAudioContext } from "@/context/AudioContext";
 
 export default function EpisodeList({ episodes }: { episodes: IEpisode[] }) {
-  const { isRadioPlaying, updateIsPlaying, activeEpisode, setActiveEpisode } =
+  const { isRadioPlaying, setIsRadioPlaying, activeEpisode, setActiveEpisode } =
     useAudioContext();
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function EpisodeList({ episodes }: { episodes: IEpisode[] }) {
                       ...value,
                       isPlaying: true,
                     }));
-                    updateIsPlaying(false);
+                    setIsRadioPlaying(false);
                   }
                 }}
               />
@@ -55,7 +55,7 @@ export default function EpisodeList({ episodes }: { episodes: IEpisode[] }) {
                   ...value,
                   isPlaying: true,
                 }));
-                updateIsPlaying(false);
+                setIsRadioPlaying(false);
               }}
             />
           );

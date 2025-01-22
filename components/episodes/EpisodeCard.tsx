@@ -1,7 +1,6 @@
 import { IEpisode } from "@/models/Episode";
 import { Pause, Play } from "lucide-react";
 import Image from "next/image";
-import { useAudioContext } from "@/context/AudioContext";
 import Link from "next/link";
 
 export default function EpisodeCard({
@@ -33,7 +32,7 @@ export default function EpisodeCard({
           className="flex items-center justify-center absolute inset-0 m-auto w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 text-white"
           onClick={() => {
             onImageClick(episode);
-            //updateIsPlaying(false);
+            //setIsRadioPlaying(false);
           }}
         >
           {isPlaying ? (

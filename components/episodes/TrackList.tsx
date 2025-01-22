@@ -16,7 +16,7 @@ export default function TrackList({ tracklist }: { tracklist: string }) {
         <div
           key={index}
           className={`p-1 flex items-center space-x-2 ${
-            index % 2 === 0 ? "bg-black/70 text-white" : "bg-white/95 text-black"
+            index % 2 === 0 ? "bg-black text-white" : "bg-white text-black"
           }`}
         >
           <span className="text-lg font-bold">{index + 1}.</span>

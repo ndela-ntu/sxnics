@@ -6,7 +6,7 @@ import { Pause, Play } from "lucide-react";
 import Image from "next/image";
 
 export default function ViewEpisodePlayer({ episode }: { episode: IEpisode }) {
-  const { activeEpisode, setActiveEpisode, updateIsPlaying } =
+  const { activeEpisode, setActiveEpisode, setIsRadioPlaying } =
     useAudioContext();
 
   return (
@@ -21,7 +21,7 @@ export default function ViewEpisodePlayer({ episode }: { episode: IEpisode }) {
       <button
         className="flex items-center justify-center absolute inset-0 m-auto w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 text-white"
         onClick={() => {
-          if (activeEpisode?.isPlaying) {
+          if (activeEpisode && activeEpisode?.id === episode.id && activeEpisode?.isPlaying) {
             setActiveEpisode((_) => ({
               ...episode,
               isPlaying: false,
@@ -31,11 +31,12 @@ export default function ViewEpisodePlayer({ episode }: { episode: IEpisode }) {
               ...episode,
               isPlaying: true,
             }));
-            updateIsPlaying(false);
+
+            setIsRadioPlaying(false);
           }
         }}
       >
-        {activeEpisode?.isPlaying ? (
+        {activeEpisode && activeEpisode?.id === episode.id && activeEpisode?.isPlaying ? (
           <Pause className="h-6 w-6" />
         ) : (
           <Play className="h-6 w-6" />

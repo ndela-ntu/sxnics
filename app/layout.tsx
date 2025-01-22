@@ -10,7 +10,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { ItemTotalsProvider } from "@/context/ItemTotalsContext";
 import RadioPlayer from "@/components/RadioPlayer";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import { AudioContextProvider, useAudioContext } from "@/context/AudioContext";
+import { AudioContextProvider } from "@/context/AudioContext";
 import { LayoutContent } from "@/components/LayoutContent";
 
 const montserrat = Montserrat({

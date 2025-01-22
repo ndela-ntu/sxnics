@@ -27,11 +27,30 @@ export default function AudioPlayer({
     setIsLoading(true);
     setCurrentTime(0);
     setDuration(0);
+
+    const savedPosition = sessionStorage.getItem(`audioPosition-${episode.audioUrl}`);
+    if (savedPosition && audioRef.current) {
+      audioRef.current.currentTime = parseFloat(savedPosition);
+      setCurrentTime(parseFloat(savedPosition));
+    }
   }, [episode.audioUrl]); // Only depend on audioUrl instead of entire episode object
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
+
+    const configureAudio = async () => {
+      if (typeof navigator.mediaSession !== 'undefined') {
+        try {
+          await audio.play();
+          audio.pause();
+        } catch (e) {
+          console.warn('iOS audio session initialization failed:', e);
+        }
+      }
+    };
+    
+    configureAudio();
 
     const setAudioData = () => {
       setDuration(audio.duration);
@@ -39,12 +58,17 @@ export default function AudioPlayer({
       setIsLoading(false);
     };
 
-    const setAudioTime = () => setCurrentTime(audio.currentTime);
+    const setAudioTime = () => {
+      setCurrentTime(audio.currentTime);
+      // Save position for iOS
+      sessionStorage.setItem(`audioPosition-${episode.audioUrl}`, String(audio.currentTime));
+    };
 
     const handleEnded = () => {
       onTogglePlay(false);
       if (audio) {
         audio.currentTime = 0;
+        sessionStorage.removeItem(`audioPosition-${episode.audioUrl}`);
       }
     };
 
@@ -53,12 +77,18 @@ export default function AudioPlayer({
       console.error("Error loading audio");
     };
 
+    const handleBeforeUnload = () => {
+      sessionStorage.setItem(`audioPosition-${episode.audioUrl}`, String(audio.currentTime));
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
     audio.addEventListener("loadeddata", setAudioData);
     audio.addEventListener("timeupdate", setAudioTime);
     audio.addEventListener("ended", handleEnded);
     audio.addEventListener("error", handleError);
 
     return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
       audio.removeEventListener("loadeddata", setAudioData);
       audio.removeEventListener("timeupdate", setAudioTime);
       audio.removeEventListener("ended", handleEnded);

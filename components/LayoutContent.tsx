@@ -9,20 +9,19 @@ import AudioPlayer from "@/components/AudioPlayer";
 import { useAudioContext } from "@/context/AudioContext";
 
 export function LayoutContent({ children }: { children: React.ReactNode }) {
-  const { activeEpisode, setActiveEpisode, updateIsPlaying } =
+  const { activeEpisode, setActiveEpisode, setIsRadioPlaying } =
     useAudioContext();
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
-
-    window.scrollTo(0, 0);
-
+    // Simulate a delay to show the loading indicator
     const timeout = setTimeout(() => {
       setIsLoading(false);
     }, 500);
 
+    window.scrollTo(0, 0);
     return () => clearTimeout(timeout);
   }, [pathname]);
 
@@ -38,23 +37,22 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
       </main>
       <footer>
         {activeEpisode && (
-          <div>
+          <Suspense fallback={<LoadingSpinner />}>
             <AudioPlayer
+              key={activeEpisode.id} // Ensure remounting when the episode changes
               episode={activeEpisode}
               isPlaying={activeEpisode.isPlaying}
               onXClick={() => setActiveEpisode(null)}
               onTogglePlay={(value) => {
-                setActiveEpisode((prev) => ({
-                  ...activeEpisode,
-                  isPlaying: value,
-                }));
-
+                setActiveEpisode((prev) =>
+                  prev ? { ...prev, isPlaying: value } : null
+                );
                 if (value) {
-                  updateIsPlaying(false);
+                  setIsRadioPlaying(false);
                 }
               }}
             />
-          </div>
+          </Suspense>
         )}
       </footer>
     </>
