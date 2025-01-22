@@ -16,7 +16,9 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setIsLoading(true);
-    // Simulate a delay to show the loading indicator
+
+    window.scrollTo(0, 0);
+
     const timeout = setTimeout(() => {
       setIsLoading(false);
     }, 500);
