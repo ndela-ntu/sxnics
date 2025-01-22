@@ -15,12 +15,11 @@ export default function EpisodeCard({
   onImageClick: (episode: IEpisode) => void;
   isPlaying: boolean;
 }) {
-
   return (
     <div
       className={`${
         isActive && "bg-white text-black"
-      } flex items-center w-full border p-2.5 space-x-5 md:space-x-7 lg:space-x-9`}
+      } flex items-center w-full border p-2.5 space-x-2.5 md:space-x-5 lg:space-x-7.5`}
     >
       <div className="w-1/6 md:[10%] lg:w-[5%] aspect-square relative overflow-hidden rounded-full">
         <Image
@@ -46,9 +45,14 @@ export default function EpisodeCard({
         </button>
       </div>
       <Link href={`/episodes/${episode.id}`}>
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full justify-start">
           <span className="overflow-ellipsis text-base">{episode.name}</span>
-          <span className="overflow-ellipsis text-sm">{episode.artists.name}</span>
+          <span className="overflow-ellipsis text-sm">
+            {episode.artists.name}
+          </span>
+          <span className="bg-white text-xs text-black p-1">
+            {episode.tag}
+          </span>
         </div>
       </Link>
     </div>
