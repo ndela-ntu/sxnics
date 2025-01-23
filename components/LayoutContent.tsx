@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import RadioPlayer from "@/components/RadioPlayer";
@@ -16,7 +16,6 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setIsLoading(true);
-    // Simulate a delay to show the loading indicator
     const timeout = setTimeout(() => {
       setIsLoading(false);
     }, 500);
@@ -35,26 +34,23 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
         {isLoading && <LoadingSpinner />}
         {children}
       </main>
-      <footer>
-        {activeEpisode && (
-          <Suspense fallback={<LoadingSpinner />}>
-            <AudioPlayer
-              key={activeEpisode.id} // Ensure remounting when the episode changes
-              episode={activeEpisode}
-              isPlaying={activeEpisode.isPlaying}
-              onXClick={() => setActiveEpisode(null)}
-              onTogglePlay={(value) => {
-                setActiveEpisode((prev) =>
-                  prev ? { ...prev, isPlaying: value } : null
-                );
-                if (value) {
-                  setIsRadioPlaying(false);
-                }
-              }}
-            />
-          </Suspense>
-        )}
-      </footer>
+      {activeEpisode && (
+        <footer className="fixed bottom-0 left-0 right-0 z-50">
+          <AudioPlayer
+            episode={activeEpisode}
+            isPlaying={activeEpisode.isPlaying}
+            onXClick={() => setActiveEpisode(null)}
+            onTogglePlay={(value) => {
+              setActiveEpisode((prev) =>
+                prev ? { ...prev, isPlaying: value } : null
+              );
+              if (value) {
+                setIsRadioPlaying(false);
+              }
+            }}
+          />
+        </footer>
+      )}
     </>
   );
 }

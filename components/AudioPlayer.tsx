@@ -27,30 +27,11 @@ export default function AudioPlayer({
     setIsLoading(true);
     setCurrentTime(0);
     setDuration(0);
-
-    const savedPosition = sessionStorage.getItem(`audioPosition-${episode.audioUrl}`);
-    if (savedPosition && audioRef.current) {
-      audioRef.current.currentTime = parseFloat(savedPosition);
-      setCurrentTime(parseFloat(savedPosition));
-    }
   }, [episode.audioUrl]); // Only depend on audioUrl instead of entire episode object
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-
-    const configureAudio = async () => {
-      if (typeof navigator.mediaSession !== 'undefined') {
-        try {
-          await audio.play();
-          audio.pause();
-        } catch (e) {
-          console.warn('iOS audio session initialization failed:', e);
-        }
-      }
-    };
-    
-    configureAudio();
 
     const setAudioData = () => {
       setDuration(audio.duration);
@@ -58,17 +39,16 @@ export default function AudioPlayer({
       setIsLoading(false);
     };
 
-    const setAudioTime = () => {
-      setCurrentTime(audio.currentTime);
-      // Save position for iOS
-      sessionStorage.setItem(`audioPosition-${episode.audioUrl}`, String(audio.currentTime));
+    const handleInterruption = () => {
+      onTogglePlay(false);
     };
+
+    const setAudioTime = () => setCurrentTime(audio.currentTime);
 
     const handleEnded = () => {
       onTogglePlay(false);
       if (audio) {
         audio.currentTime = 0;
-        sessionStorage.removeItem(`audioPosition-${episode.audioUrl}`);
       }
     };
 
@@ -77,22 +57,18 @@ export default function AudioPlayer({
       console.error("Error loading audio");
     };
 
-    const handleBeforeUnload = () => {
-      sessionStorage.setItem(`audioPosition-${episode.audioUrl}`, String(audio.currentTime));
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
     audio.addEventListener("loadeddata", setAudioData);
     audio.addEventListener("timeupdate", setAudioTime);
     audio.addEventListener("ended", handleEnded);
     audio.addEventListener("error", handleError);
+    audio.addEventListener('pause', handleInterruption);
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
       audio.removeEventListener("loadeddata", setAudioData);
       audio.removeEventListener("timeupdate", setAudioTime);
       audio.removeEventListener("ended", handleEnded);
       audio.removeEventListener("error", handleError);
+      audio.removeEventListener('pause', handleInterruption);
     };
   }, [episode.audioUrl, onTogglePlay]); // Update dependency to audioUrl
 
@@ -107,19 +83,26 @@ export default function AudioPlayer({
     }
   }, [isPlaying, isLoading]);
 
-  const togglePlay = () => {
+  const togglePlay = async () => {
     const audio = audioRef.current;
     if (!audio || isLoading) return;
 
-    if (audio.paused) {
-      audio.play();
-      onTogglePlay(true);
-    } else {
-      audio.pause();
+    try {
+      if (audio.paused) {
+        await audio.play().catch((error) => {
+          console.error("Playback failed:", error);
+          onTogglePlay(false);
+        });
+        onTogglePlay(true);
+      } else {
+        audio.pause();
+        onTogglePlay(false);
+      }
+    } catch (error) {
+      console.error("Toggle play error:", error);
       onTogglePlay(false);
     }
   };
-
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const time = Number(e.target.value);
     setCurrentTime(time);
@@ -174,7 +157,12 @@ export default function AudioPlayer({
         </div>
       </div>
       <div className="flex w-full bg-white items-center pr-2 py-0 min-h-min">
-        <audio ref={audioRef} src={episode.audioUrl} className="hidden" />
+        <audio
+          ref={audioRef}
+          src={episode.audioUrl}
+          className="hidden"
+          preload="metadata"
+        />
         <div className="w-1/6 md:w-[10%] lg:w-[5%] aspect-square relative overflow-hidden">
           <Image
             src={episode.imageUrl}
