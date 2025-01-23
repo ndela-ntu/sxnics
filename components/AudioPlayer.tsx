@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { Play, Pause, Loader } from "lucide-react";
 import Image from "next/image";
 import { IEpisode } from "@/models/Episode";
@@ -57,6 +57,7 @@ export default function AudioPlayer({
       console.error("Error loading audio");
     };
 
+    audio.setAttribute('x-webkit-airplay', 'allow')
     audio.addEventListener("loadeddata", setAudioData);
     audio.addEventListener("timeupdate", setAudioTime);
     audio.addEventListener("ended", handleEnded);
@@ -83,7 +84,7 @@ export default function AudioPlayer({
     }
   }, [isPlaying, isLoading]);
 
-  const togglePlay = async () => {
+  const togglePlay = useCallback(async () => {
     const audio = audioRef.current;
     if (!audio || isLoading) return;
 
@@ -102,7 +103,8 @@ export default function AudioPlayer({
       console.error("Toggle play error:", error);
       onTogglePlay(false);
     }
-  };
+  }, [isPlaying, isLoading])
+
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const time = Number(e.target.value);
     setCurrentTime(time);
@@ -162,6 +164,8 @@ export default function AudioPlayer({
           src={episode.audioUrl}
           className="hidden"
           preload="metadata"
+          playsInline
+          webkit-playsInline
         />
         <div className="w-1/6 md:w-[10%] lg:w-[5%] aspect-square relative overflow-hidden">
           <Image
