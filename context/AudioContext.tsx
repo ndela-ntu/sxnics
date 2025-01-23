@@ -12,15 +12,10 @@ const AudioContext = createContext<
   | {
       isRadioPlaying: boolean | null;
       setIsRadioPlaying: Dispatch<SetStateAction<boolean | null>>;
-      activeEpisode: (IEpisode & { isPlaying: boolean }) | null;
-      setActiveEpisode: Dispatch<
-        SetStateAction<
-          | (IEpisode & {
-              isPlaying: boolean;
-            })
-          | null
-        >
-      >;
+      activeEpisode: IEpisode | null;
+      setActiveEpisode: Dispatch<SetStateAction<IEpisode | null>>;
+      isEpisodePlaying: boolean | null;
+      setIsEpisodePlaying: Dispatch<SetStateAction<boolean | null>>;
     }
   | undefined
 >(undefined);
@@ -33,9 +28,8 @@ export const AudioContextProvider: React.FC<AudioContextProviderProps> = ({
   children,
 }) => {
   const [isRadioPlaying, setIsRadioPlaying] = useState<boolean | null>(false);
-  const [activeEpisode, setActiveEpisode] = useState<
-    (IEpisode & { isPlaying: boolean }) | null
-  >(null);
+  const [activeEpisode, setActiveEpisode] = useState<IEpisode | null>(null);
+  const [isEpisodePlaying, setIsEpisodePlaying] = useState<boolean | null>(false);
 
   return (
     <AudioContext.Provider
@@ -44,6 +38,8 @@ export const AudioContextProvider: React.FC<AudioContextProviderProps> = ({
         setIsRadioPlaying,
         activeEpisode,
         setActiveEpisode,
+        isEpisodePlaying,
+        setIsEpisodePlaying,
       }}
     >
       {children}

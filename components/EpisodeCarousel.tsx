@@ -24,7 +24,7 @@ export default function EpisodeCarousel({
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
-  const { isRadioPlaying, setIsRadioPlaying, activeEpisode, setActiveEpisode } =
+  const { isRadioPlaying, setIsRadioPlaying, activeEpisode, setActiveEpisode, isEpisodePlaying, setIsEpisodePlaying } =
     useAudioContext();
 
   useEffect(() => {
@@ -97,37 +97,45 @@ export default function EpisodeCarousel({
                           <button
                             className="bottom-0 right-0 flex items-center justify-center absolute m-auto w-10 h-7 bg-white text-black"
                             onClick={() => {
-                              if (activeEpisode.isPlaying) {
-                                setActiveEpisode((_) => ({
-                                  ...episode,
-                                  isPlaying: false,
-                                }));
-                              } else {
-                                setActiveEpisode((_) => ({
-                                  ...episode,
-                                  isPlaying: true,
-                                }));
+                              if (activeEpisode?.id === episode.id && isEpisodePlaying) {
+                                setIsEpisodePlaying(false);
+                              }else {
+                                setIsEpisodePlaying(true);
                                 setIsRadioPlaying(false);
                               }
+                              // if (activeEpisode.isPlaying) {
+                              //   setActiveEpisode((_) => ({
+                              //     ...episode,
+                              //     isPlaying: false,
+                              //   }));
+                              // } else {
+                              //   setActiveEpisode((_) => ({
+                              //     ...episode,
+                              //     isPlaying: true,
+                              //   }));
+                              //   setIsRadioPlaying(false);
+                              // }
                             }}
                           >
-                            {activeEpisode.isPlaying ? (
+                            {activeEpisode.id === episode.id && isEpisodePlaying ? (
                               <Pause className="h-5 w-5" />
                             ) : (
                               <Play className="h-5 w-5" />
                             )}
                             <span className="sr-only">
-                              {activeEpisode.isPlaying ? "Pause" : "Play"} audio
+                              {activeEpisode.id === episode.id && isEpisodePlaying ? "Pause" : "Play"} audio
                             </span>
                           </button>
                         ) : (
                           <button
                             className="bottom-0 right-0 flex items-center justify-center absolute m-auto w-10 h-7 bg-white text-black"
                             onClick={() => {
-                              setActiveEpisode((_) => ({
-                                ...episode,
-                                isPlaying: true,
-                              }));
+                              setActiveEpisode(episode);
+                              setIsEpisodePlaying(true);
+                              // setActiveEpisode((_) => ({
+                              //   ...episode,
+                              //   isPlaying: true,
+                              // }));
                               setIsRadioPlaying(false);
                             }}
                           >

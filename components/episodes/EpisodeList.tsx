@@ -6,12 +6,13 @@ import EpisodeCard from "./EpisodeCard";
 import { useAudioContext } from "@/context/AudioContext";
 
 export default function EpisodeList({ episodes }: { episodes: IEpisode[] }) {
-  const { isRadioPlaying, setIsRadioPlaying, activeEpisode, setActiveEpisode } =
+  const { isRadioPlaying, setIsRadioPlaying, activeEpisode, setActiveEpisode, isEpisodePlaying, setIsEpisodePlaying } =
     useAudioContext();
 
   useEffect(() => {
     if (isRadioPlaying) {
-      setActiveEpisode((prev) => ({ ...prev!, isPlaying: false }));
+      setIsEpisodePlaying(false);
+      //setActiveEpisode((prev) => ({ ...prev!, isPlaying: false }));
     }
   }, [isRadioPlaying]);
 
@@ -25,20 +26,26 @@ export default function EpisodeList({ episodes }: { episodes: IEpisode[] }) {
                 key={episode.id}
                 episode={episode}
                 isActive={true}
-                isPlaying={activeEpisode.isPlaying}
+                isPlaying={activeEpisode && isEpisodePlaying!}
                 onImageClick={(value) => {
-                  if (activeEpisode.isPlaying) {
-                    setActiveEpisode((prev) => ({
-                      ...value,
-                      isPlaying: false,
-                    }));
-                  } else {
-                    setActiveEpisode((prev) => ({
-                      ...value,
-                      isPlaying: true,
-                    }));
+                  if (isEpisodePlaying) {
+                    setIsEpisodePlaying(false);
+                  }else {
+                    setIsEpisodePlaying(true);
                     setIsRadioPlaying(false);
                   }
+                  // if (activeEpisode.isPlaying) {
+                  //   setActiveEpisode((prev) => ({
+                  //     ...value,
+                  //     isPlaying: false,
+                  //   }));
+                  // } else {
+                  //   setActiveEpisode((prev) => ({
+                  //     ...value,
+                  //     isPlaying: true,
+                  //   }));
+                  //   setIsRadioPlaying(false);
+                  // }
                 }}
               />
             );
@@ -51,10 +58,12 @@ export default function EpisodeList({ episodes }: { episodes: IEpisode[] }) {
               episode={episode}
               isPlaying={false}
               onImageClick={(value) => {
-                setActiveEpisode((prev) => ({
-                  ...value,
-                  isPlaying: true,
-                }));
+                setActiveEpisode(value);
+                setIsEpisodePlaying(true);
+                // setActiveEpisode((prev) => ({
+                //   ...value,
+                //   isPlaying: true,
+                // }));
                 setIsRadioPlaying(false);
               }}
             />

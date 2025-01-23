@@ -9,10 +9,14 @@ import AudioPlayer from "@/components/AudioPlayer";
 import { useAudioContext } from "@/context/AudioContext";
 
 export function LayoutContent({ children }: { children: React.ReactNode }) {
-  const { activeEpisode, setActiveEpisode, setIsRadioPlaying } =
+  const { activeEpisode, setActiveEpisode, setIsRadioPlaying, isEpisodePlaying, setIsEpisodePlaying } =
     useAudioContext();
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    console.log(activeEpisode);
+  }, [activeEpisode]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -37,16 +41,22 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
       {activeEpisode && (
         <footer className="fixed bottom-0 left-0 right-0 z-50">
           <AudioPlayer
+            key={activeEpisode.id}
             episode={activeEpisode}
-            isPlaying={activeEpisode.isPlaying}
+            isPlaying={activeEpisode && isEpisodePlaying!}
             onXClick={() => setActiveEpisode(null)}
             onTogglePlay={(value) => {
-              setActiveEpisode((prev) =>
-                prev ? { ...prev, isPlaying: value } : null
-              );
+              setIsEpisodePlaying(value);
+
               if (value) {
                 setIsRadioPlaying(false);
               }
+              // setActiveEpisode((prev) =>
+              //   prev ? { ...prev, isPlaying: value } : null
+              // );
+              // if (value) {
+              //   setIsRadioPlaying(false);
+              // }
             }}
           />
         </footer>
