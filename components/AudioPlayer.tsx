@@ -1,254 +1,154 @@
-"use client";
-import React, { useRef, useState, useEffect, useCallback } from "react";
-import { Play, Pause, Loader } from "lucide-react";
-import Image from "next/image";
-import { IEpisode } from "@/models/Episode";
-import { MdOutlineKeyboardArrowUp } from "react-icons/md";
+'use client';
 
-export default function AudioPlayer({
-  episode,
-  isPlaying,
-  onTogglePlay,
-  onXClick,
-}: {
+import React, { useState, useRef, useEffect } from 'react';
+import { Pause, Play, X } from 'lucide-react';
+import { IEpisode } from '@/models/Episode';
+
+interface AudioPlayerProps {
   episode: IEpisode;
   isPlaying: boolean;
-  onTogglePlay: (value: boolean) => void;
   onXClick: () => void;
-}) {
+  onTogglePlay: (playing: boolean) => void;
+}
+
+const AudioPlayer: React.FC<AudioPlayerProps> = ({ 
+  episode, 
+  isPlaying, 
+  onXClick, 
+  onTogglePlay 
+}) => {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [currentTime, setCurrentTime] = useState(0);
+  const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isMoreOpen, setIsMoreOpen] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [currentTime, setCurrentTime] = useState(0);
 
-  // Reset loading state only when audio URL changes
+  // Handle iOS-specific audio playback challenges
   useEffect(() => {
-    setIsLoading(true);
-    setCurrentTime(0);
-    setDuration(0);
-  }, [episode.audioUrl]); // Only depend on audioUrl instead of entire episode object
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const setAudioData = () => {
-      setDuration(audio.duration);
-      setCurrentTime(audio.currentTime);
-      setIsLoading(false);
-    };
-
+    const audioElement = audioRef.current;
+    
     const handleInterruption = () => {
       onTogglePlay(false);
     };
 
-    const setAudioTime = () => setCurrentTime(audio.currentTime);
+    if (audioElement) {
+      audioElement.addEventListener('pause', handleInterruption);
+      audioElement.addEventListener('ended', handleInterruption);
 
-    const handleEnded = () => {
-      onTogglePlay(false);
-      if (audio) {
-        audio.currentTime = 0;
-      }
-    };
-
-    const handleError = () => {
-      setIsLoading(false);
-      console.error("Error loading audio");
-    };
-
-    audio.setAttribute('x-webkit-airplay', 'allow')
-    audio.addEventListener("loadeddata", setAudioData);
-    audio.addEventListener("timeupdate", setAudioTime);
-    audio.addEventListener("ended", handleEnded);
-    audio.addEventListener("error", handleError);
-    audio.addEventListener('pause', handleInterruption);
-
-    return () => {
-      audio.removeEventListener("loadeddata", setAudioData);
-      audio.removeEventListener("timeupdate", setAudioTime);
-      audio.removeEventListener("ended", handleEnded);
-      audio.removeEventListener("error", handleError);
-      audio.removeEventListener('pause', handleInterruption);
-    };
-  }, [episode.audioUrl, onTogglePlay]); // Update dependency to audioUrl
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    if (isPlaying && !isLoading) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
-  }, [isPlaying, isLoading]);
-
-  const togglePlay = useCallback(async () => {
-    const audio = audioRef.current;
-    if (!audio || isLoading) return;
-
-    try {
-      if (audio.paused) {
-        await audio.play().catch((error) => {
-          console.error("Playback failed:", error);
+      // iOS requires a user gesture to start playing
+      const playPromise = isPlaying ? audioElement.play() : audioElement.pause();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
+          // Auto-play was prevented, likely due to iOS restrictions
+          console.log('Playback prevented:', error);
           onTogglePlay(false);
         });
-        onTogglePlay(true);
-      } else {
-        audio.pause();
-        onTogglePlay(false);
       }
-    } catch (error) {
-      console.error("Toggle play error:", error);
-      onTogglePlay(false);
-    }
-  }, [isPlaying, isLoading])
 
-  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const time = Number(e.target.value);
-    setCurrentTime(time);
+      return () => {
+        audioElement.removeEventListener('pause', handleInterruption);
+        audioElement.removeEventListener('ended', handleInterruption);
+      };
+    }
+  }, [isPlaying, onTogglePlay]);
+
+  // Update progress and current time
+  const updateProgress = () => {
+    const audioElement = audioRef.current;
+    if (audioElement) {
+      const progressPercent = 
+        (audioElement.currentTime / audioElement.duration) * 100;
+      setProgress(progressPercent);
+      setCurrentTime(audioElement.currentTime);
+    }
+  };
+
+  // Format time to MM:SS
+  const formatTime = (timeInSeconds: number) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+
+  // Handle progress bar click
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const progressBar = e.currentTarget;
+    const clickPosition = e.nativeEvent.offsetX;
+    const progressBarWidth = progressBar.clientWidth;
+    const clickPercentage = (clickPosition / progressBarWidth) * 100;
+    
     if (audioRef.current) {
-      audioRef.current.currentTime = time;
+      const newTime = (clickPercentage / 100) * audioRef.current.duration;
+      audioRef.current.currentTime = newTime;
+      setProgress(clickPercentage);
     }
   };
 
   return (
-    <div className="w-full fixed bottom-0 right-0 z-10 ">
-      <div className="relative">
-        <div
-          className={`${
-            isMoreOpen ? "max-h-[700px]" : "max-h-0"
-          } overflow-hidden transition-all duration-500 ease-in-out absolute bottom-full left-0 right-0 z-10`}
-        >
-          <div className="">
-            <div className=" aspect-square relative overflow-hidden">
-              <Image
-                src={episode.imageUrl}
-                alt="Image of episode"
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover"
+    <div className="bg-gray-900 text-white p-4 flex items-center space-x-4 w-full">
+      {/* Artist Image */}
+      <div className="w-16 h-16 flex-shrink-0">
+        <img 
+          src={episode.artists.imageUrl || episode.imageUrl} 
+          alt={episode.name} 
+          className="w-full h-full object-cover rounded-md"
+        />
+      </div>
+
+      {/* Audio Element */}
+      <audio 
+        ref={audioRef} 
+        src={episode.audioUrl}
+        onTimeUpdate={updateProgress}
+        onLoadedMetadata={(e) => {
+          const target = e.target as HTMLAudioElement;
+          setDuration(target.duration);
+        }}
+      />
+
+      <div className="flex-grow flex flex-col">
+        {/* Episode and Artist Info */}
+        <div className="truncate">
+          <p className="font-semibold text-sm">{episode.name}</p>
+          <p className="text-xs text-gray-400">{episode.artists.name}</p>
+        </div>
+
+        {/* Controls Container */}
+        <div className="flex items-center space-x-4 mt-2">
+          {/* Close Button */}
+          <button 
+            onClick={onXClick} 
+            className="hover:bg-gray-700 p-1 rounded-full"
+          >
+            <X size={20} />
+          </button>
+
+          {/* Play/Pause Button */}
+          <button 
+            onClick={() => onTogglePlay(!isPlaying)}
+            className="bg-blue-500 hover:bg-blue-600 p-1 rounded-full"
+          >
+            {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+          </button>
+
+          {/* Progress Bar */}
+          <div className="flex-grow flex items-center space-x-2">
+            <span className="text-xs">{formatTime(currentTime)}</span>
+            <div 
+              className="flex-grow bg-gray-700 h-1 rounded-full cursor-pointer"
+              onClick={handleProgressClick}
+            >
+              <div 
+                className="bg-blue-500 h-1 rounded-full" 
+                style={{ width: `${progress}%` }}
               />
-              <div className="w-full selection:flex items-end justify-start absolute bg-black/50 hover:bg-black/70 text-white p-1 text-lg">
-                <div className="underline font-bold py-1">{episode.name}</div>
-                <div className="whitespace-pre-wrap text-xs max-h-max overflow-y-auto">
-                  {episode.description}
-                </div>
-              </div>
             </div>
+            <span className="text-xs">{formatTime(duration)}</span>
           </div>
         </div>
-        <div className="absolute flex items-end justify-end h-[5%] z-20 w-full">
-          <button
-            onClick={() => setIsMoreOpen(!isMoreOpen)}
-            className="bg-white h-auto border border-l-black font-bold text-lg text-black flex items-center justify-center p-2.5 w-[10%]"
-          >
-            <MdOutlineKeyboardArrowUp
-              className={`transition-transform duration-300 ${
-                isMoreOpen ? "rotate-180" : ""
-              }`}
-            />
-          </button>
-          <button
-            onClick={onXClick}
-            className="bg-white font-bold text-sm text-black flex items-center justify-center p-2.5 w-[10%]"
-          >
-            x
-          </button>
-        </div>
       </div>
-      <div className="flex w-full bg-white items-center pr-2 py-0 min-h-min">
-        <audio
-          ref={audioRef}
-          src={episode.audioUrl}
-          className="hidden"
-          preload="metadata"
-          playsInline
-          webkit-playsInline
-        />
-        <div className="w-1/6 md:w-[10%] lg:w-[5%] aspect-square relative overflow-hidden">
-          <Image
-            src={episode.imageUrl}
-            alt="Image of episode"
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover"
-          />
-        </div>
-        <button onClick={togglePlay} className="mx-4" disabled={isLoading}>
-          {isLoading ? (
-            <Loader className="text-black animate-spin" />
-          ) : isPlaying ? (
-            <Pause className="text-black" />
-          ) : (
-            <Play className="text-black" />
-          )}
-        </button>
-        <div className="text-xs text-black mr-2">{formatTime(currentTime)}</div>
-        <div className="flex-grow">
-          <input
-            type="range"
-            min={0}
-            max={duration}
-            value={currentTime}
-            onChange={handleSeek}
-            className="w-full h-2 bg-black rounded-full appearance-none cursor-pointer accent-black"
-            style={{
-              background: `linear-gradient(to right, white ${
-                (currentTime / duration) * 100
-              }%, #000 ${(currentTime / duration) * 100}%)`,
-            }}
-            disabled={isLoading}
-          />
-        </div>
-        <div className="ml-2 text-black text-xs">{formatTime(duration)}</div>
-      </div>
-      <style jsx>{`
-        input[type="range"] {
-          -webkit-appearance: none;
-          width: 100%;
-          background: transparent;
-        }
-        input[type="range"]::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          appearance: none;
-          width: 16px;
-          height: 16px;
-          background: black;
-          cursor: pointer;
-          border-radius: 50%;
-          margin-top: -7px; /* to vertically center the thumb */
-        }
-        input[type="range"]::-moz-range-thumb {
-          width: 16px;
-          height: 16px;
-          background: black;
-          cursor: pointer;
-          border-radius: 50%;
-          border: none;
-        }
-        input[type="range"]::-webkit-slider-runnable-track {
-          width: 100%;
-          height: 2px;
-          cursor: pointer;
-          background: #000000;
-          border-radius: 1px;
-        }
-        input[type="range"]::-moz-range-track {
-          width: 100%;
-          height: 2px;
-          cursor: pointer;
-          background: #000000;
-          border-radius: 1px;
-        }
-      `}</style>
     </div>
   );
-}
+};
 
-function formatTime(time: number): string {
-  const minutes = Math.floor(time / 60);
-  const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-}
+export default AudioPlayer;

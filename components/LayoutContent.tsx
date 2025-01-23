@@ -9,8 +9,13 @@ import AudioPlayer from "@/components/AudioPlayer";
 import { useAudioContext } from "@/context/AudioContext";
 
 export function LayoutContent({ children }: { children: React.ReactNode }) {
-  const { activeEpisode, setActiveEpisode, setIsRadioPlaying, isEpisodePlaying, setIsEpisodePlaying } =
-    useAudioContext();
+  const {
+    activeEpisode,
+    setActiveEpisode,
+    setIsRadioPlaying,
+    isEpisodePlaying,
+    setIsEpisodePlaying,
+  } = useAudioContext();
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -51,12 +56,6 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
               if (value) {
                 setIsRadioPlaying(false);
               }
-              // setActiveEpisode((prev) =>
-              //   prev ? { ...prev, isPlaying: value } : null
-              // );
-              // if (value) {
-              //   setIsRadioPlaying(false);
-              // }
             }}
           />
         </footer>
