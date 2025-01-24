@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Pause, Play, X } from "lucide-react";
+import { Loader, Pause, Play, X } from "lucide-react";
 import { IEpisode } from "@/models/Episode";
 import Image from "next/image";
 import { MdOutlineKeyboardArrowUp } from "react-icons/md";
@@ -18,10 +18,10 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   onTogglePlay,
 }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  const [isMoreOpen, setIsMoreOpen] = useState<boolean>(false);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // New state for loading
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -44,9 +44,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const updateProgress = () => {
     const audioElement = audioRef.current;
     if (audioElement) {
-      const progressPercent =
-        (audioElement.currentTime / audioElement.duration) * 100;
-      setProgress(progressPercent);
       setCurrentTime(audioElement.currentTime);
     }
   };
@@ -55,19 +52,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = Math.floor(timeInSeconds % 60);
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  };
-
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const progressBar = e.currentTarget;
-    const clickPosition = e.nativeEvent.offsetX;
-    const progressBarWidth = progressBar.clientWidth;
-    const clickPercentage = (clickPosition / progressBarWidth) * 100;
-
-    if (audioRef.current) {
-      const newTime = (clickPercentage / 100) * audioRef.current.duration;
-      audioRef.current.currentTime = newTime;
-      setProgress(clickPercentage);
-    }
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,8 +70,8 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
             isMoreOpen ? "max-h-[700px]" : "max-h-0"
           } overflow-hidden transition-all duration-500 ease-in-out absolute bottom-full left-0 right-0 z-10`}
         >
-          <div className="">
-            <div className=" aspect-square relative overflow-hidden">
+          <div>
+            <div className="aspect-square relative overflow-hidden">
               <Image
                 src={episode.imageUrl}
                 alt="Image of episode"
@@ -132,6 +116,8 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
             const target = e.target as HTMLAudioElement;
             setDuration(target.duration);
           }}
+          onLoadedData={() => setIsLoading(false)} // Audio has loaded
+          onLoadStart={() => setIsLoading(true)} // Loading starts
           className="hidden"
         />
         <div className="w-1/6 md:w-[10%] lg:w-[5%] aspect-square relative overflow-hidden">
@@ -143,8 +129,14 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
             className="object-cover"
           />
         </div>
-        <button onClick={() => onTogglePlay(!isPlaying)} className="mx-4">
-          {isPlaying ? (
+        <button
+          onClick={() => onTogglePlay(!isPlaying)}
+          className="mx-4"
+          disabled={isLoading} // Disable button while loading
+        >
+          {isLoading ? (
+            <Loader className="text-black animate-spin" />
+          ) : isPlaying ? (
             <Pause className="text-black" />
           ) : (
             <Play className="text-black" />

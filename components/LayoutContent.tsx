@@ -20,10 +20,6 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log(activeEpisode);
-  }, [activeEpisode]);
-
-  useEffect(() => {
     setIsLoading(true);
     const timeout = setTimeout(() => {
       setIsLoading(false);
