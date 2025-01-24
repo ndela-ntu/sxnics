@@ -11,7 +11,7 @@ export default async function Page() {
   const blogPosts = await getBlogPosts();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start w-full flex-wrap">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start w-full flex-wrap pb-28">
       {blogPosts.map((blogPost: any) => {
         const { content, slug, title, image, author, date } = blogPost.fields;
         return (

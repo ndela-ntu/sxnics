@@ -22,7 +22,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="flex flex-col w-full h-full min-h-screen">
+    <div className="flex flex-col w-full h-full min-h-screen pb-28">
       <div className="flex justify-between items-center">
         <h1 className="py-2 flex items-center space-x-1 flex-wrap">
           <span className="text-base md:text-lg ">{episode.name}</span>

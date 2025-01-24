@@ -22,7 +22,7 @@ const Shop: React.FC = async () => {
   }
 
   return (
-    <div>
+    <div className="pb-28">
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
         {shopItems.map((shopItem, i) => (
           <ClothingItem

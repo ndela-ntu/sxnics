@@ -26,7 +26,7 @@ export default async function Page({ params }: { params: { id: number } }) {
   }
 
   return (
-    <div className="flex flex-col space-y-2.5">
+    <div className="flex flex-col space-y-2.5 pb-28">
       <h1 className="text-lg">Artist Bio</h1>
       <div className="relative aspect-square md:h-1/3 md:w-1/3 lg:h-1/4 lg:w-1/4">
         <Image

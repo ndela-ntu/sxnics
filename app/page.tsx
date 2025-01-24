@@ -62,53 +62,50 @@ export default async function Page() {
   }
 
   return (
-    <div>
-      <div className="flex flex-col items-center justify-center w-full">
-        <div className="h-full w-full">
-          <div className="flex items-stretch h-full">
-            <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
-              Releases
-            </h1>
-            <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-              New music releases
-            </p>
-          </div>
-          <ReleasesCarousel releases={releases} />
-          <div className="flex items-center justify-end w-full pt-2">
-            <Link
-              className="flex items-center space-x-2.5"
-              href="/release-radar"
-            >
-              <span>View All</span>
-              <span>
-                <FaArrowRight className="h-3 w-3" />
-              </span>
-            </Link>
-          </div>
+    <div className="flex flex-col items-center justify-center w-full pb-28">
+      <div className="h-full w-full">
+        <div className="flex items-stretch h-full">
+          <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
+            Releases
+          </h1>
+          <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
+            New music releases
+          </p>
         </div>
-        <Divider />
-        <BecomeSupporter />
-        <Divider />
-        <div className="h-full w-full">
-          <div className="flex items-stretch h-full">
-            <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
-              Episodes
-            </h1>
-            <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-              Episodes from resident djs and curators.
-            </p>
-          </div>
-          <EpisodeCarousel episodes={episodes} />
-          <div className="flex items-center justify-end w-full pt-2">
-            <Link className="flex items-center space-x-2.5" href="/episodes">
-              <span>View All</span>
-              <span>
-                <FaArrowRight className="h-3 w-3" />
-              </span>
-            </Link>
-          </div>
+        <ReleasesCarousel releases={releases} />
+        <div className="flex items-center justify-end w-full pt-2">
+          <Link className="flex items-center space-x-2.5" href="/release-radar">
+            <span>View All</span>
+            <span>
+              <FaArrowRight className="h-3 w-3" />
+            </span>
+          </Link>
         </div>
-        <Divider />
+      </div>
+      <Divider />
+      <BecomeSupporter />
+      <Divider />
+      <div className="h-full w-full">
+        <div className="flex items-stretch h-full">
+          <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
+            Episodes
+          </h1>
+          <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
+            Episodes from resident djs and curators.
+          </p>
+        </div>
+        <EpisodeCarousel episodes={episodes} />
+        <div className="flex items-center justify-end w-full pt-2">
+          <Link className="flex items-center space-x-2.5" href="/episodes">
+            <span>View All</span>
+            <span>
+              <FaArrowRight className="h-3 w-3" />
+            </span>
+          </Link>
+        </div>
+      </div>
+      <Divider />
+      {/* <Divider />
         <div className="h-full w-full">
           <div className="flex items-stretch h-full">
             <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
@@ -148,9 +145,7 @@ export default async function Page() {
             </Link>
           </div>
         </div>
-        <Divider />
-        <div className="pb-8 md:pb-16 lg:pb-20"></div>
-      </div>
+        <Divider /> */}
     </div>
   );
 }

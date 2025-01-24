@@ -45,7 +45,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const { title, slug, content, image, author, date } = post.fields;
 
   return (
-    <div className="h-full">
+    <div className="h-full pb-28">
       <Post
         slug={slug as string}
         content={documentToReactComponents(content as Document, options)}

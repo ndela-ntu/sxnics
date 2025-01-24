@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="">
+    <div className="pb-28">
       <PreviewClothingItem
         id={shopItem.id}
         name={shopItem.name}

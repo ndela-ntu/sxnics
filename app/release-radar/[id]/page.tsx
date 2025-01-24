@@ -14,5 +14,5 @@ export default async function Page({ params }: { params: { id: string } }) {
     notFound();
   }
 
-  return <ViewRelease release={release} />;
+  return <div className="pb-28"><ViewRelease release={release} /></div>;
 }

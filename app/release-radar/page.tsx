@@ -14,7 +14,7 @@ export default async function Page() {
   }
 
   return (
-    <div>
+    <div className="pb-28">
       <h1 className="text-lg">Releases</h1>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
         {releases.map((release) => (
