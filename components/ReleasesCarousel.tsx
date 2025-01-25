@@ -83,9 +83,9 @@ export default function ReleasesCarousel({
             >
               <div className="">
                 <Card className="w-full rounded-none border-none p-0">
-                  <CardTitle className="flex justify-between text-sm py-2 px-2">
-                    <span>{release.artist}</span>
-                    <span>{release.name}</span>
+                  <CardTitle className="flex justify-between py-2 px-2 space-x-5">
+                    <span className="text-xs font-bold">{release.artist}</span>
+                    <span className="text-xs">{release.name}</span>
                   </CardTitle>
                   <CardContent className="flex bg-transparent aspect-square items-center justify-center p-0">
                     <div className="w-full h-full">
