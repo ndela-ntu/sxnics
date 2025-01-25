@@ -3,6 +3,7 @@ import { Loader, Pause, Play, X } from "lucide-react";
 import { IEpisode } from "@/models/Episode";
 import Image from "next/image";
 import { MdOutlineKeyboardArrowUp } from "react-icons/md";
+import { addPlayCount } from "@/lib/play-count-action";
 
 interface AudioPlayerProps {
   episode: IEpisode;
@@ -22,6 +23,22 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const [currentTime, setCurrentTime] = useState(0);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true); // New state for loading
+  const hasRunEffect = useRef(false);
+
+  const handlePlayCount = async () => {
+    try {
+      await addPlayCount(episode.id);
+    } catch (error) {
+      console.error("Failed to add play count:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (episode != null && !hasRunEffect.current) {
+      handlePlayCount();
+      hasRunEffect.current = true;
+    }
+  }, [episode.id]);
 
   useEffect(() => {
     const audioElement = audioRef.current;
