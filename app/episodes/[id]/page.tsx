@@ -7,15 +7,28 @@ import ViewEpisodePlayer from "@/components/episodes/ViewEpisodePlayer";
 import ShareButton from "@/components/episodes/ShareButton";
 import TrackList from "@/components/episodes/TrackList";
 import { Link as LucideLink } from "lucide-react";
+import EpisodeList from "@/components/episodes/EpisodeList";
 
 export const revalidate = 60;
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const { data: episode, error } = await supabase
+  const { data: episode, error: singleEpisodeError } = await supabase
     .from("episodes")
     .select(`*, artists (id, name)`)
     .eq("id", params.id)
     .single();
+
+  const { data: episodes, error: episodesError } = await supabase
+    .from("episodes")
+    .select(`*, artists (id, name)`).limit(5);
+
+  if (episodesError || singleEpisodeError) {
+    return (
+      <div>{`An error occurred: ${
+        episodesError?.message || singleEpisodeError?.message
+      }`}</div>
+    );
+  }
 
   if (!episode) {
     notFound();
@@ -43,12 +56,18 @@ export default async function Page({ params }: { params: { id: string } }) {
           mixUrl={`https://sxnics.com/episodes/${episode.id}`}
         />
       </div>
-      <ViewEpisodePlayer episode={episode} />
-      <div className="mb-5 flex flex-col space-y-1 pt-2">
-        <span className="font-bold underline">Tracklist</span>
-        <div className="border border-white">
-          <TrackList tracklist={episode.description} />
+      <div className="flex flex-col lg:flex-row w-full">
+        <ViewEpisodePlayer episode={episode} />
+        <div className="mb-5 flex flex-col space-y-1 pt-2 w-full">
+          <span className="font-bold underline">Tracklist</span>
+          <div className="border border-white">
+            <TrackList tracklist={episode.description} />
+          </div>
         </div>
+      </div>
+      <div className="flex flex-col">
+        <span className="font-bold">More Episodes</span>
+        <EpisodeList episodes={episodes.filter((ep) => ep.id !== episode.id)} />
       </div>
     </div>
   );
