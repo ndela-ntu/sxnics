@@ -8,19 +8,21 @@ import ShareButton from "@/components/episodes/ShareButton";
 import TrackList from "@/components/episodes/TrackList";
 import { Link as LucideLink } from "lucide-react";
 import EpisodeList from "@/components/episodes/EpisodeList";
+import LikeButton from "@/components/episodes/LikeButton";
 
 export const revalidate = 60;
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { data: episode, error: singleEpisodeError } = await supabase
     .from("episodes")
-    .select(`*, artists (id, name)`)
+    .select(`*, artists (id, name), episode_likes(count)`)
     .eq("id", params.id)
     .single();
 
   const { data: episodes, error: episodesError } = await supabase
     .from("episodes")
-    .select(`*, artists (id, name)`).limit(5);
+    .select(`*, artists (id, name)`)
+    .limit(5);
 
   if (episodesError || singleEpisodeError) {
     return (
@@ -59,7 +61,15 @@ export default async function Page({ params }: { params: { id: string } }) {
       <div className="flex flex-col lg:flex-row w-full">
         <ViewEpisodePlayer episode={episode} />
         <div className="mb-5 flex flex-col space-y-1 pt-2 w-full">
-          <span className="font-bold underline">Tracklist</span>
+          <div className="flex justify-between w-full">
+            <span className="font-bold underline">Tracklist</span>
+            <span>
+              <LikeButton
+                mixId={episode.id}
+                initialLikeCount={episode.episode_likes[0]?.count || 0}
+              />
+            </span>
+          </div>
           <div className="border border-white">
             <TrackList tracklist={episode.description} />
           </div>
