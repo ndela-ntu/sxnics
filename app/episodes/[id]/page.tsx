@@ -63,12 +63,12 @@ export default async function Page({ params }: { params: { id: string } }) {
         <div className="mb-5 flex flex-col space-y-1 pt-2 w-full">
           <div className="flex justify-between w-full">
             <span className="font-bold underline">Tracklist</span>
-            <span>
+            {/* <span>
               <LikeButton
                 mixId={episode.id}
                 initialLikeCount={episode.episode_likes[0]?.count || 0}
               />
-            </span>
+            </span> */}
           </div>
           <div className="border border-white">
             <TrackList tracklist={episode.description} />
