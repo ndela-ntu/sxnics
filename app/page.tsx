@@ -31,8 +31,8 @@ export default async function Page() {
   const { data: episodes, error: episodesError } = await supabase
     .from("episodes")
     .select(`*, artists (id, name)`)
-    .order("created_at", { ascending: true })
-    .limit(5);
+    .limit(5)
+    .order("id", { ascending: false });
 
   const response = await client.getEntries({
     content_type: "blogPost",
@@ -109,10 +109,10 @@ export default async function Page() {
         <div className="h-full w-full">
           <div className="flex items-stretch h-full">
             <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
-              Blog & Interviews
+              Recline Magazine
             </h1>
             <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-              Latest blog posts and interviews.
+             Blog posts and interviews from Recline Mag
             </p>
           </div>
           <BlogPostCarousel blogPosts={blogPosts} />
