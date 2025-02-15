@@ -28,18 +28,20 @@ export default async function Page({ params }: { params: { id: number } }) {
   return (
     <div className="flex flex-col space-y-2.5 pb-28">
       <h1 className="text-lg">Artist Bio</h1>
-      <div className="relative aspect-square md:h-1/3 md:w-1/3 lg:h-1/4 lg:w-1/4">
-        <Image
-          src={artist.imageUrl}
-          alt="Image of episode"
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover"
-        />
-      </div>
-      <div className="flex flex-col">
-        <span className="text-base md:text-large">{artist.name}</span>
-        <span className="text-xs md:text-sm">{artist.bio}</span>
+      <div className="flex flex-col lg:flex-row lg:space-x-5">
+        <div className="relative aspect-square md:h-1/3 md:w-1/3 lg:h-1/4 lg:w-1/4">
+          <Image
+            src={artist.imageUrl}
+            alt="Image of episode"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+          />
+        </div>
+        <div className="flex flex-col lg:w-1/2">
+          <span className="text-large md:text-xl font-bold">{artist.name}</span>
+          <span className="text-xs lg:text-sm">{artist.bio}</span>
+        </div>
       </div>
       <div className="flex space-x-2.5">
         <SocialLink to="instagram" username={artist.socialLinks["instagram"]} />

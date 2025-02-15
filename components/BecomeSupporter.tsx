@@ -239,8 +239,9 @@ export default function BecomeSupporter() {
       </svg>
 
       <div className="relative z-10 flex items-center justify-center h-full">
-        <Link className="bg-white font-bold text-black p-2.5" href="/supporter">
-          Become a supporter
+        <Link className="bg-white font-bold text-black p-2.5 flex flex-col items-center justify-center" href="/supporter">
+          <span className="font-bold md:text-lg">Become a supporter</span>
+          <span className="font-light text-xs md:text-sm">Tap for more</span>
         </Link>
       </div>
     </div>

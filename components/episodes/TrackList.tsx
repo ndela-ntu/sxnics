@@ -15,12 +15,10 @@ export default function TrackList({ tracklist }: { tracklist: string }) {
       {tracks.map((track, index) => (
         <div
           key={index}
-          className={`p-1 flex items-center space-x-2 ${
-            index % 2 === 0 ? "bg-black text-white" : "bg-white text-black"
-          }`}
+          className={`p-1 max-w-fit flex items-center space-x-2 border`}
         >
           <span className="text-lg font-bold">{index + 1}.</span>
-          <span className="text-xs">{track}</span>
+          <span className="text-xs md:text-sm">{track}</span>
         </div>
       ))}
     </div>

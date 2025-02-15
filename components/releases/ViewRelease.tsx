@@ -8,22 +8,29 @@ export default function ViewRelease({ release }: { release: IRelease }) {
   return (
     <div className="flex flex-col">
       <h1 className="text-base">Release</h1>
-      <div className="flex space-x-2.5 bg-white text-black max-w-fit p-2.5 text-sm">
-        <span className="font-bold">{release.artist}</span>
-        <span>-</span>
-        <span>{release.name}</span>
+      <div className="flex flex-col lg:flex-row lg:space-x-5">
+        <div>
+          <div className="flex space-x-2.5 bg-white text-black max-w-fit p-2.5 text-sm">
+            <span className="font-bold">{release.artist}</span>
+            <span>-</span>
+            <span>{release.name}</span>
+          </div>
+          <div className="relative aspect-square ">
+            <Image
+              src={release.imageUrl}
+              alt="Image of episode"
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover"
+            />
+          </div>
+        </div>
+        <span className="lg:w-1/2 mt-5 lg:mt-0 whitespace-pre-wrap text-sm">
+          {release.about}
+        </span>
       </div>
-      <div className="relative aspect-square md:h-1/3 md:w-1/3 lg:h-1/4 lg:w-1/4">
-        <Image
-          src={release.imageUrl}
-          alt="Image of episode"
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover"
-        />
-      </div>
-      <span className="mt-5 whitespace-pre-wrap text-sm">{release.about}</span>
       <Divider />
+
       <div className="max-w-fit">
         <a
           href={release.purchaseLink}

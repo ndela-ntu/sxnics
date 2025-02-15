@@ -22,7 +22,8 @@ export default async function Page({ params }: { params: { id: string } }) {
   const { data: episodes, error: episodesError } = await supabase
     .from("episodes")
     .select(`*, artists (id, name)`)
-    .limit(5);
+    .limit(5)
+    .order("id", { ascending: false });
 
   if (episodesError || singleEpisodeError) {
     return (
@@ -37,7 +38,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="flex flex-col w-full h-full min-h-screen pb-28">
+    <div className="flex flex-col w-full h-full min-h-screen pb-28 space-y-2.5 lg:space-y-5">
       <div className="flex justify-between items-center">
         <h1 className="py-2 flex items-center space-x-1 flex-wrap">
           <span className="text-base md:text-lg ">{episode.name}</span>
@@ -58,7 +59,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           mixUrl={`https://sxnics.com/episodes/${episode.id}`}
         />
       </div>
-      <div className="flex flex-col lg:flex-row w-full">
+      <div className="flex flex-col lg:justify-center lg:items-center lg:flex-row lg:space-x-10 w-full">
         <ViewEpisodePlayer episode={episode} />
         <div className="mb-5 flex flex-col space-y-1 pt-2 w-full">
           <div className="flex justify-between w-full">
@@ -70,7 +71,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               />
             </span> */}
           </div>
-          <div className="border border-white">
+          <div>
             <TrackList tracklist={episode.description} />
           </div>
         </div>

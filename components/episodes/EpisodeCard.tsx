@@ -2,6 +2,7 @@ import { IEpisode } from "@/models/Episode";
 import { Pause, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import ShareButton from "./ShareButton";
 
 export default function EpisodeCard({
   episode,
@@ -20,7 +21,7 @@ export default function EpisodeCard({
         isActive && "bg-white text-black"
       } flex items-center w-full border p-2.5 space-x-2.5 md:space-x-5 lg:space-x-7.5`}
     >
-      <div className="w-1/6 md:[10%] lg:w-[5%] aspect-square relative overflow-hidden rounded-full">
+      <div className="w-1/6 md:[10%] lg:w-[5%] aspect-square relative overflow-hidden">
         <Image
           src={episode.imageUrl}
           alt="Image of episode"
@@ -43,21 +44,28 @@ export default function EpisodeCard({
           <span className="sr-only">{isPlaying ? "Pause" : "Play"} audio</span>
         </button>
       </div>
-      <Link href={`/episodes/${episode.id}`}>
-        <div className="flex flex-col w-full justify-start">
-          <span className="overflow-ellipsis text-sm">{episode.name}</span>
-          <span className="overflow-ellipsis text-base">
-            {episode.artists.name}
-          </span>
-          <span
-            className={`${
-              isActive ? "bg-black text-white" : "bg-white text-black"
-            } text-xs p-1`}
-          >
-            {episode.tag}
-          </span>
-        </div>
-      </Link>
+      <div className="w-full flex flex-row items-center justify-between">
+        <Link href={`/episodes/${episode.id}`}>
+          <div className="flex flex-col w-full justify-start">
+            <span className="overflow-ellipsis text-sm">{episode.name}</span>
+            <span className="overflow-ellipsis text-base">
+              {episode.artists.name}
+            </span>
+            <span
+              className={`${
+                isActive ? "bg-black text-white" : "bg-white text-black"
+              } text-xs p-1`}
+            >
+              {episode.tag}
+            </span>
+          </div>
+        </Link>
+        <ShareButton
+          mixTitle={episode.name}
+          artistName={episode.artists.name}
+          mixUrl={`https://sxnics.com/episodes/${episode.id}`}
+        />
+      </div>
     </div>
   );
 }

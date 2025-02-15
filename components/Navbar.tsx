@@ -56,7 +56,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className={`py-2.5 ${montserrat.className}`}>
       <div className="flex justify-between items-center">
-        <Link href="/" className="text-white text-3xl lg:text-5xl">
+        <Link href="/" className="text-white text-3xl lg:text-5xl font-bold">
           SXNICS
         </Link>
 
