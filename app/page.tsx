@@ -124,7 +124,7 @@ export default async function Page() {
               </span>
             </Link>
           </div>
-        </div>
+        </div>*/}
         <Divider />
         <div className="h-full w-full">
           <div className="flex items-stretch h-full">
@@ -132,7 +132,7 @@ export default async function Page() {
               Shop
             </h1>
             <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-              Shopping helps support the platform.
+              Merch. Artworks from various artists.
             </p>
           </div>
           <ShopCarousel shopItems={shopItems} />
@@ -145,7 +145,7 @@ export default async function Page() {
             </Link>
           </div>
         </div>
-        <Divider /> */}
+        <Divider /> 
     </div>
   );
 }

@@ -23,16 +23,12 @@ const Shop: React.FC = async () => {
 
   return (
     <div className="pb-28">
+      <h1 className="text-lg">Store</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
         {shopItems.map((shopItem, i) => (
           <ClothingItem
             key={i}
-            id={shopItem.id}
-            name={shopItem.name}
-            description={shopItem.description}
-            price={shopItem.price}
-            imageUrl={shopItem.imageUrl}
-            quantity={shopItem.quantity}
+            shopItem={shopItem}
           />
         ))}
       </div>
