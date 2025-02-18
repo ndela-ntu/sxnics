@@ -18,7 +18,7 @@ export default function ClothingItem({ shopItem }: { shopItem: IShopItem }) {
   useEffect(() => {
     const fetchVariants = async () => {
       setLoading(true);
-      const { data: shopItemVariant, error } = await supabase
+      const { data: shopItemVariants, error } = await supabase
         .from("shop_item_variant")
         .select(`*`)
         .eq("shop_item_id", shopItem.id);
@@ -27,8 +27,8 @@ export default function ClothingItem({ shopItem }: { shopItem: IShopItem }) {
         console.error(error.message);
       }
 
-      if (shopItemVariant && shopItemVariant?.length > 0) {
-        setImageUrl(shopItemVariant[0].image_url);
+      if (shopItemVariants && shopItemVariants?.length > 0) {
+        setImageUrl(shopItemVariants[0].image_url);
       }
       setLoading(false);
     };

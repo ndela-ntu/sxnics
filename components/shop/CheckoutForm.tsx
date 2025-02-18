@@ -55,19 +55,20 @@ export default function CheckoutForm() {
         console.log(itemTotals);
         let items = itemTotals.map((itemTotal) => {
           const cartItem = cart.find(
-            (cartItem) => cartItem.id == itemTotal.id
+            (entry) => entry.variant.id == itemTotal.id
           );
 
-          if (itemTotal.id === cartItem!.id) {
+          if (itemTotal.id === cartItem!.variant.id) {
             return {
               id: itemTotal.id,
               total: itemTotal.total,
-              quantity: itemTotal.total / cartItem!.price,
+              quantity: itemTotal.total / cartItem!.item.price,
             };
           }
 
           return { id: itemTotal.id, total: itemTotal.total, quantity: 1 };
         });
+        
         console.log(items);
         const total = items.reduce((a, v) => a + v.total, 0);
         console.log(total);
@@ -79,7 +80,7 @@ export default function CheckoutForm() {
     >
       <div className="flex flex-col space-y-5 w-full">
         <h1 className="text-lg">Checkout</h1>
-        <h1 className="text-2xl">Personal Details</h1>
+        <h1 className="text-2xl underline">Personal Details</h1>
         <div className="sm:flex sm:flex-col lg:grid lg:grid-cols-2 space-y-2.5 lg:space-y-0 lg:gap-5">
           <div className="flex flex-col">
             <label htmlFor="fullname">Full name</label>
@@ -133,7 +134,7 @@ export default function CheckoutForm() {
             </div>
           </div>
         </div>
-        <h1 className="text-2xl">Shipping Details</h1>
+        <h1 className="text-2xl underline">Shipping Details</h1>
         <div className="sm:flex sm:flex-col lg:grid lg:grid-cols-2 space-y-2.5 lg:space-y-0 lg:gap-5 pb-16">
           <div className="flex flex-col">
             <label htmlFor="streetAddress">Street Address</label>

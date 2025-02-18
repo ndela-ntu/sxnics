@@ -16,14 +16,8 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <div className="pb-28">
-      <PreviewClothingItem
-        id={shopItem.id}
-        name={shopItem.name}
-        description={shopItem.description}
-        imageUrl={shopItem.imageUrl}
-        price={shopItem.price}
-        quantity={shopItem.quantity}
-      />
+      <h1 className="text-lg">Item Preview</h1>
+      <PreviewClothingItem shopItem={shopItem} />
       <CartButton />
     </div>
   );

@@ -8,35 +8,23 @@ import { IShopItemVariant } from "@/models/ShopItemVariant";
 
 export default function CarouselShopItem({ shopItem }: { shopItem: IShopItem }) {
   const [loading, setLoading] = useState<boolean>(false);
-
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
-  const [hashColors, setHashColors] = useState<string[]>([]);
-  const [itemIndex, setItemIndex] = useState<number>(0);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    let imageUrls: string[] = [];
-    let hashColors: string[] = [];
-
     const fetchVariants = async () => {
       setLoading(true);
       const { data: shopItemVariants, error } = await supabase
         .from("shop_item_variant")
-        .select(`*, color(id, name, hash_color)`)
+        .select(`*`)
         .eq("shop_item_id", shopItem.id);
 
       if (error) {
         console.error(error.message);
       }
 
-      shopItemVariants?.forEach((variant) => {
-        if (!imageUrls.includes(variant.image_url)) {
-          imageUrls.push(variant.image_url);
-          hashColors.push(variant.color.hash_color);
-        }
-      });
-
-      setImageUrls(imageUrls);
-      setHashColors(hashColors);
+      if (shopItemVariants && shopItemVariants?.length > 0) {
+        setImageUrl(shopItemVariants[0].image_url);
+      }
       setLoading(false);
     };
 
@@ -61,7 +49,7 @@ export default function CarouselShopItem({ shopItem }: { shopItem: IShopItem }) 
               />
             ) : (
               <Image
-                src={imageUrls[itemIndex] || placeholderImage}
+                src={imageUrl || placeholderImage}
                 alt={shopItem.name}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

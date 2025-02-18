@@ -17,8 +17,8 @@ export default function Cart() {
 
   useEffect(() => {
     clearItemTotals();
-    cart.forEach((cartItem) => {
-      addItemTotal({ id: cartItem.id, total: cartItem.price });
+    cart.forEach((entry) => {
+      addItemTotal({ id: entry.variant.id, total: entry.item.price });
     });
   }, []);
 
@@ -26,11 +26,11 @@ export default function Cart() {
     setTotal(itemTotals.reduce((a, v) => a + v.total, 0));
   }, [itemTotals]);
 
-  const updateTotal = (id: number, quantity: number) => {
-    const cartItem = cart.find((cartItem) => cartItem.id === id);
+  const updateTotal = (variantId: number, quantity: number) => {
+    const cartItem = cart.find((entry) => entry.variant.id === variantId);
 
-    removeItemTotal(id);
-    addItemTotal({ id: id, total: (cartItem?.price || 0) * quantity });
+    removeItemTotal(variantId);
+    addItemTotal({ id: variantId, total: (cartItem?.item.price || 0) * quantity });
   };
 
   if (cart.length === 0)
@@ -45,17 +45,16 @@ export default function Cart() {
 
   return (
     <div>
-      <h1 className="text-lg">Cart</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {cart.map((item, i) => {
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-content-center place-items-center gap-2.5">
+        {cart.map((entry, i) => {
           return (
             <div
               key={i}
-              className="flex items-center border justify-start p-1.5 w-full space-x-5"
+              className="flex items-center border justify-start p-1.5 w-full space-x-2.5"
             >
               <div className="relative aspect-square border w-full">
                 <Image
-                  src={item.imageUrl}
+                  src={entry.variant.image_url}
                   alt="Image of item"
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -64,22 +63,22 @@ export default function Cart() {
               </div>
               <div className="flex flex-col space-y-5">
                 <div className="flex flex-col">
-                  <span className="font-bold">{item.name}</span>
-                  <span className="text-sm">{item.description}</span>
+                  <span className="font-bold">{entry.item.name}</span>
+                  <span className="text-sm">{entry.item.description}</span>
                 </div>
                 <div className="flex flex-col justify-end items-start">
-                  <span>R{item.price}</span>
+                  <span>R{entry.item.price}</span>
                   <QuantitySelector
-                    maxQuantity={item.quantity}
+                    maxQuantity={entry.variant.quantity}
                     onChangeCB={(value) => {
-                      updateTotal(item.id, value);
+                      updateTotal(entry.variant.id, value);
                     }}
                   />
                 </div>
                 <button
                   onClick={() => {
-                    removeItem(item.id);
-                    removeItemTotal(item.id);
+                    removeItem(entry.item.id, entry.variant.id);
+                    removeItemTotal(entry.variant.id);
                   }}
                   className="bg-white text-black p-3 flex items-center justify-center"
                 >
