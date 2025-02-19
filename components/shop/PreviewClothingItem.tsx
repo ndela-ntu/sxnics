@@ -110,7 +110,6 @@ export default function PreviewClothingItem({
       </div>
 
       <div className="flex flex-col w-full h-full items-center">
-        <Divider margin="8px 0" className="md:hidden" />
         <div className="flex flex-col w-full">
           <div className="flex justify-between items-center">
             <h1 className="font-bold text-xl md:text-2xl">{shopItem.name}</h1>

@@ -51,6 +51,8 @@ export async function POST(req: NextRequest) {
           }
 
           orderedVariants.push(shopItemVariant);
+          
+          console.log(`Route: ${shopItemVariant}`);
 
           const quantity = shopItemVariant.quantity > 0 ? shopItemVariant.quantity - item.quantity : 0;
 
@@ -59,6 +61,8 @@ export async function POST(req: NextRequest) {
             .update({ quantity })
             .eq("id", item.id);
         });
+
+        console.log(`Route: ${orderedVariants}`);
 
         await sendConfirmationEmail(
           metadata.email,
