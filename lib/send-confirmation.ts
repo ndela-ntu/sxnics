@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 
 export default async function sendConfirmationEmail(
   email: string,
-  orderedVariants: IShopItemVariant[],
+  orderedVariants: (IShopItemVariant & {quantity: number})[],
   amount: number
 ) {
   console.log(orderedVariants);
@@ -43,7 +43,7 @@ export default async function sendConfirmationEmail(
   }
 }
 
-const generateOrderEmail = (orderItems: any[], forAdmin: boolean, amount: number) => {
+const generateOrderEmail = (orderItems: (IShopItemVariant & {quantity: number})[], forAdmin: boolean, amount: number) => {
   const header = forAdmin
     ? `<h2 style="color: #333;">Order Confirmation</h2>
   <p>Thank you for your order! Here are the details:</p>
@@ -59,6 +59,7 @@ const generateOrderEmail = (orderItems: any[], forAdmin: boolean, amount: number
         <thead>
           <tr>
             <th style="border-bottom: 2px solid #ddd; text-align: left; padding: 10px;">Item</th>
+            <th style="border-bottom: 2px solid #ddd; text-align: left; padding: 10px;">Quantity</th>
             <th style="border-bottom: 2px solid #ddd; text-align: left; padding: 10px;">Price</th>
             <th style="border-bottom: 2px solid #ddd; text-align: left; padding: 10px;">Color</th>
             <th style="border-bottom: 2px solid #ddd; text-align: left; padding: 10px;">Size</th>
@@ -73,6 +74,7 @@ const generateOrderEmail = (orderItems: any[], forAdmin: boolean, amount: number
                 <td style="border-bottom: 1px solid #ddd; padding: 10px;">${
                   item.shop_items.name
                 }</td>
+                <td style="border-bottom: 1px solid #ddd; padding: 10px;">R${item.quantity}</td>
                 <td style="border-bottom: 1px solid #ddd; padding: 10px;">R${item.shop_items.price.toFixed(
                   2
                 )}</td>

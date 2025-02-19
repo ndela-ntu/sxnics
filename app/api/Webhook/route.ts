@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
           throw new Error(error?.message);
         }
 
-        let orderedVariants: IShopItemVariant[] = [];
+        let orderedVariants: (IShopItemVariant & {quantity: number})[] = [];
 
         // Use a for...of loop instead of forEach
         for (const item of itemsArray) {
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
             throw new Error("Item not found");
           }
 
-          orderedVariants.push(shopItemVariant);
+          orderedVariants.push({...shopItemVariant, quantity: item.quantity});
 
           // Log the object directly, not as a string
           console.log("Route1:", shopItemVariant);
