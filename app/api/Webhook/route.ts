@@ -1,4 +1,5 @@
 import sendConfirmationEmail from "@/lib/send-confirmation";
+import { IShopItemVariant } from "@/models/ShopItemVariant";
 import { supabase } from "@/utils/supabase";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -28,7 +29,7 @@ export async function POST(req: NextRequest) {
             suburb: metadata.suburb,
             city: metadata.city,
             postalCode: metadata.postalCode,
-            items: JSON.stringify(itemsArray),
+            items: itemsArray,
             total: metadata.total,
           })
           .select("id");
@@ -37,23 +38,34 @@ export async function POST(req: NextRequest) {
           throw new Error(error?.message);
         }
 
+        let orderedVariants: number[] = [];
         itemsArray.forEach(async (item) => {
-          const { data: shopItem, error } = await supabase
-            .from("shop_items")
+          const { data: shopItemVariant, error } = await supabase
+            .from("shop_item_variant")
             .select("*")
             .eq("id", item.id)
             .single();
 
+          orderedVariants.push(shopItemVariant.id);
+
           if (error) {
             throw new Error("Item not found");
           }
+
+          const quantity = shopItemVariant.quantity - item.quantity;
+
           await supabase
-            .from("shop_items")
-            .update({ quantity: shopItem.quantity - item.quantity });
+            .from("shop_item_variant")
+            .update({ quantity })
+            .eq("id", item.id);
         });
 
-        const { id } = data![0];
-        await sendConfirmationEmail(metadata.email, id, metadata.total);
+  
+
+        if (data) {
+          const { id } = data[0];
+          await sendConfirmationEmail(metadata.email, orderedVariants, metadata.total);
+        }
       }
 
       return NextResponse.json({

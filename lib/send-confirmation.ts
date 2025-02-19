@@ -1,10 +1,21 @@
+import { supabase } from "@/utils/supabase";
 import nodemailer from "nodemailer";
+import { FaLaptopHouse } from "react-icons/fa";
 
 export default async function sendConfirmationEmail(
   email: string,
-  orderId: number,
+  orderedVariants: number[],
   amount: number
 ) {
+  const { data: variants, error: variantsError } = await supabase
+    .from("shop_item_variants")
+    .select(`*, shop_items(name, price, description), color(name), size(name)`)
+    .in("id", orderedVariants);
+
+  if (variantsError) {
+    console.error(variantsError);
+  }
+
   const transporter = nodemailer.createTransport({
     service: "Gmail",
     host: "smtp.gmail.com",
@@ -20,14 +31,14 @@ export default async function sendConfirmationEmail(
     from: process.env.EMAIL_USER,
     to: email,
     subject: "Payment Confirmation",
-    text: `Your payment for order #${orderId} of R${amount} has been successfully processed.`,
+    html: generateOrderEmail(variants ?? [], false),
   };
 
   const mailOptions2 = {
     from: process.env.EMAIL_USER,
     to: "ntulilindelani4@gmail.com",
     subject: "Order Submitted",
-    text: `Order submitted for #${orderId} of R${amount}`,
+    html: generateOrderEmail(variants ?? [], true),
   };
 
   try {
@@ -38,3 +49,59 @@ export default async function sendConfirmationEmail(
     console.error("Error sending confirmation email:", error);
   }
 }
+
+const generateOrderEmail = (orderItems: any[], forAdmin: boolean) => {
+  const header = forAdmin
+    ? `<h2 style="color: #333;">Order Confirmation</h2>
+  <p>Thank you for your order! Here are the details:</p>
+  `
+    : `<h2 style="color: #333;">Order Confirmation</h2>
+  <p>Order submitted: Details</p>
+  `;
+
+  return `
+    <div style="font-family: Arial, sans-serif; padding: 20px;">
+      ${header}
+      <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr>
+            <th style="border-bottom: 2px solid #ddd; text-align: left; padding: 10px;">Item</th>
+            <th style="border-bottom: 2px solid #ddd; text-align: left; padding: 10px;">Price</th>
+            <th style="border-bottom: 2px solid #ddd; text-align: left; padding: 10px;">Color</th>
+            <th style="border-bottom: 2px solid #ddd; text-align: left; padding: 10px;">Size</th>
+            <th style="border-bottom: 2px solid #ddd; text-align: left; padding: 10px;">Image</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${orderItems
+            .map(
+              (item) => `
+              <tr>
+                <td style="border-bottom: 1px solid #ddd; padding: 10px;">${
+                  item.shop_items.name
+                }</td>
+                <td style="border-bottom: 1px solid #ddd; padding: 10px;">$${item.shop_items.price.toFixed(
+                  2
+                )}</td>
+                <td style="border-bottom: 1px solid #ddd; padding: 10px;">${
+                  item.color.name
+                }</td>
+                <td style="border-bottom: 1px solid #ddd; padding: 10px;">${
+                  item.size.name
+                }</td>
+                <td style="border-bottom: 1px solid #ddd; padding: 10px;">
+                  <img src="${item.image_url}" alt="${
+                item.shop_items.name
+              }" style="width: 50px; height: 50px; border-radius: 5px;">
+                </td>
+              </tr>
+            `
+            )
+            .join("")}
+        </tbody>
+      </table>
+
+      <p style="margin-top: 20px;">If you have any questions, please contact us.</p>
+    </div>
+  `;
+};
