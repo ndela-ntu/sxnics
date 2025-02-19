@@ -73,7 +73,7 @@ const generateOrderEmail = (orderItems: any[], forAdmin: boolean, amount: number
                 <td style="border-bottom: 1px solid #ddd; padding: 10px;">${
                   item.shop_items.name
                 }</td>
-                <td style="border-bottom: 1px solid #ddd; padding: 10px;">$${item.shop_items.price.toFixed(
+                <td style="border-bottom: 1px solid #ddd; padding: 10px;">R${item.shop_items.price.toFixed(
                   2
                 )}</td>
                 <td style="border-bottom: 1px solid #ddd; padding: 10px;">${
@@ -93,7 +93,7 @@ const generateOrderEmail = (orderItems: any[], forAdmin: boolean, amount: number
             .join("")}
         </tbody>
       </table>
-      <div>Total: R${amount}</div>
+      <div style="padding: 10px">Total: R${amount}</div>
       <p style="margin-top: 20px;">If you have any questions, please reply to this email.</p>
     </div>
   `;
