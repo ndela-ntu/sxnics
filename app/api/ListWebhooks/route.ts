@@ -1,22 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { number } from "zod";
 
 export async function GET() {
-  try {
+  const getSubs = async () => {
     const response = await fetch("https://payments.yoco.com/api/webhooks", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${process.env.TEST_SECRET_KEY}`,
       },
     });
-    console.log(response);
 
     const data = await response.json();
-    console.log(data);
 
     const subscriptions = data.subscriptions;
-    console.log(subscriptions);
-    const existingWebhooks: any[] = subscriptions.filter(
+    return subscriptions;
+  };
+
+  try {
+    const subscriptions1 = await getSubs();
+    const existingWebhooks: any[] = subscriptions1.filter(
       (sub: { name: string }) => sub.name === "Await-Webhook"
     );
 
@@ -42,13 +43,15 @@ export async function GET() {
       }
     }
 
+    const subscriptions2 = await getSubs();
+
     const hookExists =
-      subscriptions.find(
+      subscriptions2.find(
         (subscription: { name: string }) =>
           subscription.name === "Await-Webhook"
       ) !== undefined;
 
-    return NextResponse.json({ hookExists, subscriptions });
+    return NextResponse.json({ hookExists, subscriptions2 });
   } catch (error) {
     console.error(error);
   }

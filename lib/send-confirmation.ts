@@ -74,7 +74,7 @@ const generateOrderEmail = (orderItems: (IShopItemVariant & {quantity: number})[
                 <td style="border-bottom: 1px solid #ddd; padding: 10px;">${
                   item.shop_items.name
                 }</td>
-                <td style="border-bottom: 1px solid #ddd; padding: 10px;">R${item.quantity}</td>
+                <td style="border-bottom: 1px solid #ddd; padding: 10px;">${item.quantity}</td>
                 <td style="border-bottom: 1px solid #ddd; padding: 10px;">R${item.shop_items.price.toFixed(
                   2
                 )}</td>
