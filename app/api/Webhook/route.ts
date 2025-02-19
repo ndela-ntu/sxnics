@@ -39,7 +39,9 @@ export async function POST(req: NextRequest) {
         }
 
         let orderedVariants: IShopItemVariant[] = [];
-        itemsArray.forEach(async (item) => {
+
+        // Use a for...of loop instead of forEach
+        for (const item of itemsArray) {
           const { data: shopItemVariant, error } = await supabase
             .from("shop_item_variant")
             .select("*, shop_items(*), color(*), size(*)")
@@ -51,18 +53,23 @@ export async function POST(req: NextRequest) {
           }
 
           orderedVariants.push(shopItemVariant);
-          
-          console.log(`Route1: ${shopItemVariant}`);
 
-          const quantity = shopItemVariant.quantity > 0 ? shopItemVariant.quantity - item.quantity : 0;
+          // Log the object directly, not as a string
+          console.log("Route1:", shopItemVariant);
+
+          const quantity =
+            shopItemVariant.quantity > 0
+              ? shopItemVariant.quantity - item.quantity
+              : 0;
 
           await supabase
             .from("shop_item_variant")
             .update({ quantity })
             .eq("id", item.id);
-        });
+        }
 
-        console.log(`Route2: ${orderedVariants}`);
+        // This will now log the populated array
+        console.log("Route2:", orderedVariants);
 
         await sendConfirmationEmail(
           metadata.email,
