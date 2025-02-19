@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
           throw new Error(error?.message);
         }
 
-        let orderedVariants: number[] = [];
+        let orderedVariants: IShopItemVariant[] = [];
         itemsArray.forEach(async (item) => {
           const { data: shopItemVariant, error } = await supabase
             .from("shop_item_variant")
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
             throw new Error("Item not found");
           }
 
-          orderedVariants.push(item.id);
+          orderedVariants.push(shopItemVariant);
 
           const quantity = shopItemVariant.quantity > 0 ? shopItemVariant.quantity - item.quantity : 0;
 

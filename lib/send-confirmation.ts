@@ -1,22 +1,12 @@
+import { IShopItemVariant } from "@/models/ShopItemVariant";
 import { supabase } from "@/utils/supabase";
 import nodemailer from "nodemailer";
 
 export default async function sendConfirmationEmail(
   email: string,
-  orderedVariants: number[],
+  orderedVariants: IShopItemVariant[],
   amount: number
 ) {
-  const { data: variants, error: variantsError } = await supabase
-    .from("shop_item_variant")
-    .select(`*, shop_items(name, price, description), color(name), size(name)`)
-    .in("id", orderedVariants);
-
-  if (variantsError) {
-    console.error(variantsError);
-  }
-
-  console.log(variants);
-
   const transporter = nodemailer.createTransport({
     service: "Gmail",
     host: "smtp.gmail.com",
@@ -32,21 +22,20 @@ export default async function sendConfirmationEmail(
     from: process.env.EMAIL_USER,
     to: email,
     subject: "Payment Confirmation",
-    html: generateOrderEmail(variants ?? [], false, amount),
+    html: generateOrderEmail(orderedVariants ?? [], false, amount),
   };
 
   const mailOptions2 = {
     from: process.env.EMAIL_USER,
     to: "ntulilindelani4@gmail.com",
     subject: "Order Submitted",
-    html: generateOrderEmail(variants ?? [], true, amount),
+    html: generateOrderEmail(orderedVariants ?? [], true, amount),
   };
 
   try {
     await transporter.sendMail(mailOptions1);
     await transporter.sendMail(mailOptions2);
     console.log("Confirmation email sent to:", email);
-    console.log(orderedVariants);
   } catch (error) {
     console.error("Error sending confirmation email:", error);
   }
