@@ -44,6 +44,7 @@ export default async function sendConfirmationEmail(
     await transporter.sendMail(mailOptions1);
     await transporter.sendMail(mailOptions2);
     console.log("Confirmation email sent to:", email);
+    console.log(orderedVariants);
   } catch (error) {
     console.error("Error sending confirmation email:", error);
   }
