@@ -51,7 +51,7 @@ export async function GET() {
           subscription.name === "Await-Webhook"
       ) !== undefined;
 
-    return NextResponse.json({ hookExists, subscriptions2 });
+    return NextResponse.json({ hookExists, subscriptions: subscriptions2 });
   } catch (error) {
     console.error(error);
   }
