@@ -7,7 +7,7 @@ export default async function sendConfirmationEmail(
   amount: number
 ) {
   const { data: variants, error: variantsError } = await supabase
-    .from("shop_item_variants")
+    .from("shop_item_variant")
     .select(`*, shop_items(name, price, description), color(name), size(name)`)
     .in("id", orderedVariants);
 
@@ -30,14 +30,14 @@ export default async function sendConfirmationEmail(
     from: process.env.EMAIL_USER,
     to: email,
     subject: "Payment Confirmation",
-    html: generateOrderEmail(variants ?? [], false),
+    html: generateOrderEmail(variants ?? [], false, amount),
   };
 
   const mailOptions2 = {
     from: process.env.EMAIL_USER,
     to: "ntulilindelani4@gmail.com",
     subject: "Order Submitted",
-    html: generateOrderEmail(variants ?? [], true),
+    html: generateOrderEmail(variants ?? [], true, amount),
   };
 
   try {
@@ -50,7 +50,7 @@ export default async function sendConfirmationEmail(
   }
 }
 
-const generateOrderEmail = (orderItems: any[], forAdmin: boolean) => {
+const generateOrderEmail = (orderItems: any[], forAdmin: boolean, amount: number) => {
   const header = forAdmin
     ? `<h2 style="color: #333;">Order Confirmation</h2>
   <p>Thank you for your order! Here are the details:</p>
@@ -100,8 +100,8 @@ const generateOrderEmail = (orderItems: any[], forAdmin: boolean) => {
             .join("")}
         </tbody>
       </table>
-
-      <p style="margin-top: 20px;">If you have any questions, please contact us.</p>
+      <div>Total: R${amount}</div>
+      <p style="margin-top: 20px;">If you have any questions, please reply to this email.</p>
     </div>
   `;
 };
