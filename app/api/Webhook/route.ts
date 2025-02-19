@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
         itemsArray.forEach(async (item) => {
           const { data: shopItemVariant, error } = await supabase
             .from("shop_item_variant")
-            .select("*")
+            .select("*, shop_items(*), color(*), size(*)")
             .eq("id", item.id)
             .single();
 

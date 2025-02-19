@@ -7,6 +7,8 @@ export default async function sendConfirmationEmail(
   orderedVariants: IShopItemVariant[],
   amount: number
 ) {
+  console.log(orderedVariants);
+
   const transporter = nodemailer.createTransport({
     service: "Gmail",
     host: "smtp.gmail.com",
