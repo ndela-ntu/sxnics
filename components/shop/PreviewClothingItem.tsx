@@ -89,59 +89,26 @@ export default function PreviewClothingItem({
     <div
       className={`flex flex-col md:flex-row md:max-w-[50%] md:space-x-5 md:items-start items-center justify-center border p-1.5`}
     >
-      <div className="w-full h-full md:border md:pb-2 flex flex-col items-center justify-center">
-        <div className="aspect-square relative overflow-hidden w-full h-full">
-          {loading ? (
-            <Image
-              src={placeholderImage}
-              alt="Loading..."
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover"
-            />
-          ) : (
-            <Image
-              src={previewVariants?.imageUrls[itemIndex] ?? placeholderImage}
-              alt={shopItem.name}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover"
-            />
-          )}
-        </div>
-        <div className="flex items-center pt-2 space-x-2">
-          {previewVariants?.colors.map((color, index) => (
-            <span
-              onClick={() => {
-                setItemIndex(index);
-                setSelectedColor(color.id);
-              }}
-              key={index}
-              className="border-2 w-7 h-7 rounded-full relative flex items-center justify-center"
-              style={{ backgroundColor: color.hash_color }}
-            >
-              {index === itemIndex && (
-                <svg
-                  className={`w-4 h-4 ${
-                    color.hash_color === "#000000" ? "text-white" : "text-black"
-                  } absolute`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              )}
-            </span>
-          ))}
-        </div>
+      <div className="aspect-square relative overflow-hidden w-full h-full">
+        {loading ? (
+          <Image
+            src={placeholderImage}
+            alt="Loading..."
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+          />
+        ) : (
+          <Image
+            src={previewVariants?.imageUrls[itemIndex] ?? placeholderImage}
+            alt={shopItem.name}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+          />
+        )}
       </div>
+
       <div className="flex flex-col w-full h-full items-center">
         <Divider margin="8px 0" className="md:hidden" />
         <div className="flex flex-col w-full">
@@ -152,6 +119,53 @@ export default function PreviewClothingItem({
             </span>
           </div>
           <p className="text-sm md:text-md">{shopItem.description}</p>
+        </div>
+        <Divider margin="8px 0" />
+        <div className="flex flex-wrap items-center space-x-2">
+          {previewVariants?.colors.map((color, index) => (
+            <div
+              onClick={() => {
+                setItemIndex(index);
+                setSelectedColor(color.id);
+              }}
+              key={index}
+              className={`${
+                index === itemIndex
+                  ? "bg-white text-black"
+                  : "bg-transparent text-white"
+              } flex border p-1 items-center space-x-1.5`}
+            >
+              <span
+                className="border-2 w-5 h-5 rounded-full relative flex items-center justify-center"
+                style={{ backgroundColor: color.hash_color }}
+              >
+                {index === itemIndex && (
+                  <svg
+                    className={`w-4 h-4 ${
+                      color.hash_color === "#000000"
+                        ? "text-white"
+                        : "text-black"
+                    } absolute`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                )}
+              </span>
+              <span>
+                {color.name.charAt(0).toUpperCase() +
+                  color.name.slice(1).toLowerCase()}
+              </span>
+            </div>
+          ))}
         </div>
         <Divider margin="8px 0" />
         <div className="flex flex-wrap space-x-1">
