@@ -15,6 +15,8 @@ export default async function sendConfirmationEmail(
     console.error(variantsError);
   }
 
+  console.log(variants);
+
   const transporter = nodemailer.createTransport({
     service: "Gmail",
     host: "smtp.gmail.com",
