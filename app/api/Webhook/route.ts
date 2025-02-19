@@ -46,13 +46,13 @@ export async function POST(req: NextRequest) {
             .eq("id", item.id)
             .single();
 
-          orderedVariants.push(shopItemVariant.id);
-
           if (error) {
             throw new Error("Item not found");
           }
 
-          const quantity = shopItemVariant.quantity - item.quantity;
+          orderedVariants.push(item.id);
+
+          const quantity = shopItemVariant.quantity > 0 ? shopItemVariant.quantity - item.quantity : 0;
 
           await supabase
             .from("shop_item_variant")
@@ -60,12 +60,11 @@ export async function POST(req: NextRequest) {
             .eq("id", item.id);
         });
 
-  
-
-        if (data) {
-          const { id } = data[0];
-          await sendConfirmationEmail(metadata.email, orderedVariants, metadata.total);
-        }
+        await sendConfirmationEmail(
+          metadata.email,
+          orderedVariants,
+          metadata.total
+        );
       }
 
       return NextResponse.json({

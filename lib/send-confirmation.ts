@@ -1,6 +1,5 @@
 import { supabase } from "@/utils/supabase";
 import nodemailer from "nodemailer";
-import { FaLaptopHouse } from "react-icons/fa";
 
 export default async function sendConfirmationEmail(
   email: string,
