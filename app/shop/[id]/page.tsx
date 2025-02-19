@@ -29,13 +29,13 @@ export default async function Page({ params }: { params: { id: string } }) {
     <div className="pb-28">
       <h1 className="text-lg">Item Preview</h1>
       <PreviewClothingItem shopItem={shopItem} />
-      <CartButton />
       <Divider />
       <div className="flex flex-col">
         <h1 className="text-lg">More Similar Items</h1>
         <ShopCarousel
           shopItems={shopItems.filter((item) => item.id !== shopItem.id)}
         />
+        <CartButton />
       </div>
     </div>
   );
