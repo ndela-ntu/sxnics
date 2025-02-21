@@ -9,6 +9,34 @@ import TrackList from "@/components/episodes/TrackList";
 import { Link as LucideLink } from "lucide-react";
 import EpisodeList from "@/components/episodes/EpisodeList";
 import LikeButton from "@/components/episodes/LikeButton";
+import { Metadata } from "next";
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const { data: episode, error: singleEpisodeError } = await supabase
+    .from("episodes")
+    .select(`*, artists (id, name), episode_likes(count)`)
+    .eq("id", params.id)
+    .single();
+
+  return {
+    title: episode.name,
+    description: episode.description,
+    openGraph: {
+      type: "article",
+      title: episode.name,
+      description: episode.description,
+      publishedTime: episode.created_at,
+      images: [
+        {
+          url: episode.imageUrl,
+          width: 1200,
+          height: 630,
+          alt: episode.name,
+        },
+      ],
+    },
+  }
+}
 
 export const revalidate = 60;
 

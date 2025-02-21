@@ -4,6 +4,36 @@ import Image from "next/image";
 import SocialLink from "@/components/SocialLink";
 import EpisodeList from "@/components/episodes/EpisodeList";
 import Divider from "@/components/Divider";
+import { Metadata } from "next";
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const { data: artist, error: artistError } = await supabase
+    .from("artists")
+    .select()
+    .eq("id", params.id)
+    .single();
+
+  return {
+    title: artist.name,
+    description: artist.bio,
+    openGraph: {
+      type: "article",
+      title: artist.name,
+      description: artist.bio,
+      publishedTime: artist.created_at,
+      images: [
+        {
+          url: artist.imageUrl,
+          width: 1200,
+          height: 630,
+          alt: artist.name,
+        },
+      ],
+    },
+  }
+}
+
+export const revalidate = 60;
 
 export default async function Page({ params }: { params: { id: number } }) {
   const { data: artist, error: artistError } = await supabase

@@ -12,6 +12,27 @@ import RadioPlayer from "@/components/RadioPlayer";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { AudioContextProvider } from "@/context/AudioContext";
 import { LayoutContent } from "@/components/LayoutContent";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    template: "%s | Radio Station",
+    default: "SXNICS - Music episodes and blogs",
+  },
+  description: "Your underground music stop",
+  metadataBase: new URL("https://sxnics.com"),
+  // openGraph: {
+  //   type: "website",
+  //   siteName: "Sxnics",
+  //   images: [
+  //     {
+  //       url: "/images/og-default.jpg", // Replace with your actual image
+  //       width: 1200,
+  //       height: 630,
+  //     },
+  //   ],
+  // },
+}
 
 const montserrat = Montserrat({
   subsets: ["latin"],
