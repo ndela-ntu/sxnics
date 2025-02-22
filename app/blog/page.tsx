@@ -1,5 +1,23 @@
 import BlogCard from "@/components/blog/BlogCard";
 import client from "@/lib/contentful";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blog Posts",
+  description: "Blog posts and interviews about various artists in the underground scene",
+  // openGraph: {
+  //   title: "About SXNICS",
+  //   description: "Learn about our radio station, our mission, and our team",
+  //   images: [
+  //     {
+  //       url: "/images/about-team.jpg", // Replace with your actual image
+  //       width: 1200,
+  //       height: 630,
+  //       alt: "Radio Station Team",
+  //     },
+  //   ],
+  // },
+}
 
 async function getBlogPosts() {
   const response = await client.getEntries({ content_type: "blogPost" });

@@ -4,6 +4,32 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { BLOCKS, MARKS } from '@contentful/rich-text-types'
 import Image from 'next/image'
 import { Document } from '@contentful/rich-text-types';
+import { imageConfigDefault } from "next/dist/shared/lib/image-config";
+import { Metadata } from "next";
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const post = await getBlogPost(params.slug);
+  const { title, content, image, date } = post.fields;
+  
+  return {
+    title: (title as string) ?? '',
+    description: (content as string)?.slice(0, 50) ?? '',
+    openGraph: {
+      type: "article",
+      title: (title as string) ?? '',
+      description: (content as string)?.slice(0, 50) ?? '',
+      publishedTime: new Date(date as any).toLocaleDateString(),
+      images: [
+        {
+          url: (image as any)?.fields.file.url ?? '',
+          width: 1200,
+          height: 630,
+          alt: (title as string) ?? '',
+        },
+      ],
+    },
+  }
+}
 
 const options = {
   renderNode: {

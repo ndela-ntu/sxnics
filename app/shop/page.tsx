@@ -3,6 +3,24 @@ import Link from "next/link";
 import ClothingItem from "@/components/shop/ClothingItem";
 import CartButton from "@/components/shop/CartButton";
 import { supabase } from "@/utils/supabase";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Store/shop",
+  description: "Tees, hoodies and more. Artworks from various artists",
+  // openGraph: {
+  //   title: "About SXNICS",
+  //   description: "Learn about our radio station, our mission, and our team",
+  //   images: [
+  //     {
+  //       url: "/images/about-team.jpg", // Replace with your actual image
+  //       width: 1200,
+  //       height: 630,
+  //       alt: "Radio Station Team",
+  //     },
+  //   ],
+  // },
+}
 
 export const revalidate = 60;
 

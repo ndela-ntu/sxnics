@@ -1,18 +1,12 @@
-"use client";
-
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import { Suspense, useEffect, useState } from "react";
 import { CartProvider } from "@/context/CartContext";
-import { usePathname } from "next/navigation";
-import LoadingSpinner from "@/components/LoadingSpinner";
 import { ItemTotalsProvider } from "@/context/ItemTotalsContext";
-import RadioPlayer from "@/components/RadioPlayer";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { AudioContextProvider } from "@/context/AudioContext";
 import { LayoutContent } from "@/components/LayoutContent";
 import { Metadata } from "next";
+import LayoutProvider from "./LayoutProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -32,7 +26,21 @@ export const metadata: Metadata = {
   //     },
   //   ],
   // },
-}
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+};
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -50,13 +58,7 @@ export default function RootLayout({
         className={`${montserrat.className} bg-black h-auto text-white w-full`}
       >
         <ErrorBoundary>
-          <CartProvider>
-            <ItemTotalsProvider>
-              <AudioContextProvider>
-                <LayoutContent>{children}</LayoutContent>
-              </AudioContextProvider>
-            </ItemTotalsProvider>
-          </CartProvider>
+          <LayoutProvider>{children}</LayoutProvider>
         </ErrorBoundary>
       </body>
     </html>
