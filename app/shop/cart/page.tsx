@@ -5,18 +5,18 @@ export const metadata: Metadata = {
   title: "Cart",
   description:
     "Cart for choosing the item quantity and finalizing product before checkout",
-  // openGraph: {
-  //   title: "About SXNICS",
-  //   description: "Learn about our radio station, our mission, and our team",
-  //   images: [
-  //     {
-  //       url: "/images/about-team.jpg", // Replace with your actual image
-  //       width: 1200,
-  //       height: 630,
-  //       alt: "Radio Station Team",
-  //     },
-  //   ],
-  // },
+  openGraph: {
+    title: "Cart",
+    description: "Cart for choosing the item quantity and finalizing product before checkout",
+    images: [
+      {
+        url: "../LOGO.png", // Replace with your actual image
+        width: 1200,
+        height: 630,
+        alt: "SXNICS LOGO",
+      },
+    ],
+  },
 };
 
 export default function Page() {

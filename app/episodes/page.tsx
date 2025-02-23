@@ -4,19 +4,19 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Episode List",
-  description: "Listen/stream our episodes from various guest and resident djs",
-  // openGraph: {
-  //   title: "About SXNICS",
-  //   description: "Learn about our radio station, our mission, and our team",
-  //   images: [
-  //     {
-  //       url: "/images/about-team.jpg", // Replace with your actual image
-  //       width: 1200,
-  //       height: 630,
-  //       alt: "Radio Station Team",
-  //     },
-  //   ],
-  // },
+  description: "Listen/stream our episodes from various guests and resident djs",
+  openGraph: {
+    title: "Episodes",
+    description: "Listen/stream our episodes from various guests and resident djs",
+    images: [
+      {
+        url: '../LOGO.png', // Replace with your actual image
+        width: 1200,
+        height: 630,
+        alt: "SXNICS LOGO",
+      },
+    ],
+  },
 }
 
 export const revalidate = 60;

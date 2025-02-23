@@ -5,18 +5,18 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Become a supporter",
   description: "Subscription via paypal to help support the platform",
-  // openGraph: {
-  //   title: "About SXNICS",
-  //   description: "Learn about our radio station, our mission, and our team",
-  //   images: [
-  //     {
-  //       url: "/images/about-team.jpg", // Replace with your actual image
-  //       width: 1200,
-  //       height: 630,
-  //       alt: "Radio Station Team",
-  //     },
-  //   ],
-  // },
+  openGraph: {
+    title: "Become a supporter",
+    description: "Subscription via paypal to help support the platform",
+    images: [
+      {
+        url: "../LOGO.png", // Replace with your actual image
+        width: 1200,
+        height: 630,
+        alt: "SXNICS LOGO",
+      },
+    ],
+  },
 }
 
 

@@ -10,7 +10,7 @@ import LayoutProvider from "./LayoutProvider";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Radio Station",
+    template: "%s | SXNICS",
     default: "SXNICS - Music episodes and blogs",
   },
   description: "Your underground music stop",

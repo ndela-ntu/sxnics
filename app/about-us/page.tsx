@@ -3,18 +3,18 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About Us",
   description: "Learn about our radio station, our mission, and our team",
-  // openGraph: {
-  //   title: "About SXNICS",
-  //   description: "Learn about our radio station, our mission, and our team",
-  //   images: [
-  //     {
-  //       url: "/images/about-team.jpg", // Replace with your actual image
-  //       width: 1200,
-  //       height: 630,
-  //       alt: "Radio Station Team",
-  //     },
-  //   ],
-  // },
+  openGraph: {
+    title: "About SXNICS",
+    description: "Learn about our radio station, our mission, and our team",
+    images: [
+      {
+        url: '../LOGO.png', // Replace with your actual image
+        width: 1200,
+        height: 630,
+        alt: "SXNICS LOGO",
+      },
+    ],
+  },
 }
 
 export default function Page() {

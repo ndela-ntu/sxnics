@@ -22,8 +22,62 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // New state for loading
+  const [isLoading, setIsLoading] = useState(true);
   const hasRunEffect = useRef(false);
+
+  // Set media session metadata
+  useEffect(() => {
+    if ('mediaSession' in navigator && episode) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: episode.name,
+        artist: episode.artists.name,
+        album: "Sxnics Episodes", // You can customize this
+        artwork: [
+          { src: episode.imageUrl, sizes: '96x96', type: 'image/png' },
+          { src: episode.imageUrl, sizes: '128x128', type: 'image/png' },
+          { src: episode.imageUrl, sizes: '192x192', type: 'image/png' },
+          { src: episode.imageUrl, sizes: '256x256', type: 'image/png' },
+          { src: episode.imageUrl, sizes: '384x384', type: 'image/png' },
+          { src: episode.imageUrl, sizes: '512x512', type: 'image/png' },
+        ],
+      });
+    }
+  }, [episode]);
+
+  // Handle media session actions
+  useEffect(() => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.setActionHandler('play', () => {
+        onTogglePlay(true);
+        audioRef.current?.play();
+      });
+
+      navigator.mediaSession.setActionHandler('pause', () => {
+        onTogglePlay(false);
+        audioRef.current?.pause();
+      });
+
+      navigator.mediaSession.setActionHandler('seekbackward', () => {
+        if (audioRef.current) {
+          audioRef.current.currentTime = Math.max(0, audioRef.current.currentTime - 10); // Seek backward by 10 seconds
+        }
+      });
+
+      navigator.mediaSession.setActionHandler('seekforward', () => {
+        if (audioRef.current) {
+          audioRef.current.currentTime = Math.min(duration, audioRef.current.currentTime + 10); // Seek forward by 10 seconds
+        }
+      });
+
+      navigator.mediaSession.setActionHandler('previoustrack', () => {
+        // Handle previous track (if applicable)
+      });
+
+      navigator.mediaSession.setActionHandler('nexttrack', () => {
+        // Handle next track (if applicable)
+      });
+    }
+  }, [onTogglePlay, duration]);
 
   const handlePlayCount = async () => {
     try {
@@ -77,6 +131,10 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
     if (audioRef.current) {
       audioRef.current.currentTime = time;
     }
+  };
+
+  const handleEnded = () => {
+    onTogglePlay(false); // Stop the audio when it ends
   };
 
   return (
@@ -135,6 +193,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
           }}
           onLoadedData={() => setIsLoading(false)} // Audio has loaded
           onLoadStart={() => setIsLoading(true)} // Loading starts
+          onEnded={handleEnded} // Handle the end of the audio
           className="hidden"
         />
         <div className="w-1/6 md:w-[10%] lg:w-[5%] aspect-square relative overflow-hidden">

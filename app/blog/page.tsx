@@ -5,18 +5,18 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Blog Posts",
   description: "Blog posts and interviews about various artists in the underground scene",
-  // openGraph: {
-  //   title: "About SXNICS",
-  //   description: "Learn about our radio station, our mission, and our team",
-  //   images: [
-  //     {
-  //       url: "/images/about-team.jpg", // Replace with your actual image
-  //       width: 1200,
-  //       height: 630,
-  //       alt: "Radio Station Team",
-  //     },
-  //   ],
-  // },
+  openGraph: {
+    title: "Blog Posts",
+    description: "Blog posts from artists making an impact in the underground music scene",
+    images: [
+      {
+        url: '../LOGO.png', // Replace with your actual image
+        width: 1200,
+        height: 630,
+        alt: "SXNICS LOGO",
+      },
+    ],
+  },
 }
 
 async function getBlogPosts() {
