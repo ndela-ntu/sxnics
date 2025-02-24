@@ -66,6 +66,26 @@ export default async function Page() {
       <div className="h-full w-full">
         <div className="flex items-stretch h-full">
           <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
+            Recline Magazine
+          </h1>
+          <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
+            Blog posts and interviews from Recline Mag
+          </p>
+        </div>
+        <BlogPostCarousel blogPosts={blogPosts} />
+        <div className="flex items-center justify-end w-full pt-2">
+          <Link className="flex items-center space-x-2.5" href="/blog">
+            <span>View All</span>
+            <span>
+              <FaArrowRight className="h-3 w-3" />
+            </span>
+          </Link>
+        </div>
+      </div>
+      <Divider />
+      <div className="h-full w-full">
+        <div className="flex items-stretch h-full">
+          <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
             Releases
           </h1>
           <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
@@ -105,27 +125,8 @@ export default async function Page() {
         </div>
       </div>
       <Divider />
-      {/* <Divider />
-        <div className="h-full w-full">
-          <div className="flex items-stretch h-full">
-            <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
-              Recline Magazine
-            </h1>
-            <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-             Blog posts and interviews from Recline Mag
-            </p>
-          </div>
-          <BlogPostCarousel blogPosts={blogPosts} />
-          <div className="flex items-center justify-end w-full pt-2">
-            <Link className="flex items-center space-x-2.5" href="/blog">
-              <span>View All</span>
-              <span>
-                <FaArrowRight className="h-3 w-3" />
-              </span>
-            </Link>
-          </div>
-        </div>*/}
-        {/*<Divider />
+
+      {/*<Divider />
         <div className="h-full w-full">
           <div className="flex items-stretch h-full">
             <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">

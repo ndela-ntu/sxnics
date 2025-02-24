@@ -1,34 +1,42 @@
 import Post from "@/components/blog/Post";
 import client from "@/lib/contentful";
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { BLOCKS, MARKS } from '@contentful/rich-text-types'
-import Image from 'next/image'
-import { Document } from '@contentful/rich-text-types';
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
+import { BLOCKS, MARKS } from "@contentful/rich-text-types";
+import Image from "next/image";
+import { Document } from "@contentful/rich-text-types";
 import { imageConfigDefault } from "next/dist/shared/lib/image-config";
 import { Metadata } from "next";
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
   const post = await getBlogPost(params.slug);
   const { title, content, image, date } = post.fields;
-  
+
+  const plainTextContent =
+    documentToPlainTextString(content as Document)?.slice(0, 50) ?? "";
+
   return {
-    title: (title as string) ?? '',
-    description: (content as string)?.slice(0, 50) ?? '',
+    title: (title as string) ?? "",
+    description: plainTextContent,
     openGraph: {
       type: "article",
-      title: (title as string) ?? '',
-      description: (content as string)?.slice(0, 50) ?? '',
+      title: (title as string) ?? "",
+      description: plainTextContent,
       publishedTime: new Date(date as any).toLocaleDateString(),
       images: [
         {
-          url: (image as any)?.fields.file.url ?? '',
+          url: `https:${(image as any)?.fields.file.url ?? ""}`,
           width: 1200,
           height: 630,
-          alt: (title as string) ?? '',
+          alt: (title as string) ?? "",
         },
       ],
     },
-  }
+  };
 }
 
 const options = {
@@ -45,7 +53,25 @@ const options = {
         />
       );
     },
+
+    [BLOCKS.EMBEDDED_ENTRY]: (node: any) => {
+      // Ensure the embedded entry has an `iframeUrl` field
+      if (node.data.target.fields.iframeUrl) {
+        return (
+          <iframe
+            src={node.data.target.fields.iframeUrl}
+            width="100%"
+            height="400"
+            frameBorder="0"
+            allowFullScreen
+            className="my-4 rounded-lg"
+          ></iframe>
+        );
+      }
+      return null;
+    },
   },
+
   renderMark: {
     [MARKS.BOLD]: (text: React.ReactNode) => <strong>{text}</strong>,
     [MARKS.ITALIC]: (text: React.ReactNode) => <em>{text}</em>,
@@ -60,14 +86,14 @@ async function getBlogPost(slug: string) {
   });
 
   if (!response.items.length) {
-    throw new Error('Blog post not found');
+    throw new Error("Blog post not found");
   }
 
   return response.items[0];
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
-  const post = await getBlogPost(params.slug)
+  const post = await getBlogPost(params.slug);
   const { title, slug, content, image, author, date } = post.fields;
 
   return (

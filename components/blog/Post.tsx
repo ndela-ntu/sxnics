@@ -19,10 +19,10 @@ export default function Post({
   createdAt,
 }: PostProps) {
   return (
-    <div className="flex flex-col py-5 sm:px-1.5 md:px-2.5">
-      <div className="flex flex-wrap items-center justify-between">
+    <div className="flex flex-col py-5 sm:px-1.5 md:px-2.5 lg:justify-center lg:items-center">
+      <div className="flex flex-wrap items-center justify-between w-full">
         <h1 className="font-bold text-3xl underline">{title}</h1>
-        <p className="bg-white text-black p-1 rounded-lg">
+        <p className="bg-white text-black p-1">
           {new Date(createdAt).toLocaleDateString()}
         </p>
       </div>
@@ -36,8 +36,8 @@ export default function Post({
           className="w-full h-auto object-cover"
         />
       </div>
-      <div>{content}</div>
-      <h1 className="text-lg place-self-end my-5 italic bg-white text-black rounded-lg px-2.5">
+      <div className="lg:w-[60%]">{content}</div>
+      <h1 className="text-base place-self-end my-5 bg-white text-black px-2.5">
         -{author}
       </h1>
     </div>

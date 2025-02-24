@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { IBlogPost } from "@/models/BlogPost";
 import {
@@ -61,15 +61,12 @@ export default function BlogPostCarousel({
       <Carousel setApi={setApi} opts={{ align: "center" }} className="w-full">
         <CarouselContent>
           {blogPosts.map((blogPost, index) => {
-            const previewTitle =
-              blogPost.title.slice(0, 20) +
-              (blogPost.title.length >= 20 ? "..." : "");
             return (
               <CarouselItem
                 key={index}
                 className="basis-1/2 md:basis-1/3 lg:basis-1/4"
               >
-                <div className="">
+                <div className="border">
                   <Link href={`/blog/${blogPost.slug}`}>
                     <Card className="w-full border-none bg-white text-black rounded-none p-0">
                       <CardContent className="flex bg-transparent aspect-square items-center justify-center p-0">
@@ -82,7 +79,10 @@ export default function BlogPostCarousel({
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                               className="object-cover"
                             />
-                            <span className="flex items-start justify-center px-1 h-auto absolute bottom-0 left-0 bg-black/50 hover:bg-black/70 text-white md:font-bold md:text-lg">
+                            {/* Gradient overlay from transparent to black */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+
+                            <span className="flex items-start justify-center px-1 py-2 h-auto absolute bottom-0 left-0 md:bottom-5 w-full text-white font-bold text-sm md:text-xl">
                               {blogPost.title}
                             </span>
                           </div>
