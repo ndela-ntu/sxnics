@@ -59,12 +59,12 @@ export default function BlogPostCarousel({
   return (
     <div>
       <Carousel setApi={setApi} opts={{ align: "center" }} className="w-full">
-        <CarouselContent>
+        <CarouselContent className="w-full p-0 -ml-0 ">
           {blogPosts.map((blogPost, index) => {
             return (
               <CarouselItem
                 key={index}
-                className="basis-1/2 md:basis-1/3 lg:basis-1/4"
+                className="md:border-r-2 border-black w-full pl-0 md:basis-1/3 lg:basis-1/4"
               >
                 <div className="border">
                   <Link href={`/blog/${blogPost.slug}`}>
@@ -82,7 +82,7 @@ export default function BlogPostCarousel({
                             {/* Gradient overlay from transparent to black */}
                             <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
 
-                            <span className="flex items-start justify-center px-1 py-2 h-auto absolute bottom-0 left-0 md:bottom-5 w-full text-white font-bold text-sm md:text-xl">
+                            <span className="flex items-start justify-center px-1 py-2 h-auto absolute bottom-0 left-0 md:bottom-5 w-full text-white font-bold text-lg md:text-xl">
                               {blogPost.title}
                             </span>
                           </div>

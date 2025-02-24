@@ -75,7 +75,7 @@ export default async function Page() {
         <BlogPostCarousel blogPosts={blogPosts} />
         <div className="flex items-center justify-end w-full pt-2">
           <Link className="flex items-center space-x-2.5" href="/blog">
-            <span>View All</span>
+            <span>View More</span>
             <span>
               <FaArrowRight className="h-3 w-3" />
             </span>
@@ -95,7 +95,7 @@ export default async function Page() {
         <ReleasesCarousel releases={releases} />
         <div className="flex items-center justify-end w-full pt-2">
           <Link className="flex items-center space-x-2.5" href="/release-radar">
-            <span>View All</span>
+            <span>View More</span>
             <span>
               <FaArrowRight className="h-3 w-3" />
             </span>
@@ -117,7 +117,7 @@ export default async function Page() {
         <EpisodeCarousel episodes={episodes} />
         <div className="flex items-center justify-end w-full pt-2">
           <Link className="flex items-center space-x-2.5" href="/episodes">
-            <span>View All</span>
+            <span>View More</span>
             <span>
               <FaArrowRight className="h-3 w-3" />
             </span>
@@ -139,7 +139,7 @@ export default async function Page() {
           <ShopCarousel shopItems={shopItems} />
           <div className="flex items-center justify-end w-full pt-2">
             <Link className="flex items-center space-x-2.5" href="/shop">
-              <span>View All</span>
+              <span>View More</span>
               <span>
                 <FaArrowRight className="h-3 w-3" />
               </span>
