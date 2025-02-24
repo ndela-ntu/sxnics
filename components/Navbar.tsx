@@ -38,8 +38,8 @@ const Navbar: React.FC = () => {
 
   const navItems: NavItem[] = [
     { name: "Home", href: "/" },
-   // { name: "Shop", href: "/shop" },
-   // { name: "Blog", href: "/blog" },
+    // { name: "Shop", href: "/shop" },
+    { name: "Blog", href: "/blog" },
     { name: "Episodes", href: "/episodes" },
     { name: "Releases", href: "/release-radar" },
     { name: "Support Us", href: "/supporter" },
