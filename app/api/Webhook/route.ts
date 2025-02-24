@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
             postalCode: metadata.postalCode,
             items: itemsArray,
             total: metadata.total,
+            status: 'PENDING',  
           })
           .select("id");
 
