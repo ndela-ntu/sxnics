@@ -4,9 +4,10 @@ import { IEpisode } from "@/models/Episode";
 import Image from "next/image";
 import { MdOutlineKeyboardArrowUp } from "react-icons/md";
 import { addPlayCount } from "@/lib/play-count-action";
+import { IMergedEpisode } from "@/models/MergedEpisode";
 
 interface AudioPlayerProps {
-  episode: IEpisode;
+  episode: IMergedEpisode;
   isPlaying: boolean;
   onXClick: () => void;
   onTogglePlay: (playing: boolean) => void;
@@ -185,7 +186,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({
       <div className="flex w-full bg-white items-center pr-2 py-0 min-h-min">
         <audio
           ref={audioRef}
-          src={episode.audioUrl}
+          src={episode.mediaUrl}
           onTimeUpdate={updateProgress}
           onLoadedMetadata={(e) => {
             const target = e.target as HTMLAudioElement;

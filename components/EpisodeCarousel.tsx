@@ -15,17 +15,24 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import Link from "next/link";
 import { useAudioContext } from "@/context/AudioContext";
+import { IMergedEpisode } from "@/models/MergedEpisode";
 
 export default function EpisodeCarousel({
   episodes,
 }: {
-  episodes: IEpisode[];
+  episodes: IMergedEpisode[];
 }) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
-  const { isRadioPlaying, setIsRadioPlaying, activeEpisode, setActiveEpisode, isEpisodePlaying, setIsEpisodePlaying } =
-    useAudioContext();
+  const {
+    isRadioPlaying,
+    setIsRadioPlaying,
+    activeEpisode,
+    setActiveEpisode,
+    isEpisodePlaying,
+    setIsEpisodePlaying,
+  } = useAudioContext();
 
   useEffect(() => {
     if (isRadioPlaying && activeEpisode) {
@@ -84,7 +91,7 @@ export default function EpisodeCarousel({
                   <CardContent className="flex bg-transparent aspect-square items-center justify-center p-0">
                     <div className="w-full h-full">
                       <div className="aspect-square relative overflow-hidden">
-                        <Link href={`episodes/${episode.id}`}>
+                        <Link href={`/episodes/${episode.id}/?type=${episode.type}`}>
                           <Image
                             src={episode.imageUrl}
                             alt="Image of episode"
@@ -93,56 +100,50 @@ export default function EpisodeCarousel({
                             className="object-cover"
                           />
                         </Link>
-                        {activeEpisode?.id === episode.id ? (
-                          <button
-                            className="bottom-0 right-0 flex items-center justify-center absolute m-auto w-10 h-7 bg-white text-black"
-                            onClick={() => {
-                              if (activeEpisode?.id === episode.id && isEpisodePlaying) {
-                                setIsEpisodePlaying(false);
-                              }else {
+                        {episode.type === "audio" &&
+                          (activeEpisode?.id === episode.id ? (
+                            <button
+                              className="bottom-0 right-0 flex items-center justify-center absolute m-auto w-10 h-7 bg-white text-black"
+                              onClick={() => {
+                                if (
+                                  activeEpisode?.id === episode.id &&
+                                  isEpisodePlaying
+                                ) {
+                                  setIsEpisodePlaying(false);
+                                } else {
+                                  setIsEpisodePlaying(true);
+                                  setIsRadioPlaying(false);
+                                }
+                              }}
+                            >
+                              {activeEpisode.id === episode.id &&
+                              isEpisodePlaying ? (
+                                <Pause className="h-5 w-5" />
+                              ) : (
+                                <Play className="h-5 w-5" />
+                              )}
+                              <span className="sr-only">
+                                {activeEpisode.id === episode.id &&
+                                isEpisodePlaying
+                                  ? "Pause"
+                                  : "Play"}{" "}
+                                audio
+                              </span>
+                            </button>
+                          ) : (
+                            <button
+                              className="bottom-0 right-0 flex items-center justify-center absolute m-auto w-10 h-7 bg-white text-black"
+                              onClick={() => {
+                                setActiveEpisode(episode);
                                 setIsEpisodePlaying(true);
                                 setIsRadioPlaying(false);
-                              }
-                              // if (activeEpisode.isPlaying) {
-                              //   setActiveEpisode((_) => ({
-                              //     ...episode,
-                              //     isPlaying: false,
-                              //   }));
-                              // } else {
-                              //   setActiveEpisode((_) => ({
-                              //     ...episode,
-                              //     isPlaying: true,
-                              //   }));
-                              //   setIsRadioPlaying(false);
-                              // }
-                            }}
-                          >
-                            {activeEpisode.id === episode.id && isEpisodePlaying ? (
-                              <Pause className="h-5 w-5" />
-                            ) : (
+                              }}
+                            >
                               <Play className="h-5 w-5" />
-                            )}
-                            <span className="sr-only">
-                              {activeEpisode.id === episode.id && isEpisodePlaying ? "Pause" : "Play"} audio
-                            </span>
-                          </button>
-                        ) : (
-                          <button
-                            className="bottom-0 right-0 flex items-center justify-center absolute m-auto w-10 h-7 bg-white text-black"
-                            onClick={() => {
-                              setActiveEpisode(episode);
-                              setIsEpisodePlaying(true);
-                              // setActiveEpisode((_) => ({
-                              //   ...episode,
-                              //   isPlaying: true,
-                              // }));
-                              setIsRadioPlaying(false);
-                            }}
-                          >
-                            <Play className="h-5 w-5" />
-                            <span className="sr-only">Play audio</span>
-                          </button>
-                        )}
+                              <span className="sr-only">Play audio</span>
+                            </button>
+                          ))}
+
                         <span className="flex items-center justify-center text-sm px-1 h-7 absolute bottom-0 left-0 bg-black/50 hover:bg-black/70 text-white">
                           {episode.tag}
                         </span>

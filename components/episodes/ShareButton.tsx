@@ -21,7 +21,7 @@ const ShareButton = ({ mixTitle, mixUrl, artistName }: ShareButtonProps) => {
 
   const shareData = {
     title: `${mixTitle} by ${artistName}`,
-    text: `Check out this mix: ${mixTitle} by ${artistName}`,
+    text: `Check out: ${mixTitle} by ${artistName}`,
     url: mixUrl,
   };
 

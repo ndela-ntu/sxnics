@@ -4,8 +4,9 @@ import { IEpisode } from "@/models/Episode";
 import React, { useEffect, useState } from "react";
 import EpisodeCard from "./EpisodeCard";
 import { useAudioContext } from "@/context/AudioContext";
+import { IMergedEpisode } from "@/models/MergedEpisode";
 
-export default function EpisodeList({ episodes }: { episodes: IEpisode[] }) {
+export default function EpisodeList({ episodes }: { episodes: IMergedEpisode[] }) {
   const { isRadioPlaying, setIsRadioPlaying, activeEpisode, setActiveEpisode, isEpisodePlaying, setIsEpisodePlaying } =
     useAudioContext();
 
@@ -27,7 +28,7 @@ export default function EpisodeList({ episodes }: { episodes: IEpisode[] }) {
                 episode={episode}
                 isActive={true}
                 isPlaying={activeEpisode && isEpisodePlaying!}
-                onImageClick={(value) => {
+                onImageClick={(_) => {
                   if (isEpisodePlaying) {
                     setIsEpisodePlaying(false);
                   }else {

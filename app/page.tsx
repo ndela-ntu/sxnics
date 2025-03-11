@@ -6,6 +6,7 @@ import RadioPlayer from "@/components/RadioPlayer";
 import ReleasesCarousel from "@/components/ReleasesCarousel";
 import ShopCarousel from "@/components/ShopCarousel";
 import client from "@/lib/contentful";
+import { mergeEpisodes } from "@/lib/merge-episodes";
 import { IBlogPost } from "@/models/BlogPost";
 import { supabase } from "@/utils/supabase";
 import { Montserrat } from "next/font/google";
@@ -28,8 +29,14 @@ export default async function Page() {
     .order("created_at", { ascending: true })
     .limit(5);
 
-  const { data: episodes, error: episodesError } = await supabase
+  const { data: audioEpisodes, error: audioEpisodesError } = await supabase
     .from("episodes")
+    .select(`*, artists (id, name)`)
+    .limit(5)
+    .order("id", { ascending: false });
+
+  const { data: videoEpisodes, error: videoEpisodesError } = await supabase
+    .from("video_episodes")
     .select(`*, artists (id, name)`)
     .limit(5)
     .order("id", { ascending: false });
@@ -53,13 +60,17 @@ export default async function Page() {
     };
   });
 
-  if (shopError || episodesError || releasesError) {
+  if (shopError || audioEpisodesError || releasesError || videoEpisodesError) {
     return (
       <div>{`An error occurred:  ${shopError && shopError.message}${
-        episodesError && episodesError.message
-      }${releasesError && releasesError.message}`}</div>
+        audioEpisodesError && audioEpisodesError.message
+      }${releasesError && releasesError.message} ${
+        videoEpisodesError && videoEpisodesError.message
+      }`}</div>
     );
   }
+
+  const episodes = mergeEpisodes(videoEpisodes, audioEpisodes);
 
   return (
     <div className="flex flex-col items-center justify-center w-full pb-28">

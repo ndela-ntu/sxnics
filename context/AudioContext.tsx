@@ -1,4 +1,4 @@
-import { IEpisode } from "@/models/Episode";
+import { IMergedEpisode } from "@/models/MergedEpisode";
 import {
   Dispatch,
   ReactNode,
@@ -12,8 +12,8 @@ const AudioContext = createContext<
   | {
       isRadioPlaying: boolean | null;
       setIsRadioPlaying: Dispatch<SetStateAction<boolean | null>>;
-      activeEpisode: IEpisode | null;
-      setActiveEpisode: Dispatch<SetStateAction<IEpisode | null>>;
+      activeEpisode: IMergedEpisode | null;
+      setActiveEpisode: Dispatch<SetStateAction<IMergedEpisode | null>>;
       isEpisodePlaying: boolean | null;
       setIsEpisodePlaying: Dispatch<SetStateAction<boolean | null>>;
     }
@@ -28,7 +28,7 @@ export const AudioContextProvider: React.FC<AudioContextProviderProps> = ({
   children,
 }) => {
   const [isRadioPlaying, setIsRadioPlaying] = useState<boolean | null>(false);
-  const [activeEpisode, setActiveEpisode] = useState<IEpisode | null>(null);
+  const [activeEpisode, setActiveEpisode] = useState<IMergedEpisode | null>(null);
   const [isEpisodePlaying, setIsEpisodePlaying] = useState<boolean | null>(false);
 
   return (
