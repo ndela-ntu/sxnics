@@ -24,7 +24,7 @@ export default function ViewEpisodePlayer({
   return (
     <div className="h-full w-full flex items-center justify-center">
       {episode.type === "audio" ? (
-        <div className="relative aspect-square md:w-[50%] lg:w-[75%]">
+        <div className="relative aspect-square w-full md:w-[50%] lg:w-[75%]">
           <div className="h-full w-full">
             <Image
               src={episode.imageUrl}
