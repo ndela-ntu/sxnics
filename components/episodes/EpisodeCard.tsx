@@ -81,7 +81,7 @@ export default function EpisodeCard({
           <ShareButton
             mixTitle={episode.name}
             artistName={episode.artists.name}
-            mixUrl={`https://sxnics.com/episodes/${episode.id}`}
+            mixUrl={`https://sxnics.com/episodes/${episode.id}?type=${episode.type === 'audio' ? 'audio' : 'video'}`}
           />
         </div>
       </div>

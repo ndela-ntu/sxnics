@@ -2,6 +2,7 @@ import BecomeSupporter from "@/components/BecomeSupporter";
 import BlogPostCarousel from "@/components/BlogPostCarousel";
 import Divider from "@/components/Divider";
 import EpisodeCarousel from "@/components/EpisodeCarousel";
+import EventsCarousel from "@/components/EventsCarousel";
 import RadioPlayer from "@/components/RadioPlayer";
 import ReleasesCarousel from "@/components/ReleasesCarousel";
 import ShopCarousel from "@/components/ShopCarousel";
@@ -41,6 +42,11 @@ export default async function Page() {
     .limit(5)
     .order("id", { ascending: false });
 
+  const { data: events, error: eventsError } = await supabase
+    .from("events")
+    .select("*")
+    .order("id", { ascending: false });
+
   const response = await client.getEntries({
     content_type: "blogPost",
     order: ["sys.createdAt"],
@@ -60,13 +66,19 @@ export default async function Page() {
     };
   });
 
-  if (shopError || audioEpisodesError || releasesError || videoEpisodesError) {
+  if (
+    shopError ||
+    audioEpisodesError ||
+    releasesError ||
+    videoEpisodesError ||
+    eventsError
+  ) {
     return (
       <div>{`An error occurred:  ${shopError && shopError.message}${
         audioEpisodesError && audioEpisodesError.message
       }${releasesError && releasesError.message} ${
         videoEpisodesError && videoEpisodesError.message
-      }`}</div>
+      } ${eventsError && eventsError.message}`}</div>
     );
   }
 
@@ -157,6 +169,27 @@ export default async function Page() {
         <Divider /> */}
       <BecomeSupporter />
       <Divider />
+      {events.length > 0 && (
+        <div className="h-full w-full">
+          <div className="flex items-stretch h-full">
+            <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
+              Events
+            </h1>
+            <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
+              Happening events, your gig guide.
+            </p>
+          </div>
+          <EventsCarousel events={events} />
+          <div className="flex items-center justify-end w-full pt-2">
+            <Link className="flex items-center space-x-2.5" href="/events">
+              <span>View More</span>
+              <span>
+                <FaArrowRight className="h-3 w-3" />
+              </span>
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

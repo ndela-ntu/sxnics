@@ -19,6 +19,11 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "sxnics-bucket.s3.eu-west-1.amazonaws.com",
+        port: "",
+      }
     ],
   },
 };

@@ -33,7 +33,7 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
     <>
       <header className="px-2.5 w-full sticky top-0 z-20 bg-black">
         <Navbar />
-        {/* <RadioPlayer /> */}
+        <RadioPlayer />
       </header>
       <main className="px-2.5 w-full z-10 min-h-screen">
         {isLoading && <LoadingSpinner />}

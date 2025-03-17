@@ -6,16 +6,16 @@ import Divider from "../Divider";
 
 export default function ViewRelease({ release }: { release: IRelease }) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-full">
       <h1 className="text-base">Release</h1>
-      <div className="flex flex-col lg:flex-row lg:space-x-5">
-        <div>
-          <div className="flex space-x-2.5 bg-white text-black max-w-fit p-2.5 text-sm">
+      <div className="flex flex-col lg:flex-row space-x-5">
+        <div className="lg:w-[40%] h-full flex flex-col">
+          <div className="w-full justify-between flex space-x-2.5 bg-white text-black p-2.5 text-sm">
             <span className="font-bold">{release.artist}</span>
             <span>-</span>
             <span>{release.name}</span>
           </div>
-          <div className="relative aspect-square ">
+          <div className="border relative aspect-square w-full">
             <Image
               src={release.imageUrl}
               alt="Image of episode"

@@ -154,7 +154,7 @@ export default async function Page({
         <ShareButton
           mixTitle={episode.name}
           artistName={episode.artists.name}
-          mixUrl={`https://sxnics.com/episodes/${episode.id}`}
+          mixUrl={`https://sxnics.com/episodes/${episode.id}?type=${episode.type === 'audio' ? 'audio' : 'video'}`}
         />
       </div>
       <div className="flex flex-col lg:justify-center lg:items-center lg:flex-row lg:space-x-10 w-full">

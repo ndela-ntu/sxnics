@@ -67,7 +67,7 @@ const RadioPlayer: React.FC = () => {
                 montserrat.className
               } ${isSmallScreen ? "animate-slide" : ""}`}
             >
-              {nowPlaying ? nowPlaying : "Loading..."}
+              {nowPlaying ? nowPlaying : "Coming soon..."}
             </p>
           </div>
         </div>

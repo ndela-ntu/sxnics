@@ -21,7 +21,7 @@ export default function Page() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-center w-full">
       <p className="lg:w-1/2">
-        Your underground music stop. Founded in 2024 and based in Freedom Park,
+        The home of underground music. Founded in 2024 and based in Freedom Park,
         Soweto, SXNICS is dedicated to bringing you the freshest underground
         tunes. We showcase a wide range of genres, including deep house, lounge,
         ambient, and more, with carefully selected weekly releases curated by
