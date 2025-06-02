@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import RadioPlayer from "@/components/RadioPlayer";
@@ -18,6 +18,8 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
   } = useAudioContext();
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
+  const [isAudioPlayerOpen, setIsAudioPlayerOpen] = useState(false);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
     setIsLoading(true);
@@ -29,6 +31,15 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(timeout);
   }, [pathname]);
 
+  useEffect(() => {
+    if (activeEpisode && !isFirstRender.current) {
+      setIsAudioPlayerOpen(true);
+      isFirstRender.current = false;
+    }
+  }, [activeEpisode]);
+
+ 
+
   return (
     <>
       <header className="px-2.5 w-full sticky top-0 z-20 bg-black">
@@ -39,13 +50,17 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
         {isLoading && <LoadingSpinner />}
         {children}
       </main>
-      {activeEpisode && (
+      {isAudioPlayerOpen && (
         <footer className="fixed bottom-0 left-0 right-0 z-50">
           <AudioPlayer
-            key={activeEpisode.id}
-            episode={activeEpisode}
-            isPlaying={activeEpisode && isEpisodePlaying!}
-            onXClick={() => setActiveEpisode(null)}
+            key={activeEpisode!.id}
+            episode={activeEpisode!}
+            isPlaying={activeEpisode! && isEpisodePlaying!}
+            onXClick={() => {
+              setIsAudioPlayerOpen(false);
+              setIsEpisodePlaying(false);
+              //setActiveEpisode(null)
+            }}
             onTogglePlay={(value) => {
               setIsEpisodePlaying(value);
 

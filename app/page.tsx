@@ -84,7 +84,7 @@ export default async function Page() {
   }
 
   const episodes = mergeEpisodes(videoEpisodes, audioEpisodes).sort(
-    (a, b) => a.id - b.id
+    (a, b) => b.id - a.id 
   );
 
   return (
@@ -102,7 +102,7 @@ export default async function Page() {
         {/* <EpisodeCarousel episodes={episodes} /> */}
         <div className="flex items-center justify-end w-full pt-2">
           <Link className="flex items-center space-x-2.5" href="/episodes">
-            <span>View More</span>
+            <span>View All</span>
             <span>
               <FaArrowRight className="h-3 w-3" />
             </span>

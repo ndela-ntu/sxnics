@@ -33,6 +33,8 @@ export default function EpisodeCarousel({
     isEpisodePlaying,
     setIsEpisodePlaying,
   } = useAudioContext();
+  const [pageCount, setPageCount] = useState(0);
+  const itemsPerView = 3;
 
   useEffect(() => {
     if (isRadioPlaying && activeEpisode) {
@@ -40,60 +42,61 @@ export default function EpisodeCarousel({
     }
   }, [isRadioPlaying]);
 
+  useEffect(() => {
+    setPageCount(Math.ceil(episodes.length / itemsPerView));
+  }, [episodes]);
+
   const onInit = useCallback(() => {
-    setCount(0);
+    if (!api) return;
+    setCount(episodes.length);
     setCurrent(0);
-  }, []);
+  }, [api, episodes.length]);
 
   const onScroll = useCallback(() => {
     if (!api) return;
-
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap());
-  }, [api]);
+    // Get current scroll position and convert to page index
+    const snapIndex = api.selectedScrollSnap();
+    const currentPage = Math.floor(snapIndex / itemsPerView);
+    setCurrent(currentPage);
+  }, [api, itemsPerView]);
 
   useEffect(() => {
     if (!api) {
       return;
     }
 
-    onScroll();
+    onInit();
     api.on("init", onInit);
     api.on("scroll", onScroll);
-    api.on("reInit", onScroll);
-
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap());
-    });
+    api.on("reInit", onInit);
+    api.on("select", onScroll);
 
     return () => {
       api.off("init", onInit);
       api.off("scroll", onScroll);
-      api.off("reInit", onScroll);
+      api.off("reInit", onInit);
+      api.off("select", onScroll);
     };
   }, [api, onInit, onScroll]);
 
   return (
     <div className="w-full max-w-[calc(100vw-2rem)] mx-auto">
-      {" "}
-      {/* Add container */}
       <Carousel
-        setApi={setApi}
-        opts={{
-          align: "start",
-          slidesToScroll: 1,
-          containScroll: "keepSnaps",
-        }}
-        className="w-full"
+         setApi={setApi}
+         opts={{
+           align: "start",
+           slidesToScroll: itemsPerView, // Keep single item scrolling for smoother experience
+           containScroll: "keepSnaps",
+         }}
+         className="w-full"
       >
         <CarouselContent className="-ml-1">
           {episodes.map((episode, index) => (
             <CarouselItem key={index} className="basis-1/3 pl-1">
-              <div className="p-1 h-full">
+              <div className="h-full">
                 <Card className="rounded-none border-none p-0 bg-white text-black h-full">
                   <CardTitle className="flex flex-col text-sm py-2 px-2 font-normal">
                     <span className="text-xs">{episode.name}</span>
-                    <span>{episode.artists.name}</span>
                   </CardTitle>
                   <CardContent className="flex bg-transparent aspect-square items-center justify-center p-0">
                     <div className="w-full h-full">
@@ -131,13 +134,6 @@ export default function EpisodeCarousel({
                               ) : (
                                 <Play className="h-5 w-5" />
                               )}
-                              <span className="sr-only">
-                                {activeEpisode.id === episode.id &&
-                                isEpisodePlaying
-                                  ? "Pause"
-                                  : "Play"}{" "}
-                                audio
-                              </span>
                             </button>
                           ) : (
                             <button
@@ -164,13 +160,13 @@ export default function EpisodeCarousel({
         <CarouselNext className="hidden md:flex" />
       </Carousel>
       <div className="mt-1 flex items-center justify-center space-x-2.5">
-        {Array.from({ length: count }).map((_, index) => (
+        {Array.from({ length: pageCount }).map((_, index) => (
           <button
             key={index}
             className={`h-2 w-2 rounded-full transition-all ${
               index === current ? "bg-white w-4" : "bg-white/65"
             }`}
-            onClick={() => api?.scrollTo(index)}
+            onClick={() => api?.scrollTo(index * itemsPerView)}
           />
         ))}
       </div>

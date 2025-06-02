@@ -66,7 +66,7 @@ export default function BlogPostCarousel({
                 key={index}
                 className="md:border-r-2 border-black w-full pl-0 md:basis-1/3 lg:basis-1/4"
               >
-                <div>
+                <div className="border">
                   <Link href={`/blog/${blogPost.slug}`}>
                     <Card className="w-full border-none bg-white text-black rounded-none p-0">
                       <CardContent className="flex bg-transparent aspect-square items-center justify-center p-0">
