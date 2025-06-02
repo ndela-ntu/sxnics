@@ -42,9 +42,9 @@ const Navbar: React.FC = () => {
     { name: "Blog", href: "/blog" },
     { name: "Episodes", href: "/episodes" },
     { name: "Releases", href: "/release-radar" },
-    { name: "Support Us", href: "/supporter" },
+    // { name: "Support Us", href: "/supporter" },
     { name: "About Us", href: "/about-us" },
-    {name: 'Events', href: "/events"}
+    { name: "Events", href: "/events" },
   ];
 
   const isActive = (href: string): boolean => {

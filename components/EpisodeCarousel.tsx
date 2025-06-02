@@ -74,16 +74,23 @@ export default function EpisodeCarousel({
   }, [api, onInit, onScroll]);
 
   return (
-    <div>
-      <Carousel setApi={setApi} opts={{ align: "center" }} className="w-full">
-        <CarouselContent className="">
+    <div className="w-full max-w-[calc(100vw-2rem)] mx-auto">
+      {" "}
+      {/* Add container */}
+      <Carousel
+        setApi={setApi}
+        opts={{
+          align: "start",
+          slidesToScroll: 1,
+          containScroll: "keepSnaps",
+        }}
+        className="w-full"
+      >
+        <CarouselContent className="-ml-1">
           {episodes.map((episode, index) => (
-            <CarouselItem
-              key={index}
-              className="basis-1/2 md:basis-1/3 lg:basis-1/4"
-            >
-              <div className="">
-                <Card className="rounded-none border-none p-0 bg-white text-black">
+            <CarouselItem key={index} className="basis-1/3 pl-1">
+              <div className="p-1 h-full">
+                <Card className="rounded-none border-none p-0 bg-white text-black h-full">
                   <CardTitle className="flex flex-col text-sm py-2 px-2 font-normal">
                     <span className="text-xs">{episode.name}</span>
                     <span>{episode.artists.name}</span>
@@ -91,7 +98,9 @@ export default function EpisodeCarousel({
                   <CardContent className="flex bg-transparent aspect-square items-center justify-center p-0">
                     <div className="w-full h-full">
                       <div className="aspect-square relative overflow-hidden">
-                        <Link href={`/episodes/${episode.id}/?type=${episode.type}`}>
+                        <Link
+                          href={`/episodes/${episode.id}/?type=${episode.type}`}
+                        >
                           <Image
                             src={episode.imageUrl}
                             alt="Image of episode"
@@ -143,10 +152,6 @@ export default function EpisodeCarousel({
                               <span className="sr-only">Play audio</span>
                             </button>
                           ))}
-
-                        <span className="flex items-center justify-center text-sm px-1 h-7 absolute bottom-0 left-0 bg-black/50 hover:bg-black/70 text-white">
-                          {episode.tag}
-                        </span>
                       </div>
                     </div>
                   </CardContent>
@@ -155,6 +160,8 @@ export default function EpisodeCarousel({
             </CarouselItem>
           ))}
         </CarouselContent>
+        <CarouselPrevious className="hidden md:flex" />
+        <CarouselNext className="hidden md:flex" />
       </Carousel>
       <div className="mt-1 flex items-center justify-center space-x-2.5">
         {Array.from({ length: count }).map((_, index) => (
