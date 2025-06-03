@@ -33,8 +33,6 @@ export default function EpisodeCarousel({
     isEpisodePlaying,
     setIsEpisodePlaying,
   } = useAudioContext();
-  const [pageCount, setPageCount] = useState(0);
-  const itemsPerView = 3;
 
   useEffect(() => {
     if (isRadioPlaying && activeEpisode) {
@@ -42,40 +40,35 @@ export default function EpisodeCarousel({
     }
   }, [isRadioPlaying]);
 
-  useEffect(() => {
-    setPageCount(Math.ceil(episodes.length / itemsPerView));
-  }, [episodes]);
-
   const onInit = useCallback(() => {
-    if (!api) return;
-    setCount(episodes.length);
+    setCount(0);
     setCurrent(0);
-  }, [api, episodes.length]);
+  }, []);
 
   const onScroll = useCallback(() => {
     if (!api) return;
-    // Get current scroll position and convert to page index
-    const snapIndex = api.selectedScrollSnap();
-    const currentPage = Math.floor(snapIndex / itemsPerView);
-    setCurrent(currentPage);
-  }, [api, itemsPerView]);
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap());
+  }, [api]);
 
   useEffect(() => {
     if (!api) {
       return;
     }
 
-    onInit();
+    onScroll();
     api.on("init", onInit);
     api.on("scroll", onScroll);
-    api.on("reInit", onInit);
-    api.on("select", onScroll);
+    api.on("reInit", onScroll);
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap());
+    });
 
     return () => {
       api.off("init", onInit);
       api.off("scroll", onScroll);
-      api.off("reInit", onInit);
-      api.off("select", onScroll);
+      api.off("reInit", onScroll);
     };
   }, [api, onInit, onScroll]);
 
@@ -85,8 +78,6 @@ export default function EpisodeCarousel({
          setApi={setApi}
          opts={{
            align: "start",
-           slidesToScroll: itemsPerView, // Keep single item scrolling for smoother experience
-           containScroll: "keepSnaps",
          }}
          className="w-full"
       >
@@ -160,13 +151,13 @@ export default function EpisodeCarousel({
         <CarouselNext className="hidden md:flex" />
       </Carousel>
       <div className="mt-1 flex items-center justify-center space-x-2.5">
-        {Array.from({ length: pageCount }).map((_, index) => (
+        {Array.from({ length: count }).map((_, index) => (
           <button
             key={index}
             className={`h-2 w-2 rounded-full transition-all ${
               index === current ? "bg-white w-4" : "bg-white/65"
             }`}
-            onClick={() => api?.scrollTo(index * itemsPerView)}
+            onClick={() => api?.scrollTo(index)}
           />
         ))}
       </div>

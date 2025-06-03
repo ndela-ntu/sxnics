@@ -40,8 +40,8 @@ export default function EpisodeGrid({
           <div className="flex flex-col w-full h-full border">
             <div className="p-2.5 flex items-center justify-between bg-white text-black w-full">
               <div className="flex flex-col ">
-                <span className="text-sm">{activeEpisode.name}</span>
-                <span>{activeEpisode.artists.name}</span>
+                <span className="text-xs md:text-base">{activeEpisode.name}</span>
+                <span className="text-sm md:text-lg">{activeEpisode.artists.name}</span>
               </div>
               <ShareButton
                 artistName={activeEpisode.artists.name}

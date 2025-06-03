@@ -7,6 +7,7 @@ import EventsCarousel from "@/components/EventsCarousel";
 import RadioPlayer from "@/components/RadioPlayer";
 import ReleasesCarousel from "@/components/ReleasesCarousel";
 import ShopCarousel from "@/components/ShopCarousel";
+import CuratorsCarousel from "@/components/CuratorsCarousel";
 import client from "@/lib/contentful";
 import { mergeEpisodes } from "@/lib/merge-episodes";
 import { IBlogPost } from "@/models/BlogPost";
@@ -15,6 +16,7 @@ import { Montserrat } from "next/font/google";
 import Link from "next/link";
 import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
+import BlogPostsGrid from "@/components/BlogPostsGrid";
 
 export const revalidate = 60;
 
@@ -48,6 +50,10 @@ export default async function Page() {
     .select("*")
     .order("id", { ascending: false });
 
+  const { data: artists, error: artistsError } = await supabase
+    .from("artists")
+    .select("*");
+
   const response = await client.getEntries({
     content_type: "blogPost",
     order: ["sys.createdAt"],
@@ -72,19 +78,20 @@ export default async function Page() {
     audioEpisodesError ||
     releasesError ||
     videoEpisodesError ||
-    eventsError
+    eventsError ||
+    artistsError
   ) {
     return (
       <div>{`An error occurred:  ${shopError && shopError.message}${
         audioEpisodesError && audioEpisodesError.message
       }${releasesError && releasesError.message} ${
         videoEpisodesError && videoEpisodesError.message
-      } ${eventsError && eventsError.message}`}</div>
+      } ${eventsError && eventsError.message} ${artistsError?.message}`}</div>
     );
   }
 
   const episodes = mergeEpisodes(videoEpisodes, audioEpisodes).sort(
-    (a, b) => b.id - a.id 
+    (a, b) => b.id - a.id
   );
 
   return (
@@ -99,10 +106,29 @@ export default async function Page() {
           </p>
         </div>
         <EpisodeGrid episodes={episodes} />
-        {/* <EpisodeCarousel episodes={episodes} /> */}
         <div className="flex items-center justify-end w-full pt-2">
           <Link className="flex items-center space-x-2.5" href="/episodes">
             <span>View All</span>
+            <span>
+              <FaArrowRight className="h-3 w-3" />
+            </span>
+          </Link>
+        </div>
+      </div>
+      <Divider />
+      <div className="h-full w-full">
+        <div className="flex items-stretch h-full">
+          <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
+            Curators
+          </h1>
+          <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
+            Resident djs and curators
+          </p>
+        </div>
+        <CuratorsCarousel curators={artists} />
+        <div className="flex items-center justify-end w-full pt-2">
+          <Link className="flex items-center space-x-2.5" href="/artists">
+            <span>View More</span>
             <span>
               <FaArrowRight className="h-3 w-3" />
             </span>
@@ -119,7 +145,8 @@ export default async function Page() {
             Blog posts and interviews
           </p>
         </div>
-        <BlogPostCarousel blogPosts={blogPosts} />
+        <BlogPostsGrid blogPosts={blogPosts} />
+        {/* <BlogPostCarousel blogPosts={blogPosts} /> */}
         <div className="flex items-center justify-end w-full pt-2">
           <Link className="flex items-center space-x-2.5" href="/blog">
             <span>View More</span>
@@ -130,7 +157,6 @@ export default async function Page() {
         </div>
       </div>
       <Divider />
-
       <div className="h-full w-full">
         <div className="flex items-stretch h-full">
           <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">

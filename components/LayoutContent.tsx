@@ -32,11 +32,13 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
   }, [pathname]);
 
   useEffect(() => {
-    if (activeEpisode && !isFirstRender.current) {
-      setIsAudioPlayerOpen(true);
+    if (activeEpisode) {
+      if (!isFirstRender.current && isEpisodePlaying) {
+        setIsAudioPlayerOpen(true);
+      }
       isFirstRender.current = false;
     }
-  }, [activeEpisode]);
+  }, [activeEpisode, isEpisodePlaying]);
 
  
 
