@@ -161,10 +161,10 @@ export default async function Page() {
       <div className="h-full w-full">
         <div className="flex items-stretch h-full">
           <h1 className="text-sm md:text-base bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
-            Release Radar
+            Weekly Picks
           </h1>
           <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-            Top picked releases
+            Top and picked latest releases
           </p>
         </div>
         <ReleasesCarousel releases={releases} />
@@ -199,8 +199,6 @@ export default async function Page() {
           </div>
         </div>
         <Divider /><BecomeSupporter /> */}
-
-      <Divider />
       {events.length > 0 && (
         <div className="h-full w-full">
           <div className="flex items-stretch h-full">

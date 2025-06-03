@@ -10,7 +10,7 @@ export default function BlogPostsGrid({
   return (
     <div className="grid grid-cols-2 gap-2.5">
       {blogPosts.map((post) => (
-        <Link href={`/blog/${post.slug}`}>
+        <Link key={post.id} href={`/blog/${post.slug}`}>
           <div className="w-full bg-white text-black">
             <div className="flex bg-transparent aspect-square items-center justify-center">
               <div className="w-full h-full">
