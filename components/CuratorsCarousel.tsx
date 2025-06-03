@@ -56,7 +56,7 @@ export default function CuratorsCarousel({
   }, [api, onInit, onScroll]);
 
   return (
-    <div>
+    <div className="border py-2">
       <Carousel
         plugins={[Autoplay({ delay: 3500 })]}
         setApi={setApi}

@@ -52,12 +52,13 @@ export default async function Page() {
 
   const { data: artists, error: artistsError } = await supabase
     .from("artists")
-    .select("*");
+    .select("*")
+    .eq("is_resident", true);
 
   const response = await client.getEntries({
     content_type: "blogPost",
     order: ["sys.createdAt"],
-    limit: 5,
+    limit: 4,
   });
   const blogPosts: IBlogPost[] = response.items.map((item: any) => {
     const { content, slug, title, image, author, date } = item.fields;
@@ -98,7 +99,7 @@ export default async function Page() {
     <div className="flex flex-col items-center justify-center w-full pb-28">
       <div className="h-full w-full">
         <div className="flex items-stretch h-full">
-          <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
+          <h1 className="text-sm md:text-base bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
             Episodes
           </h1>
           <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
@@ -118,7 +119,7 @@ export default async function Page() {
       <Divider />
       <div className="h-full w-full">
         <div className="flex items-stretch h-full">
-          <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
+          <h1 className="text-sm md:text-base bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
             Curators
           </h1>
           <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
@@ -138,7 +139,7 @@ export default async function Page() {
       <Divider />
       <div className="h-full w-full">
         <div className="flex items-stretch h-full">
-          <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
+          <h1 className="text-sm md:text-base bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
             Blog Posts
           </h1>
           <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
@@ -159,11 +160,11 @@ export default async function Page() {
       <Divider />
       <div className="h-full w-full">
         <div className="flex items-stretch h-full">
-          <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
-            Releases
+          <h1 className="text-sm md:text-base bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
+            Release Radar
           </h1>
           <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-            New music releases
+            Top picked releases
           </p>
         </div>
         <ReleasesCarousel releases={releases} />
