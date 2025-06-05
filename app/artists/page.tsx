@@ -40,7 +40,7 @@ export default async function Page() {
           <Link
             href={`/artists/${artist.id}`}
             key={artist.id}
-            className="flex flex-col w-full border p-2.5 bg-white text-black space-y-2.5"
+            className="flex flex-col w-full p-2.5 bg-white text-black space-y-2.5"
           >
             <div className="w-full md:[10%] lg:w-[5%] aspect-square relative overflow-hidden">
               <Image
