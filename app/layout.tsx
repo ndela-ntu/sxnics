@@ -11,7 +11,7 @@ import LayoutProvider from "./LayoutProvider";
 export const metadata: Metadata = {
   title: {
     template: "%s | SXNICS",
-    default: "SXNICS - Music episodes and blogs",
+    default: "SXNICS - Radio stream and episodes",
   },
   description: "Your underground music stop",
   metadataBase: new URL("https://sxnics.com"),

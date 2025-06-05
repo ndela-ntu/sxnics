@@ -114,10 +114,7 @@ export default function EpisodeGrid({
         </div>
         <div className="md:hidden border py-2.5">
           <EpisodeCarousel
-            episodes={episodes.filter(
-              (episode) =>
-                episode.id !== activeEpisode?.id
-            )}
+            episodes={episodes}
           />
         </div>
       </div>

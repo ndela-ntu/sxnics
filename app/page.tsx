@@ -129,7 +129,7 @@ export default async function Page() {
         <CuratorsCarousel curators={artists} />
         <div className="flex items-center justify-end w-full pt-2">
           <Link className="flex items-center space-x-2.5" href="/artists">
-            <span>View More</span>
+            <span>View All</span>
             <span>
               <FaArrowRight className="h-3 w-3" />
             </span>
@@ -150,7 +150,7 @@ export default async function Page() {
         {/* <BlogPostCarousel blogPosts={blogPosts} /> */}
         <div className="flex items-center justify-end w-full pt-2">
           <Link className="flex items-center space-x-2.5" href="/blog">
-            <span>View More</span>
+            <span>View All</span>
             <span>
               <FaArrowRight className="h-3 w-3" />
             </span>
@@ -178,27 +178,27 @@ export default async function Page() {
         </div>
       </div>
       <Divider /> */}
-        <div className="h-full w-full">
-          <div className="flex items-stretch h-full">
-            <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
-              Shop
-            </h1>
-            <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-              Merch. Artworks from various artists.
-            </p>
-          </div>
-          <ShopCarousel shopItems={shopItems} />
-          <div className="flex items-center justify-end w-full pt-2">
-            <Link className="flex items-center space-x-2.5" href="/shop">
-              <span>View More</span>
-              <span>
-                <FaArrowRight className="h-3 w-3" />
-              </span>
-            </Link>
-          </div>
+      <div className="h-full w-full">
+        <div className="flex items-stretch h-full">
+          <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
+            Shop
+          </h1>
+          <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
+            Merch. Artworks from various artists.
+          </p>
         </div>
-        <Divider />
-        {/* <BecomeSupporter /> */}
+        <ShopCarousel shopItems={shopItems} />
+        <div className="flex items-center justify-end w-full pt-2">
+          <Link className="flex items-center space-x-2.5" href="/shop">
+            <span>View All</span>
+            <span>
+              <FaArrowRight className="h-3 w-3" />
+            </span>
+          </Link>
+        </div>
+      </div>
+      <Divider />
+      {/* <BecomeSupporter /> */}
       {events.length > 0 && (
         <div className="h-full w-full">
           <div className="flex items-stretch h-full">
@@ -212,7 +212,7 @@ export default async function Page() {
           <EventsCarousel events={events} />
           <div className="flex items-center justify-end w-full pt-2">
             <Link className="flex items-center space-x-2.5" href="/events">
-              <span>View More</span>
+              <span>View All</span>
               <span>
                 <FaArrowRight className="h-3 w-3" />
               </span>
