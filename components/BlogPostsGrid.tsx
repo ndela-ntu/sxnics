@@ -8,7 +8,7 @@ export default function BlogPostsGrid({
   blogPosts: IBlogPost[];
 }) {
   return (
-    <div className="grid grid-cols-2 gap-2.5">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
       {blogPosts.map((post) => (
         <Link key={post.id} href={`/blog/${post.slug}`}>
           <div className="w-full bg-white text-black">

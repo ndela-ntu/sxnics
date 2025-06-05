@@ -17,6 +17,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import BlogPostsGrid from "@/components/BlogPostsGrid";
+import MainPageLink from "@/components/MainPageLink";
 
 export const revalidate = 60;
 
@@ -107,13 +108,8 @@ export default async function Page() {
           </p>
         </div>
         <EpisodeGrid episodes={episodes} />
-        <div className="flex items-center justify-end w-full pt-2">
-          <Link className="flex items-center space-x-2.5" href="/episodes">
-            <span>View All</span>
-            <span>
-              <FaArrowRight className="h-3 w-3" />
-            </span>
-          </Link>
+        <div className="flex items-center justify-end md:justify-center w-full pt-2">
+          <MainPageLink href="/episodes" />
         </div>
       </div>
       <Divider />
@@ -127,13 +123,8 @@ export default async function Page() {
           </p>
         </div>
         <CuratorsCarousel curators={artists} />
-        <div className="flex items-center justify-end w-full pt-2">
-          <Link className="flex items-center space-x-2.5" href="/artists">
-            <span>View All</span>
-            <span>
-              <FaArrowRight className="h-3 w-3" />
-            </span>
-          </Link>
+        <div className="flex items-center justify-end md:justify-center w-full pt-2">
+          <MainPageLink href="/artists" />
         </div>
       </div>
       <Divider />
@@ -148,13 +139,8 @@ export default async function Page() {
         </div>
         <BlogPostsGrid blogPosts={blogPosts} />
         {/* <BlogPostCarousel blogPosts={blogPosts} /> */}
-        <div className="flex items-center justify-end w-full pt-2">
-          <Link className="flex items-center space-x-2.5" href="/blog">
-            <span>View All</span>
-            <span>
-              <FaArrowRight className="h-3 w-3" />
-            </span>
-          </Link>
+        <div className="flex items-center justify-end md:justify-center w-full pt-2">
+          <MainPageLink href="/blog" />
         </div>
       </div>
       <Divider />
@@ -188,13 +174,8 @@ export default async function Page() {
           </p>
         </div>
         <ShopCarousel shopItems={shopItems} />
-        <div className="flex items-center justify-end w-full pt-2">
-          <Link className="flex items-center space-x-2.5" href="/shop">
-            <span>View All</span>
-            <span>
-              <FaArrowRight className="h-3 w-3" />
-            </span>
-          </Link>
+        <div className="flex items-center justify-end md:justify-center w-full pt-2">
+          <MainPageLink href="/shop" />
         </div>
       </div>
       <Divider />
@@ -210,13 +191,8 @@ export default async function Page() {
             </p>
           </div>
           <EventsCarousel events={events} />
-          <div className="flex items-center justify-end w-full pt-2">
-            <Link className="flex items-center space-x-2.5" href="/events">
-              <span>View All</span>
-              <span>
-                <FaArrowRight className="h-3 w-3" />
-              </span>
-            </Link>
+          <div className="flex items-center justify-end md:justify-center w-full pt-2">
+            <MainPageLink href="/events" />
           </div>
         </div>
       )}

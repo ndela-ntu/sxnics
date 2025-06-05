@@ -65,7 +65,7 @@ export default function CuratorsCarousel({
       >
         <CarouselContent className="-ml-1">
           {curators.map((curator, index) => (
-            <CarouselItem key={index} className="basis-1/3 pl-1">
+            <CarouselItem key={index} className="basis-1/3 md:basis-1/4 pl-1">
               <div className="h-full flex flex-col">
                 <Card className="border-none p-0 bg-transparent text-black h-full flex-1">
                   <CardContent className="flex bg-transparent aspect-square items-center justify-center p-0">
