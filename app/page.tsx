@@ -158,7 +158,7 @@ export default async function Page() {
         </div>
       </div>
       <Divider />
-      <div className="h-full w-full">
+      {/* <div className="h-full w-full">
         <div className="flex items-stretch h-full">
           <h1 className="text-sm md:text-base bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
             Weekly Picks
@@ -177,8 +177,7 @@ export default async function Page() {
           </Link>
         </div>
       </div>
-      <Divider />
-      {/*
+      <Divider /> */}
         <div className="h-full w-full">
           <div className="flex items-stretch h-full">
             <h1 className="bg-white text-black m-0 max-w-fit py-1.5 px-1 self-center">
@@ -198,7 +197,8 @@ export default async function Page() {
             </Link>
           </div>
         </div>
-        <Divider /><BecomeSupporter /> */}
+        <Divider />
+        {/* <BecomeSupporter /> */}
       {events.length > 0 && (
         <div className="h-full w-full">
           <div className="flex items-stretch h-full">
