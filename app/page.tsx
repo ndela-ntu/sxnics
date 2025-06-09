@@ -187,10 +187,10 @@ export default async function Page() {
               Events
             </h1>
             <p className="text-xs md:text-sm border px-1 flex-1 flex items-center">
-              Happening events, your gig guide.
+              Events / Your gig guide.
             </p>
           </div>
-          <EventsCarousel events={events} />
+          <EventsCarousel initialEvents={events} />
           <div className="flex items-center justify-end md:justify-center w-full pt-2">
             <MainPageLink href="/events" />
           </div>
