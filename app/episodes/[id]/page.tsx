@@ -13,6 +13,8 @@ import { mergeEpisodes } from "@/lib/merge-episodes";
 import { IVideoEpisode } from "@/models/VideoEpisode";
 import { IEpisode, isIEpisode } from "@/models/Episode";
 import { IMergedEpisode } from "@/models/MergedEpisode";
+import LikeButton from "@/components/episodes/LikeButton";
+import DownloadAudioButton from "@/components/episodes/DownloadButton";
 
 export async function generateMetadata({
   params,
@@ -88,6 +90,11 @@ export default async function Page({
 }) {
   const type = searchParams.type || "audio";
 
+  const { count: likeCount, error: likeError } = await supabase
+    .from("episode_likes")
+    .select("*", { count: "exact", head: true })
+    .eq("episode_id", params.id);
+
   const [
     { data: singleEpisode, error: episodeError },
     { data: audioEpisodes, error: audioEpisodesError },
@@ -120,10 +127,12 @@ export default async function Page({
     return notFound();
   }
 
-  if (audioEpisodesError || videoEpisodesError) {
+  if (audioEpisodesError || videoEpisodesError || likeError) {
     return (
       <div>{`An error occurred: ${
-        audioEpisodesError?.message || videoEpisodesError?.message
+        audioEpisodesError?.message ||
+        videoEpisodesError?.message ||
+        likeError?.message
       }`}</div>
     );
   }
@@ -139,8 +148,8 @@ export default async function Page({
 
   return (
     <div className="flex flex-col w-full h-full min-h-screen pb-28 space-y-2.5 lg:space-y-5">
-      <div className="flex justify-between items-center">
-        <h1 className="py-2 flex items-center space-x-1 flex-wrap">
+      <div className="flex justify-between items-center lg:border">
+        <div className="py-2 flex items-center space-x-1 flex-wrap">
           <span className="text-base md:text-lg ">{episode.name}</span>
           <span>by</span>
           <Link
@@ -150,17 +159,29 @@ export default async function Page({
             <span> {episode.artists.name}</span>
             <LucideLink className="h-4 w-4" />
           </Link>
-        </h1>
+        </div>
         <ShareButton
           mixTitle={episode.name}
           artistName={episode.artists.name}
-          mixUrl={`https://sxnics.com/episodes/${episode.id}?type=${episode.type === 'audio' ? 'audio' : 'video'}`}
+          mixUrl={`https://sxnics.com/episodes/${episode.id}?type=${
+            episode.type === "audio" ? "audio" : "video"
+          }`}
         />
       </div>
-      <div className="flex flex-col lg:justify-center lg:items-center lg:flex-row lg:space-x-10 w-full">
-        <ViewEpisodePlayer episode={episode} />
+      <div className="flex flex-col lg:justify-center lg:items-start lg:flex-row lg:space-x-10 w-full">
+        <div className="w-full h-full lg:border"><ViewEpisodePlayer episode={episode} /></div>
         <div className="mb-5 flex flex-col space-y-1 pt-2 w-full">
-          <div className="flex justify-between w-full">
+          <div className="flex flex-col">
+            <div className="flex items-start space-x-2.5">
+              <LikeButton
+                mixId={episode.id}
+                initialLikeCount={likeCount || 0}
+              />
+              <DownloadAudioButton
+                fileUrl={episode.mediaUrl}
+                fileName={episode.name}
+              />
+            </div>
             <span className="font-bold underline">Tracklist</span>
           </div>
           <TrackList tracklist={episode.description} />

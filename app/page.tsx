@@ -108,7 +108,7 @@ export default async function Page() {
           </p>
         </div>
         <EpisodeGrid episodes={episodes} />
-        <div className="flex items-center justify-end md:justify-center w-full pt-2">
+        <div className="flex items-center justify-end md:justify-center w-full pt-8">
           <MainPageLink href="/episodes" />
         </div>
       </div>
