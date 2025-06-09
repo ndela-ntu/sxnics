@@ -22,9 +22,6 @@ export default function EventsCarousel({
 }) {
   const [activeTab, setActiveTab] = useState<"All" | "New" | "Past">("All");
   const [events, setEvents] = useState<IEvent[]>(initialEvents);
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
 
   useEffect(() => {
     switch (activeTab) {
@@ -51,38 +48,13 @@ export default function EventsCarousel({
     }
   }, [activeTab]);
 
-  const onInit = useCallback(() => {
-    setCount(0);
-    setCurrent(0);
-  }, []);
-
-  const onScroll = useCallback(() => {
-    if (!api) return;
-
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap());
-  }, [api]);
-
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    onScroll();
-    api.on("init", onInit);
-    api.on("scroll", onScroll);
-    api.on("reInit", onScroll);
-
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap());
-    });
-
-    return () => {
-      api.off("init", onInit);
-      api.off("scroll", onScroll);
-      api.off("reInit", onScroll);
-    };
-  }, [api, onInit, onScroll]);
+  if (events.length === 0) {
+    return (
+      <div className="w-full flex items-center">
+        <span className="text-sm md:text-base">No events to show</span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col py-2.5 space-y-2.5">
@@ -118,71 +90,34 @@ export default function EventsCarousel({
           Past Events
         </button>
       </div>
-      {events.length > 0 ? (
-        <Carousel
-          plugins={[
-            Autoplay({
-              delay: 2500,
-            }),
-          ]}
-          setApi={setApi}
-          opts={{ align: "center" }}
-          className="w-full h-full"
-        >
-          <CarouselContent className="">
-            {events.map((event) => (
-              <CarouselItem
-                key={event.id}
-                className="basis-1/2 md:basis-1/3 lg:basis-1/4"
-              >
-                <div className="">
-                  <Card className="w-full rounded-none border-none p-0">
-                    <CardTitle className="flex justify-between py-2 px-2 space-x-5">
-                      <span className="text-xs font-bold truncate">
-                        {event.name}
-                      </span>
-                      <span className="text-xs">
-                        {formatDate(new Date(event.eventDate))}
-                      </span>
-                    </CardTitle>
-                    <CardContent className="flex bg-transparent aspect-square items-center justify-center p-0">
-                      <div className="w-full h-full">
-                        <div className="aspect-square relative overflow-hidden">
-                          <Link href={`events/${event.id}`}>
-                            <Image
-                              src={event.coverUrl}
-                              alt="Image of episode"
-                              fill
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                              className="object-cover"
-                            />
-                          </Link>
-                          <span className="flex items-center justify-center text-sm px-1 h-7 absolute bottom-0 left-0 bg-black/50 hover:bg-black/70 text-white">
-                            {event.location}
-                          </span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 md:gap-5">
+        {events.map((event) => (
+          <div key={event.id}>
+            <div className="border flex justify-between py-2 px-2 space-x-5">
+              <span className="text-xs font-bold truncate">{event.name}</span>
+              <span className="text-xs">
+                {formatDate(new Date(event.eventDate))}
+              </span>
+            </div>
+            <div className="flex bg-transparent aspect-square items-center justify-center p-0">
+              <div className="w-full h-full">
+                <div className="aspect-square relative overflow-hidden">
+                  <Link href={`events/${event.id}`}>
+                    <Image
+                      src={event.coverUrl}
+                      alt="Image of episode"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover"
+                    />
+                  </Link>
+                  <span className="flex items-center justify-center text-sm px-1 h-7 absolute bottom-0 left-0 bg-black/50 hover:bg-black/70 text-white">
+                    {event.location}
+                  </span>
                 </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
-      ) : (
-        <div className="flex items-center w-full justify-center">
-          <span>No events to show</span>
-        </div>
-      )}
-      <div className="mt-1 flex items-center justify-center space-x-2.5">
-        {Array.from({ length: count }).map((_, index) => (
-          <button
-            key={index}
-            className={`h-2 w-2 rounded-full transition-all ${
-              index === current ? "bg-white w-4" : "bg-white/65"
-            }`}
-            onClick={() => api?.scrollTo(index)}
-          />
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </div>

@@ -48,7 +48,7 @@ export default async function Page() {
 
   const { data: events, error: eventsError } = await supabase
     .from("events")
-    .select("*")
+    .select("*").limit(10)
     .order("id", { ascending: false });
 
   const { data: artists, error: artistsError } = await supabase

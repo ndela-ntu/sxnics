@@ -19,8 +19,8 @@ export default function ViewEventDetails({ event }: { event: IEvent }) {
         </div>
         <div className="flex flex-col space-y-2.5 lg:w-[50%]">
           <div className="flex flex-col">
-            <span className="font-bold text-lg">{event.name}</span>
-            <span className="mt-5 lg:mt-0 whitespace-pre-wrap text-sm">
+            <span className="font-bold  md:text-lg">{event.name}</span>
+            <span className="lg:mt-0 whitespace-pre-wrap text-sm md:text-base">
               {event.about}
             </span>
           </div>
@@ -30,9 +30,9 @@ export default function ViewEventDetails({ event }: { event: IEvent }) {
             </span>
             <span>{event.location}</span>
           </div>
-          <a href={event.ticketLink} target="_blank" rel="noopener noreferrer">
+          {event.ticketLink && <a href={event.ticketLink} target="_blank" rel="noopener noreferrer">
             <span className="bg-white text-black px-2.5 py-1">Tickets</span>
-          </a>
+          </a>}
         </div>
       </div>
       {event.eventBy === "sxnics" &&
