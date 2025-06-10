@@ -21,7 +21,7 @@ export default function EventTabs({ events }: { events: IEvent[] }) {
 
   return (
     <div className="flex flex-col space-y-2 justify-center items-center w-full h-full">
-      <Divider margin="5px 0"/>
+      <Divider margin="5px 0" />
       <div className="flex space-x-5">
         <span
           onClick={() => setCurrentTab("sxnics")}
@@ -41,19 +41,20 @@ export default function EventTabs({ events }: { events: IEvent[] }) {
         </span>
       </div>
       {newEvents.length > 0 && (
-        <div className="w-full">
-          <span>New Events</span>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
+        <div className="w-full flex flex-col space-y-2.5">
+          <span className="font-semibold">New Events</span>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full gap-2.5">
             {newEvents.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}
           </div>
         </div>
       )}
+      {pastEvents.length > 0 && newEvents.length > 0 && <Divider />}
       {pastEvents.length > 0 && (
-        <div className="w-full">
-          <span>Past Events</span>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
+        <div className="w-full flex flex-col space-y-2.5">
+          <span className="font-semibold">Past Events</span>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full gap-2.5">
             {pastEvents.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}

@@ -6,7 +6,7 @@ import { formatDate } from "@/lib/datetime-formatter";
 export default function EventCard({ event }: { event: IEvent }) {
   return (
     <div className="flex flex-col space-y-2 border">
-      <span className="font-bold p-1">{event.name}</span>
+      <span className="font-bold">{event.name}</span>
       <div className="relative aspect-square">
         <Link href={`/events/${event.id}?type=${event.eventBy}`}>
           <Image
